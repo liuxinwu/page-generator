@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## 项目描述
+
+> 基于 React 全家桶开发的页面生成器项目
+
 ## Available Scripts
 
 In the project directory, you can run:

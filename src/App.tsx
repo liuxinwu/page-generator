@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Dialog from 'components/common/dialog/index'
 
 function App() {
+  useEffect(() => {
+    console.log(process.env.REACT_APP_BASE_URL, 'REACT_APP_BASE_URL', process.env)
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +23,7 @@ function App() {
         >
           Learn React
         </a>
+        <Dialog />
       </header>
     </div>
   );
