@@ -1,0 +1,11 @@
+header {
+  height: 58px;
+  background: #fff;
+  border-bottom: 0 solid #ff7671;
+  z-index: 99999999;
+  position: absolute;
+  min-width: inherit;
+  width: 100%;
+  -webkit-box-shadow: 0 1px 4px hsl(0deg 0% 88% / 50%);
+  box-shadow: 0 1px 4px hsl(0deg 0% 88% / 50%);
+}

@@ -1,0 +1,8 @@
+.content-wrap {
+  position: absolute;
+  top: 58px;
+  bottom: 40px;
+  min-width: inherit;
+  width: 100%;
+  background: #f1f3f7;
+}
