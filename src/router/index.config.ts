@@ -1,35 +1,17 @@
 import { lazy } from 'react'
 import { RouteProps } from 'react-router-dom'
-
 interface RouteType extends RouteProps {
   routes?: RouteType[]
   meta?: { [index: string]: string | object | [] }
 }
 
+const routeModule = require.context('./module', false, /\.ts$/)
+const route = routeModule.keys().map(_ => {
+  return routeModule(_).default
+})
+
 const routes: RouteType[] = [
-  {
-    path: '/news',
-    component: lazy(() => import('layout/default')),
-    routes: [
-      {
-        path: '/news/nba',
-        component: lazy(() => import('views/news-module/nba')),
-        meta: {
-          title: 'nba'
-        }
-      },
-      {
-        path: '/news/cba',
-        component: lazy(() => import('views/news-module/cba')),
-        meta: {
-          title: 'cba'
-        }
-      }
-    ],
-    meta: {
-      title: '新闻'
-    }
-  },
+  ...route,
   {
     path: '/',
     exact: true,
