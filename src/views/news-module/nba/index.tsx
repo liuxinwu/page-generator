@@ -1,5 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import api from 'api'
 
 export default function Nba(){
-  return <h1>nba</h1>
+  async function getList() {
+    const res = await api.loginModule.loginIn()
+    console.log(res, 'res')
+  }
+
+  useEffect(() => {
+    getList()
+  }, [])
+
+  return <h1>''</h1>
 }
