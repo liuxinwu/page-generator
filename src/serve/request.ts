@@ -67,7 +67,8 @@ class Request implements RequestType {
           return Promise.resolve({
             ...response,
             code,
-            data: data,
+            data,
+            msg,
             status: response.status
           });
         }
@@ -75,7 +76,7 @@ class Request implements RequestType {
         return Promise.reject({
           ...response,
           code,
-          message: msg,
+          msg,
           status: response.status
         });
       },

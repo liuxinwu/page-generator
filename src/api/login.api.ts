@@ -4,7 +4,7 @@ import { genApi } from './genApi'
 const loginModule: ApiType = {
   loginIn: {
     method: 'get',
-    url: '/api/loginIn'
+    url: 'api/loginIn'
   }
 }
 

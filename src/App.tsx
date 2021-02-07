@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Router from 'router/index'
 import './App.css';
-// import DefaultLayout from 'layout/default'
 
 function App() {
   useEffect(() => {
