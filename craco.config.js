@@ -1,14 +1,15 @@
-const path = require('path')
+const {mockJs} = require('./src/mock')
 
 module.exports = {
   devServer: {
     before(app) {
-      console.log('app', app.get)
-      app.get('/loginIn', (req, res) => {
-        res.json({
-          a: 1
-        })
-      })
+      mockJs(app)
+    },
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3000',
+        pathRewrite: { '^/api': '' },
+      },
     }
   }
 }
