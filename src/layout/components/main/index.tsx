@@ -7,6 +7,7 @@ import './index.module.css'
 export default function Main() {
   const { path } = useRouteMatch()
   const _routes = getRoute(path)?.routes
+  console.log(_routes, '_routes')
   
   return <main>
     <Switch>
