@@ -1,13 +1,13 @@
 aside {
   position: absolute;
   left: 0;
-  top: 0;
-  bottom: 0;
+  top: 58px;
+  bottom: 40px;
   -webkit-box-shadow: -5px 0 5px -5px #cecece;
   box-shadow: -5px 0 5px -5px #cecece;
   width: 80px;
-  z-index: 999999;
-  background: #f8f9fb;
+  z-index: 9999;
   -webkit-transition: all .15s linear;
   transition: all .15s linear;
+  background-color: #fff;
 }

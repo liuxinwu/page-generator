@@ -1,0 +1,7 @@
+.home-wrap {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+  overflow-y: auto;
+}

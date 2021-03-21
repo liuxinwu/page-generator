@@ -1,13 +1,13 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 export default function GenRoute({routes}: any) {
 
-  return <>
+  return <Switch>
   {
     routes && routes.map((route: any, index: number) => {
-      return <Route key={index} {...route} />
+      return route.redirect ? <Redirect key={index} to={route.redirect} {...route} /> : <Route key={index} {...route} />
     })
   }
-  </>
+  </Switch>
 }

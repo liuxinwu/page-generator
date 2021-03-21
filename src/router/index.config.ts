@@ -1,8 +1,10 @@
 import { lazy } from 'react'
 import { RouteProps } from 'react-router-dom'
+
 interface RouteType extends RouteProps {
   routes?: RouteType[]
   meta?: { [index: string]: string | object | [] }
+  redirect?: string
 }
 
 const routeModule = require.context('./module', false, /\.ts$/)
@@ -11,17 +13,28 @@ const route = routeModule.keys().map(_ => {
 })
 
 const routes: RouteType[] = [
-  ...route,
   {
     path: '/',
     exact: true,
     component: lazy(() => import('layout/default')),
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    component: lazy(() => import('layout/default')),
+    routes: [
+      {
+        path: '',
+        component: lazy(() => import('views/public-module/home'))
+      }
+    ],
     meta: {
       title: '首页'
     }
   },
+  ...route,
   {
-    path: '',
+    path: '*',
     component: lazy(() => import('views/public-module/404')),
     meta: {
       title: '404'

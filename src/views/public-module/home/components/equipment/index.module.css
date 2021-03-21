@@ -1,0 +1,38 @@
+.equipment-wrap {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.equipment-select {
+  min-width: 150px;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.equipment-select > i {
+  transform: rotate(180deg);
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.equipment-size {
+  margin: 0 10px;
+  padding: 5px 10px;
+  color: #666;
+  background-color: #e8e5e5;
+  border-radius: 4px;
+}
+
+.equipment-item {
+  padding: 5px 10px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.equipment-item:hover {
+  background-color: #eee;
+}

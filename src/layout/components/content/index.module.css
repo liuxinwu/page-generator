@@ -1,8 +1,7 @@
 .content-wrap {
-  position: absolute;
-  top: 58px;
-  bottom: 40px;
-  min-width: inherit;
-  width: 100%;
+  margin: 58px 0 40px 80px;
+  height: calc(100vh - 98px);
   background: #f1f3f7;
+  overflow: hidden;
+  overflow-y: auto;
 }

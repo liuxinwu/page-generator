@@ -1,0 +1,15 @@
+.editor-wrap {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.editor-main {
+  width: 375px;
+  min-height: 627px;
+  padding-bottom: 50px;
+  background-color: white;
+}
