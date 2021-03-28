@@ -1,6 +1,9 @@
 import React, { memo, useCallback } from "react";
 import classnames from "classnames";
 import Style from "./index.module.css";
+import { useLine } from './useLine'
+
+let id = 0
 
 function Editor(props: {
   equipment: {
@@ -11,6 +14,8 @@ function Editor(props: {
     };
   };
 }) {
+  const customLine = useLine()
+
   const handleDrop = useCallback((event: React.DragEvent) => {
     event.preventDefault();
     let data = event.dataTransfer.getData("text/html");
@@ -26,8 +31,25 @@ function Editor(props: {
       })
     }
 
-    (event.target as HTMLElement).innerHTML += data;
-  }, []);
+    const parser = new DOMParser()
+    let chartId: string = ''
+
+    const isChart = data.includes('canvas')
+    if(isChart) {
+      chartId = `chart${id++}`
+      data = `<div id="${chartId}" style="height: 200px;"></div>`
+    } 
+    const doc = parser.parseFromString(data, "text/html")
+
+    const child = doc.body.children[0]
+    ;(event.target as HTMLElement).append(child)
+    // 绘制图标
+    if(isChart) { 
+      customLine.draw(chartId)
+    }
+
+    // (event.target as HTMLElement).innerHTML += data;
+  }, [customLine]);
 
   const { w, h } = props.equipment.size;
 
