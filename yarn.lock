@@ -1139,9 +1139,15 @@
     minimist "^1.2.0"
 
 "@craco/craco@^6.1.0":
+<<<<<<< HEAD
   version "6.1.1"
   resolved "https://registry.npmjs.org/@craco/craco/-/craco-6.1.1.tgz#0233b28d6896b6560379f64b608d3c888874e9fa"
   integrity sha512-4irfOM8RgYNhFJzAXyIuM8CZLju2Jh9GdOem8uqM2/cI2xPulQSxZKU/9q3uiSbFUJfQLi3pomVKii6KzWLu3Q==
+=======
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@craco/craco/-/craco-6.1.0.tgz#9b7d9d1afe0edb4c8d2725676464e6a3d7d0ce6b"
+  integrity sha512-JD09kzTJCfz8XjsH6iGn+Qu/8LBWOc4ed2K8MYoZTgd49oIbD+XwHwViToi2vyO4V72DZmrp0gQQvgFM7bw0Jw==
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
   dependencies:
     cross-spawn "^7.0.0"
     lodash "^4.17.15"
@@ -1641,7 +1647,11 @@
 
 "@types/axios@^0.14.0":
   version "0.14.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
+=======
+  resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
   integrity sha1-7CMA++fX3d1+udOr+HmZlkyvzkY=
   dependencies:
     axios "*"
@@ -2551,7 +2561,11 @@ axe-core@^4.0.2:
 
 axios@*, axios@^0.21.1:
   version "0.21.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+=======
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
@@ -3393,9 +3407,15 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
     delayed-stream "~1.0.0"
 
 commander@*:
+<<<<<<< HEAD
   version "7.1.0"
   resolved "https://registry.npmjs.org/commander/-/commander-7.1.0.tgz#f2eaecf131f10e36e07d894698226e36ae0eb5ff"
   integrity sha512-pRxBna3MJe6HKnBGsDyMv8ETbptw3axEdYHoqNh7gu5oDcew8fs0xnivZGm06Ogk8zGAJ9VX+OPEr2GXEQK4dg==
+=======
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-7.0.0.tgz#3e2bbfd8bb6724760980988fb5b22b7ee6b71ab2"
+  integrity sha512-ovx/7NkTrnPuIV8sqk/GjUIIM1+iUQeqA3ye2VNpq9sVoiZsooObWlQy+OPWGI17GDaEoybuAGJm6U8yC077BA==
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
 
 commander@^2.20.0:
   version "2.20.3"
@@ -5115,9 +5135,15 @@ follow-redirects@^1.0.0:
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
 
 follow-redirects@^1.10.0:
+<<<<<<< HEAD
   version "1.13.3"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.13.3.tgz#e5598ad50174c1bc4e872301e82ac2cd97f90267"
   integrity sha512-DUgl6+HDzB0iEptNQEXLx/KhTmDb8tZUHSeLqpnjpknR70H0nC2t9N73BK6fN4hOvJ84pKlIQVQ4k5FFlBedKA==
+=======
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.2.tgz#dd73c8effc12728ba5cf4259d760ea5fb83e3147"
+  integrity sha512-6mPTgLxYm3r6Bkkg0vNM0HTjfGrOEtsfbhagQvbxDEsEkpNhw582upBaoRZylzen6krEmxXJgt9Ju6HiI4O7BA==
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -7374,7 +7400,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
 
 mockjs@^1.1.0:
   version "1.1.0"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/mockjs/-/mockjs-1.1.0.tgz#e6a0c378e91906dbaff20911cc0273b3c7d75b06"
+=======
+  resolved "https://registry.yarnpkg.com/mockjs/-/mockjs-1.1.0.tgz#e6a0c378e91906dbaff20911cc0273b3c7d75b06"
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
   integrity sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==
   dependencies:
     commander "*"
@@ -11209,7 +11239,11 @@ webpack-manifest-plugin@2.2.0:
 
 webpack-merge@^4.2.2:
   version "4.2.2"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/webpack-merge/-/webpack-merge-4.2.2.tgz#a27c52ea783d1398afd2087f547d7b9d2f43634d"
+=======
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.2.2.tgz#a27c52ea783d1398afd2087f547d7b9d2f43634d"
+>>>>>>> fafd0540fe2a33bac0c1fc7703f9b6fbea82bf7f
   integrity sha512-TUE1UGoTX2Cd42j3krGYqObZbOD+xF7u28WB7tfUordytSjbWTIjK/8V0amkBfTYN4/pB/GIDlJZZ657BGG19g==
   dependencies:
     lodash "^4.17.15"
