@@ -1,6 +1,6 @@
 import { lazy } from 'react'
 
-export default {
+const routerModule = {
   path: '/news',
   component: lazy(() => import('layout/default')),
   routes: [
@@ -23,3 +23,5 @@ export default {
     title: '新闻'
   }
 }
+
+export default routerModule

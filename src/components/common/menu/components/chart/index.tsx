@@ -12,9 +12,13 @@ export default function Base() {
     yAxis: {
       type: 'value'
     },
+    grid: {
+      left: '15%'
+    },
     series: [{
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
+      data: [820, 932, 901, -934, 1290, 1330, 1320],
+      type: 'line',
+      smooth: true
     }]
   })
 
@@ -25,9 +29,9 @@ export default function Base() {
 
   return <>
     <li className={classnames(Style['second-menu-item'])}>
-      <h3>块</h3>
+      <h3>折线图</h3>
 
-      <div draggable="true" onDragStart={handleDragStart}>
+      <div draggable="true" onDragStart={handleDragStart} className={classnames(Style['el-move'])}>
         <ChartWarp Chart={Line} option={option}></ChartWarp>
       </div>
     </li>

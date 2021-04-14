@@ -1,6 +1,3 @@
-.hl-block {
-  height: 50px;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  box-shadow: aqua;
+.el-move {
+  cursor: move;
 }
