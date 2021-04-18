@@ -6,7 +6,7 @@ import { asideConfig } from 'config/global'
 const SECOND_MENU = {
   0: React.lazy(() => import('./components/base')),
   1: React.lazy(() => import('./components/form')),
-  2: React.lazy(() => import('./components/audioAndVideo')),
+  2: React.lazy(() => import('./components/audio-and-video')),
   3: React.lazy(() => import('./components/chart')),
 }
 

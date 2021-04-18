@@ -1,27 +1,28 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 import Style from './index.module.css'
-import FixedWrap from 'components/common/fixedWrap'
+import FixedWrap from 'components/common/fixed-wrap'
 import EquipmentList from './list'
+import { equipmentList } from '../../data/equipment'
+import { connect } from 'react-redux'
 
-export default function Equipment(
-  { setEquipment: parentSetEquipment }: {
+
+export default connect()(function Equipment(
+  { setEquipment: parentSetEquipment, ...props }: {
     setEquipment: Function
   }
 ) {
-  const [equipment, setEquipment] = useState(Object.create({
-    name: 'IPhone6',
-    size: {
-      w: 375,
-      h: 667
-    }
-  }))
+  const [equipment, setEquipment] = useState(Object.create(equipmentList[1]))
   let fixed = useRef<any>(null)
 
   const handleSetEquipment = useCallback((equipment: object) => {
     setEquipment(equipment)
     parentSetEquipment(equipment)
-  }, [parentSetEquipment])
+    props['dispatch']({
+      type: 'SET_EQUIPMENT_LIST',
+      value: equipment
+    })
+  }, [parentSetEquipment, props])
 
   const handleSelect = useCallback((e) => {
     if (fixed.current) return fixed.current.show()
@@ -41,4 +42,4 @@ export default function Equipment(
     <span>*</span>
     <span className={classnames(Style['equipment-size'])}>{equipment.size.h}</span>
   </div>
-}
+})

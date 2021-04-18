@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from "react";
 import classnames from "classnames";
 import Style from "./index.module.css";
-import { useLine } from './useLine'
+import { useDynamicChart } from './useDynamicChart'
 
 let id = 0
 
@@ -14,7 +14,7 @@ function Editor(props: {
     };
   };
 }) {
-  const customLine = useLine()
+  const dynamicChart = useDynamicChart()
 
   const handleDrop = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -33,9 +33,14 @@ function Editor(props: {
 
     const parser = new DOMParser()
     let chartId: string = ''
+    let chartType = ''
 
     const isChart = data.includes('canvas')
+    console.log(data)
     if(isChart) {
+      // 去除图表类型
+      const result = data.match(/data-type="([a-zA-Z]*)"/)
+      chartType = (result && result[1]) || ''
       chartId = `chart${id++}`
       data = `<div id="${chartId}" style="height: 200px;"></div>`
     } 
@@ -44,12 +49,12 @@ function Editor(props: {
     const child = doc.body.children[0]
     ;(event.target as HTMLElement).append(child)
     // 绘制图标
-    if(isChart) { 
-      customLine.draw(chartId)
+    if(isChart) {
+      dynamicChart.draw(chartId, chartType)
     }
 
     // (event.target as HTMLElement).innerHTML += data;
-  }, [customLine]);
+  }, [dynamicChart]);
 
   const { w, h } = props.equipment.size;
 

@@ -7,6 +7,8 @@ import { equipmentList } from './data/equipment'
 export default function Home() {
   const [equipment, setEquipment] = useState(equipmentList[1])
 
+  console.log('home')
+
   return <div className={Style['home-wrap']}>
     <Equipment setEquipment={setEquipment} />
 
