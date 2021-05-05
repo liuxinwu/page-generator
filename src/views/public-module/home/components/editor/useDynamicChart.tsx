@@ -1,3 +1,9 @@
+/**
+ * 暂时没用到，换了思路写
+ * 之前是用 innerHTML 的思路、但事件失效
+ * 后采用复用组件的思路
+ */
+
 import * as echarts from 'echarts/core'
 import {
   GridComponent,

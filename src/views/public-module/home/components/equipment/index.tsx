@@ -20,7 +20,7 @@ export default connect()(function Equipment(
     parentSetEquipment(equipment)
     props['dispatch']({
       type: 'SET_EQUIPMENT_LIST',
-      value: equipment
+      value: {equipment}
     })
   }, [parentSetEquipment, props])
 

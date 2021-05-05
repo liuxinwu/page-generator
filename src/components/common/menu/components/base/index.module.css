@@ -1,33 +1,7 @@
-.el-move {
-  cursor: move;
-}
 
-.spacing-c-l {
-  margin: 5px 10px;
-}
 
-.hl-block {
-  height: 40px;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  box-shadow: aqua;
-}
 
-.hl-p {
-  line-height: 28px;
-  font-size: 14px;
-}
 
-.hl-grid-wrap {
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.hl-grid-wrap-item {
-  width: 25%;
-  height: 40px;
-  box-sizing: border-box;
-}
 
 .hl-btn {
   border: 0;
@@ -51,4 +25,9 @@
   width: 100px;
   border-radius: 100%;
   object-fit: fill;
+}
+
+.hl-bg-img {
+  width: auto;
+  max-height: 200px;
 }

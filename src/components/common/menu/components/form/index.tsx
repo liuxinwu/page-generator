@@ -1,17 +1,24 @@
 import React from 'react'
 import classnames from 'classnames'
 import Style from './index.module.css'
+import { Drag } from 'components/common/drag'
+import { Form } from 'components/common/form'
 
 export default function Base() {
   return <>
-    <li className={classnames(Style['second-menu-item'])}>
+    {/* <li className={classnames(Style['second-menu-item'])}>
       <h3>输入框</h3>
-      <input type="text"/>
-    </li>
+      <Drag>
+        <input type="text"/>
+      </Drag>
+    </li> */}
 
     <li className={classnames(Style['second-menu-item'])}>
-      <h3>下拉选择</h3>
-      <div></div>
+      <h3>表单</h3>
+
+      <Drag type="Form">
+        <Form />
+      </Drag>
     </li>
   </>
 }

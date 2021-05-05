@@ -7,7 +7,7 @@ import { DynamicChart } from './components/dynamicChart'
 
 let id = 0
 
-function ChartWarp({
+export const ChartWarp = function({
   type,
   option
 }: {

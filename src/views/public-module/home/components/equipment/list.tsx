@@ -2,6 +2,8 @@ import React from 'react'
 import Style from './index.module.css'
 import { equipmentList } from '../../data/equipment'
 
+// 不明白的点
+// 这里 connect 取不到 redux 的值
 export default function EquipmentList(
   { hide, ...props }: {
     hide?: Function

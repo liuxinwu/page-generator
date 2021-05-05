@@ -5,6 +5,9 @@ export const asideConfig = {
 
 export const chartOptions = {
   line: {
+    tooltip: {
+      trigger: "item",
+    },
     xAxis: {
       type: "category",
       data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],

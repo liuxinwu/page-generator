@@ -1,6 +1,6 @@
 .chart-wrap {
   width: 100%;
   min-width: 200px;
-  height: 200px;
+  min-height: 200px;
   box-sizing: border-box;
 }

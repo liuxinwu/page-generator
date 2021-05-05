@@ -1,30 +1,32 @@
 import React from 'react'
 import classnames from 'classnames'
 import Style from './index.module.css'
-import ChartWarp from 'components/common/chart'
+import { ChartWarp } from 'components/common/chart'
 import { chartOptions } from 'config/global'
+import { Drag } from 'components/common/drag'
 
-export default function Base() {
-
-  function handleDragStart(e: React.DragEvent) {
-    const dt = e.dataTransfer
-    dt!.setData('text/html', (e.target as HTMLElement).outerHTML)
-  }
+export default function Chart() {
 
   return <>
     <li className={classnames(Style['second-menu-item'])}>
       <h3>折线图</h3>
 
-      <div draggable="true" onDragStart={handleDragStart} className={classnames(Style['el-move'])} data-type="Line">
+      <Drag type="ChartWarp" query={{
+        type: 'Line',
+        option: chartOptions.line
+      }}>
         <ChartWarp type='Line' option={chartOptions.line}></ChartWarp>
-      </div>
+      </Drag>
     </li>
     <li className={classnames(Style['second-menu-item'])}>
       <h3>饼图</h3>
       
-      <div draggable="true" onDragStart={handleDragStart} className={classnames(Style['el-move'])} data-type="Pic">
+      <Drag type="ChartWarp" query={{
+        type: 'Pic',
+        option: chartOptions.pic
+      }}>
         <ChartWarp type='Pic' option={chartOptions.pic}></ChartWarp>
-      </div>
+      </Drag>
     </li>
   </>
 }

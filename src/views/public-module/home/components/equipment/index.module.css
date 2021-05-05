@@ -1,8 +1,14 @@
 .equipment-wrap {
+  position: fixed;
+  top: 58px;
+  right: 0;
+  left: 80px;
+  z-index: 99;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f1f3f7;
 }
 
 .equipment-select {

@@ -1,14 +1,16 @@
 import React from 'react'
 import classnames from 'classnames'
 import Style from './index.module.css'
-import avatorUrl from 'images/avator.jpg'
+import avatarUrl from 'images/avator.jpg'
+import { Drag } from 'components/common/drag'
+import { Block } from 'components/common/block'
+import { H } from 'components/common/h'
+import { P } from 'components/common/p'
+import { Ul } from 'components/common/ul'
+import { Button } from 'components/common/button'
+import { Img } from 'components/common/img'
 
 export default function Base() {
-  function handleDragStart(e: React.DragEvent) {
-    console.log(e)
-    const dt = e.dataTransfer
-    dt!.setData('text/html', (e.target as HTMLElement).outerHTML)
-  }
 
   return <>
     {
@@ -22,47 +24,66 @@ export default function Base() {
     <li className={classnames(Style['second-menu-item'])}>
       <h3>块</h3>
 
-      <div className={classnames(Style['hl-block'], Style['el-move'], Style['spacing-c-l'])} draggable="true" onDragStart={handleDragStart}></div>
+      <Drag type="Block">
+        <Block />
+      </Drag>
     </li>
 
     <li className={classnames(Style['second-menu-item'])}>
       <h3>标题</h3>
 
-      <h1 draggable="true" onDragStart={handleDragStart} className={classnames(Style['el-move'], Style['spacing-c-l'])}>H1</h1>
-      <h2 draggable="true" onDragStart={handleDragStart} className={classnames(Style['el-move'], Style['spacing-c-l'])}>H2</h2>
-      <h3 draggable="true" onDragStart={handleDragStart} className={classnames(Style['el-move'], Style['spacing-c-l'])}>H3</h3>
+      {
+        new Array(6).fill(1).map((item, index) => <Drag key={index} type="H" query={{
+          num: index + 1,
+          contentEditable: true
+        }}>
+          <H num={index + 1} />
+        </Drag>)
+      }
     </li>
 
     <li className={classnames(Style['second-menu-item'])}>
       <h3>段落</h3>
 
-      <p className={classnames(Style['hl-p'], Style['el-move'], Style['spacing-c-l'])} draggable="true" onDragStart={handleDragStart} >散文，汉语词汇，拼音是sǎn wén。一指文采焕发；二指犹行文；三指文体名。随着时代的发展，散文的概念由广义向狭义转变，并受到西方文化的影响。散文是一种抒发作者真情实感、写作方式灵活的记叙类文学体裁。</p>
+      <Drag type="P">
+        <P />
+      </Drag>
     </li>
 
     <li className={classnames(Style['second-menu-item'])}>
       <h3>栅格</h3>
 
-      <ul className={classnames(Style['hl-grid-wrap'], Style['el-move'], Style['spacing-c-l'])} draggable="true" onDragStart={handleDragStart}>
-        {
-          new Array(4 * 1).fill(1).map((item, index) => <li key={index} className={classnames(Style['hl-grid-wrap-item'])} style={{
-            "background": index % 2 === 0 ? '#eee' : '#666'
-          }}></li>)
-        }
-      </ul>
+      <Drag type="Ul">
+        <Ul />
+      </Drag>
     </li>
 
     <li className={classnames(Style['second-menu-item'])}>
       <h3>按钮</h3>
 
-      <button type="button" className={classnames(Style['hl-btn'], Style['hl-x-btn'], Style['el-move'], Style['spacing-c-l'])} draggable="true" onDragStart={handleDragStart}>login</button>
+      <Drag type="Button" query={{class: Style['hl-x-btn']}}>
+        <Button class={Style['hl-x-btn']}/>
+      </Drag>
       <br />
-      <button type="button" className={classnames(Style['hl-btn'], Style['hl-m-btn'], Style['el-move'], Style['spacing-c-l'])} draggable="true" onDragStart={handleDragStart}>login</button>
+      <Drag type="Button" query={{class: Style['hl-m-btn']}}>
+        <Button class={Style['hl-m-btn']}/>
+      </Drag>
     </li>
 
     <li className={classnames(Style['second-menu-item'])}>
       <h3>图片</h3>
+      
+      <Drag type="Img" query={{src: avatarUrl}}>
+        <Img src={avatarUrl} />
+      </Drag>
+    </li>
 
-      <img src={avatorUrl} alt="" className={classnames(Style['hl-img'], Style['el-move'], Style['spacing-c-l'])} draggable="true" onDragStart={handleDragStart}/>
+    <li className={classnames(Style['second-menu-item'])}>
+      <h3>背景</h3>
+
+      <Drag type="BgImg">
+        <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.huabanimg.com%2F6e3f0626f9d105ac8bef9af46cd8200083cbc1a22f1a5-VpRmJk_fw658&refer=http%3A%2F%2Fhbimg.huabanimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621845804&t=0b2f810d09efdf59459afc16a0933c37" alt="" className={classnames(Style['hl-bg-img'])} data-type="bg"/>
+      </Drag>
     </li>
   </>
 }

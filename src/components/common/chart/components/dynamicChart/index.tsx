@@ -1,17 +1,30 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import * as echarts from 'echarts/core'
 import {
-  GridComponent
+  GridComponent,
+  TooltipComponent,
+  LegendComponent
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers'
+import { connect } from 'react-redux'
+import { StateType, EquipmentType } from 'store/type'
 
-export function DynamicChart({
+const mapStateToProps = (state: StateType) => {
+  return {
+    equipment: state.equipment
+  }
+}
+
+export const DynamicChart = connect(mapStateToProps)(function({
   type,
   id,
-  option
+  option,
+  equipment,
+  ...props
 }: {
   type: string
   id: string
+  equipment: EquipmentType,
   option: echarts.EChartsCoreOption
 }) {
   let chart = useRef<echarts.EChartsType | null>(null)
@@ -42,7 +55,7 @@ export function DynamicChart({
     const timeId = setTimeout(async () => {
       if (!chart.current) {
         const chartType = await dynamicImportChart()
-        echarts.use([chartType, GridComponent, CanvasRenderer])
+        echarts.use([chartType, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer])
         el = document.querySelector(`#${id}`)! as HTMLElement
         chart.current = echarts.init(el)
       }
@@ -56,7 +69,15 @@ export function DynamicChart({
     }
   }, [id, dynamicImportChart, option])
   
+  useEffect(() => {
+    const {h} = equipment.size
+    chart.current && chart.current.resize({
+      width: 'auto',
+      height: h / 3
+    })
+  }, [equipment])
   return (
     <></>
   )
-}
+})
+

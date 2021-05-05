@@ -1,9 +1,11 @@
 import React, { memo, useCallback } from "react";
+import ReactDOM from 'react-dom'
 import classnames from "classnames";
 import Style from "./index.module.css";
-import { useDynamicChart } from './useDynamicChart'
+import components from 'config/components'
+import { Provider } from 'react-redux'
+import { store } from 'store'
 
-let id = 0
 
 function Editor(props: {
   equipment: {
@@ -14,47 +16,85 @@ function Editor(props: {
     };
   };
 }) {
-  const dynamicChart = useDynamicChart()
 
   const handleDrop = useCallback((event: React.DragEvent) => {
+    // 阻止默认事件
     event.preventDefault();
-    let data = event.dataTransfer.getData("text/html");
-    // 去除可拖拽属性
-    data = data.replace('draggable="true"', "");
-    // 去除可移动手势样式
-    data = data.replace(/([a-zA-Z|_]+el-move[a-zA-Z|_|-]+)/, '')
-    // 添加可以编写属性
-    const reg = /^<p|(div)|(h\d)/
-    if (reg.test(data)) {
-      data = data.replace(reg, (_) => {
-        return `${_} contentEditable`
-      })
+    /**
+     * 暂时没用到，换了思路写
+     * 之前是用 innerHTML 的思路、但事件失效
+     * 后采用复用组件的思路
+     */
+    let {type, data, query} = JSON.parse(event.dataTransfer.getData("custom/drag"));
+    event.dataTransfer.clearData();
+
+    // 背景处理
+    if (type === 'BgImg') {
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(data, "text/html")
+      const imgEl = doc.body.children[0] as HTMLImageElement
+
+      ;(event.target as HTMLElement).style.cssText = `background: url(${imgEl.src}) no-repeat center / cover;`
+      return
     }
+    
+    const source = components[type]()
+    
+    source.then((_: any) => {
+      const Com = _[type]
+      const div = document.createElement('div')
 
-    const parser = new DOMParser()
-    let chartId: string = ''
-    let chartType = ''
+      ;(event.target as HTMLElement).append(div)
+      ReactDOM.render(
+        <Provider store={store} >
+        <Com key={Math.random()} {...query} /></Provider>,
+        div
+      )
+    })
 
-    const isChart = data.includes('canvas')
-    console.log(data)
-    if(isChart) {
-      // 去除图表类型
-      const result = data.match(/data-type="([a-zA-Z]*)"/)
-      chartType = (result && result[1]) || ''
-      chartId = `chart${id++}`
-      data = `<div id="${chartId}" style="height: 200px;"></div>`
-    } 
-    const doc = parser.parseFromString(data, "text/html")
+    // // 去除可拖拽属性
+    // data = data.replace('draggable="true"', "");
+    // // 去除可移动手势样式
+    // data = data.replace(/([a-zA-Z|_]+cursor-move[a-zA-Z|_|-]+)/, '')
+    // // 添加可以编写属性
+    // const reg = /(^<p)|(^<div)|(^<h\d)]/
+    // if (reg.test(data)) {
+    //   data = data.replace(reg, (_: any) => {
+    //     return `${_} contentEditable`
+    //   })
+    // }
 
-    const child = doc.body.children[0]
-    ;(event.target as HTMLElement).append(child)
-    // 绘制图标
-    if(isChart) {
-      dynamicChart.draw(chartId, chartType)
-    }
+    // const DATA_TYPE = data.match(/data-type="([a-zA-Z]*)"/) || []
+    // if (DATA_TYPE[1] === 'bg') {
+    //   const parser = new DOMParser()
+    //   const doc = parser.parseFromString(data, "text/html")
+    //   const imgEl = doc.body.children[0] as HTMLImageElement
+    //   ;(event.target as HTMLElement).style.cssText = `background: url(${imgEl.src}) no-repeat center / cover;`
+    //   return
+    // }
+
+    // const parser = new DOMParser()
+    // let chartId: string = ''
+    // let chartType = ''
+
+    // const isChart = data.includes('canvas')
+    // if(isChart) {
+    //   // 去除图表类型
+    //   chartType = (DATA_TYPE && DATA_TYPE[1]) || ''
+    //   chartId = `chart${id++}`
+    //   data = `<div id="${chartId}" style="height: 200px;"></div>`
+    // } 
+    // const doc = parser.parseFromString(data, "text/html")
+
+    // const child = doc.body.children[0]
+    // ;(event.target as HTMLElement).append(child)
+    // // 绘制图标
+    // if(isChart) {
+    //   dynamicChart.draw(chartId, chartType)
+    // }
 
     // (event.target as HTMLElement).innerHTML += data;
-  }, [dynamicChart]);
+  }, []);
 
   const { w, h } = props.equipment.size;
 
