@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from 'layout/components/header'
 import Content from 'layout/components/content'
-import Footer from 'layout/components/footer'
+// import Footer from 'layout/components/footer'
 
 export default function DefaultLayout(){
   return <div className="default-layout-wrap">
@@ -9,6 +9,6 @@ export default function DefaultLayout(){
     
     <Content />
 
-    <Footer />
+    {/* <Footer /> */}
   </div>
 }

@@ -4,13 +4,13 @@
   flex: 1;
   justify-content: center;
 
-  overflow: hidden;
-  overflow-y: auto;
+  background: #f1f3f7;
 }
 
 .editor-main {
   width: 375px;
   min-height: 627px;
+  height: intrinsic;
   padding: 0 20px 50px;
   box-sizing: border-box;
   background-color: white;
