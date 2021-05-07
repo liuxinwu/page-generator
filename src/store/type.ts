@@ -1,5 +1,6 @@
 export interface StateType {
   equipment: EquipmentType
+  useComponents: UseComponentsType
 }
 
 export interface EquipmentType {
@@ -8,4 +9,12 @@ export interface EquipmentType {
       w: number;
       h: number;
   };
+}
+
+export interface UseComponentsType {
+  [index: string]: {
+    type: string
+    css: object
+    text: string
+  }
 }

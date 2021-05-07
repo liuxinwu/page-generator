@@ -3,11 +3,26 @@ import ReactDOM from 'react-dom'
 import classnames from "classnames";
 import Style from "./index.module.css";
 import components from 'config/components'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { store } from 'store'
 
+let id = 0
 
-function Editor(props: {
+const mapState = (state: any) => {
+  return {
+    state
+  }
+}
+
+const mapDispatch = (dispatch: any) => {
+  return {
+    addUseComponents: (action: any) => {
+      dispatch(action)
+    }
+  }
+}
+
+const Editor = connect(mapState, mapDispatch)(function(props: {
   equipment: {
     name: string;
     size: {
@@ -39,6 +54,18 @@ function Editor(props: {
     }
     
     const source = components[type]()
+    const name = `${type}${++id}`
+    props['addUseComponents']({
+      type: 'ADD_USE_COMPONENTS',
+      value: {
+        [name]: {
+          type,
+          css: {},
+          text: ''
+        }
+      }
+    })
+    console.log(props, 'props')
     
     source.then((_: any) => {
       const Com = _[type]
@@ -46,8 +73,10 @@ function Editor(props: {
 
       ;(event.target as HTMLElement).append(div)
       ReactDOM.render(
+        // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
         <Provider store={store} >
-        <Com key={Math.random()} {...query} /></Provider>,
+          <Com {...query} name={name} />
+        </Provider>,
         div
       )
     })
@@ -94,7 +123,7 @@ function Editor(props: {
     // }
 
     // (event.target as HTMLElement).innerHTML += data;
-  }, []);
+  }, [props]);
 
   const { w, h } = props.equipment.size;
 
@@ -113,8 +142,21 @@ function Editor(props: {
       ></div>
     </div>
   );
-}
+})
 
 export default memo(Editor, (props, preProps) => {
   return props.equipment.name === preProps.equipment.name;
 });
+
+/**
+ * 记录使用的所有组件思路
+ * 全局 store 记录一个 useComponents 对象
+ * key 为 name + id 通过 ReactDom.render 渲染时传入
+ * value 为 当前组件的配置项 {
+ *  type: 'Block',
+ *  css: {},
+ *  text: ''
+ * } 
+ * 
+ * 保存草稿就保存这份记录就行
+ */

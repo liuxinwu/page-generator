@@ -1,9 +1,8 @@
 import { state as defaultState } from './state'
-import { StateType } from './type'
 
 export function reducer(state = defaultState, action: {
   type: string
-  value: StateType
+  value: object
 }) {
   const value = action.value
   
@@ -12,6 +11,14 @@ export function reducer(state = defaultState, action: {
       return {
         ...state,
         ...value
+      }
+    case 'ADD_USE_COMPONENTS':
+      return {
+        ...state,
+        useComponents: {
+          ...state.useComponents,
+          ...value
+        }
       }
     default:
       return state
