@@ -45,7 +45,9 @@ export default function Base() {
     <li className={classnames(Style['second-menu-item'])}>
       <h3>段落</h3>
 
-      <Drag type="P">
+      <Drag type="P" query={{
+        contentEditable: true
+      }}>
         <P />
       </Drag>
     </li>
