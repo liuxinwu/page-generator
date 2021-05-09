@@ -1,6 +1,6 @@
 export interface StateType {
   equipment: EquipmentType
-  useComponents: UseComponentsType
+  useComponents: Set<UseComponentsType>
 }
 
 export interface EquipmentType {
@@ -12,9 +12,9 @@ export interface EquipmentType {
 }
 
 export interface UseComponentsType {
-  [index: string]: {
-    type: string
-    css: object
-    text: string
-  }
+  name: string
+  type: string
+  css: object
+  text: string
+  query: object
 }

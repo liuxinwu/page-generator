@@ -13,12 +13,12 @@ export function reducer(state = defaultState, action: {
         ...value
       }
     case 'ADD_USE_COMPONENTS':
+      const { useComponents } = state
+      useComponents.add(value as any)
+      
       return {
         ...state,
-        useComponents: {
-          ...state.useComponents,
-          ...value
-        }
+        useComponents
       }
     default:
       return state

@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import Style from './index.module.css'
+import { connect } from 'react-redux'
+import { StateType } from 'store/type'
 
-export default function Header() {
+const mapState = ((state: StateType) => ({
+  useComponents: state.useComponents
+}))
+
+export default connect(mapState)(function Header({
+  useComponents
+}: any) {
+  const handleSave = useCallback(() => {
+    console.log(useComponents, 'props')
+    localStorage.setItem('useComponents', JSON.stringify(Array.from(useComponents)))
+  }, [useComponents])
+
   return <header>
     <ul className={Style['nav']}>
       <Link to="/">home</Link> 
@@ -11,9 +24,8 @@ export default function Header() {
     </ul>
 
     <div className={Style['button-group']}>
-      <button>草稿</button>
-      <button className={Style.save}>保存</button>
+      <button className={Style.save} onClick={handleSave}>保存</button>
       <button className={Style.download}>下载</button>
     </div>
   </header>
-}
+})

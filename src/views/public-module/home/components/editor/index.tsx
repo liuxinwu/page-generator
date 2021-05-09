@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import ReactDOM from 'react-dom'
 import classnames from "classnames";
 import Style from "./index.module.css";
@@ -31,6 +31,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
     };
   };
 }) {
+  const editorMain = useRef<HTMLDivElement | null>()
 
   const handleDrop = useCallback((event: React.DragEvent) => {
     // 阻止默认事件
@@ -42,27 +43,36 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
      */
     let {type, data, query} = JSON.parse(event.dataTransfer.getData("custom/drag"));
     event.dataTransfer.clearData();
+    const name = `${type}${++id}`
 
     // 背景处理
     if (type === 'BgImg') {
       const parser = new DOMParser()
       const doc = parser.parseFromString(data, "text/html")
       const imgEl = doc.body.children[0] as HTMLImageElement
-
+      props['addUseComponents']({
+        type: 'ADD_USE_COMPONENTS',
+        value: {
+          name,
+          type,
+          css: Object.create(null),
+          text: imgEl.src,
+          query
+        }
+      })
       ;(event.target as HTMLElement).style.cssText = `background: url(${imgEl.src}) no-repeat center / cover;`
       return
     }
     
     const source = components[type]()
-    const name = `${type}${++id}`
     props['addUseComponents']({
       type: 'ADD_USE_COMPONENTS',
       value: {
-        [name]: {
-          type,
-          css: {},
-          text: ''
-        }
+        name,
+        type,
+        css: Object.create(null),
+        text: '',
+        query
       }
     })
     console.log(props, 'props')
@@ -127,9 +137,46 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
   const { w, h } = props.equipment.size;
 
+  useEffect(() => {
+    (async() => {
+      const target = editorMain.current
+
+      if (!target) return
+
+      const useComponents = JSON.parse(localStorage.getItem('useComponents')|| '[]') || []
+      let index = 0
+      const len = useComponents.length
+      while (index < len) {
+        const {type, name, query, text} = useComponents[index]
+
+        if (type === 'BgImg') {
+          target.style.cssText = `background: url(${text}) no-repeat center / cover;`
+          index++
+          continue
+        }
+
+        const source = await components[type]()
+        const Com = source[type]
+        const div = document.createElement('div')
+
+        target.append(div)
+        ReactDOM.render(
+          // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
+          <Provider store={store} >
+            <Com {...query} name={name} />
+          </Provider>,
+          div
+        )
+        index++
+      }
+    })()
+  }, [])
+
+
   return (
     <div className={classnames(Style["editor-wrap"])}>
       <div
+        ref={el => editorMain.current = el}
         className={classnames(Style["editor-main"])}
         style={{
           width: w,
