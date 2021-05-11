@@ -6,6 +6,7 @@ import components from 'config/components'
 import { Provider, connect } from 'react-redux'
 import { store } from 'store'
 import { UseComponentsType } from 'store/type'
+import Storage from 'utils/store'
 
 let id = 0
 
@@ -22,6 +23,8 @@ const mapDispatch = (dispatch: any) => {
     }
   }
 }
+
+const STORAGE = new Storage()
 
 const Editor = connect(mapState, mapDispatch)(function(props: {
   equipment: {
@@ -100,13 +103,14 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
     await render(type, event.target as HTMLDivElement, query, name)
   }, [addUseComponents, props]);
 
+  // 读取已保存数据
   useEffect(() => {
     (async() => {
       const target = editorMain.current
 
       if (!target) return
 
-      const useComponents = JSON.parse(localStorage.getItem('useComponents')|| '[]') || []
+      const useComponents = (await STORAGE.getItem<[]>('useComponents') || [])
       let index = 0
       const len = useComponents.length
       while (index < len) {

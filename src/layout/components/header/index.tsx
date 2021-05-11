@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import Style from './index.module.css'
 import { connect } from 'react-redux'
 import { StateType } from 'store/type'
+import Storage from 'utils/store'
+
+const STORAGE = new Storage()
 
 const mapState = ((state: StateType) => ({
   useComponents: state.useComponents
@@ -13,7 +16,7 @@ export default connect(mapState)(function Header({
 }: any) {
   const handleSave = useCallback(() => {
     console.log(useComponents, 'props')
-    localStorage.setItem('useComponents', JSON.stringify(Array.from(useComponents)))
+    STORAGE.setItem('useComponents', Array.from(useComponents))
   }, [useComponents])
 
   return <header>
