@@ -5,6 +5,7 @@ import Style from "./index.module.css";
 import components from 'config/components'
 import { Provider, connect } from 'react-redux'
 import { store } from 'store'
+import { UseComponentsType } from 'store/type'
 
 let id = 0
 
@@ -32,8 +33,35 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
   };
 }) {
   const editorMain = useRef<HTMLDivElement | null>()
+  const { w, h } = props.equipment.size;
+  const render = function(type: string, target: HTMLDivElement, query: object, name: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const source = await components[type]()
+        const Com = source[type]
+        const div = document.createElement('div')
 
-  const handleDrop = useCallback((event: React.DragEvent) => {
+        target.append(div)
+        ReactDOM.render(
+          // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
+          <Provider store={store} >
+            <Com {...query} name={name} />
+          </Provider>,
+          div
+        )
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+  const addUseComponents = useCallback(function (value: UseComponentsType) {
+    props['addUseComponents']({
+      type: 'ADD_USE_COMPONENTS',
+      value
+    })
+  }, [props])
+  const handleDrop = useCallback(async (event: React.DragEvent) => {
     // 阻止默认事件
     event.preventDefault();
     /**
@@ -50,92 +78,27 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       const parser = new DOMParser()
       const doc = parser.parseFromString(data, "text/html")
       const imgEl = doc.body.children[0] as HTMLImageElement
-      props['addUseComponents']({
-        type: 'ADD_USE_COMPONENTS',
-        value: {
-          name,
-          type,
-          css: Object.create(null),
-          text: imgEl.src,
-          query
-        }
+      addUseComponents({
+        name,
+        type,
+        css: Object.create(null),
+        text: imgEl.src,
+        query
       })
       ;(event.target as HTMLElement).style.cssText = `background: url(${imgEl.src}) no-repeat center / cover;`
       return
     }
     
-    const source = components[type]()
-    props['addUseComponents']({
-      type: 'ADD_USE_COMPONENTS',
-      value: {
-        name,
-        type,
-        css: Object.create(null),
-        text: '',
-        query
-      }
+    addUseComponents({
+      name,
+      type,
+      css: Object.create(null),
+      text: '',
+      query
     })
     console.log(props, 'props')
-    
-    source.then((_: any) => {
-      const Com = _[type]
-      const div = document.createElement('div')
-
-      ;(event.target as HTMLElement).append(div)
-      ReactDOM.render(
-        // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
-        <Provider store={store} >
-          <Com {...query} name={name} />
-        </Provider>,
-        div
-      )
-    })
-
-    // // 去除可拖拽属性
-    // data = data.replace('draggable="true"', "");
-    // // 去除可移动手势样式
-    // data = data.replace(/([a-zA-Z|_]+cursor-move[a-zA-Z|_|-]+)/, '')
-    // // 添加可以编写属性
-    // const reg = /(^<p)|(^<div)|(^<h\d)]/
-    // if (reg.test(data)) {
-    //   data = data.replace(reg, (_: any) => {
-    //     return `${_} contentEditable`
-    //   })
-    // }
-
-    // const DATA_TYPE = data.match(/data-type="([a-zA-Z]*)"/) || []
-    // if (DATA_TYPE[1] === 'bg') {
-    //   const parser = new DOMParser()
-    //   const doc = parser.parseFromString(data, "text/html")
-    //   const imgEl = doc.body.children[0] as HTMLImageElement
-    //   ;(event.target as HTMLElement).style.cssText = `background: url(${imgEl.src}) no-repeat center / cover;`
-    //   return
-    // }
-
-    // const parser = new DOMParser()
-    // let chartId: string = ''
-    // let chartType = ''
-
-    // const isChart = data.includes('canvas')
-    // if(isChart) {
-    //   // 去除图表类型
-    //   chartType = (DATA_TYPE && DATA_TYPE[1]) || ''
-    //   chartId = `chart${id++}`
-    //   data = `<div id="${chartId}" style="height: 200px;"></div>`
-    // } 
-    // const doc = parser.parseFromString(data, "text/html")
-
-    // const child = doc.body.children[0]
-    // ;(event.target as HTMLElement).append(child)
-    // // 绘制图标
-    // if(isChart) {
-    //   dynamicChart.draw(chartId, chartType)
-    // }
-
-    // (event.target as HTMLElement).innerHTML += data;
-  }, [props]);
-
-  const { w, h } = props.equipment.size;
+    await render(type, event.target as HTMLDivElement, query, name)
+  }, [addUseComponents, props]);
 
   useEffect(() => {
     (async() => {
@@ -155,23 +118,11 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
           continue
         }
 
-        const source = await components[type]()
-        const Com = source[type]
-        const div = document.createElement('div')
-
-        target.append(div)
-        ReactDOM.render(
-          // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
-          <Provider store={store} >
-            <Com {...query} name={name} />
-          </Provider>,
-          div
-        )
+        await render(type, target, query, name)
         index++
       }
     })()
   }, [])
-
 
   return (
     <div className={classnames(Style["editor-wrap"])}>
