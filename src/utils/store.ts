@@ -34,7 +34,6 @@ export default class Storage {
     // 初始化值并同步缓存里面的数据
     const data = localStorage.getItem(this.nameSpace) || '{}'
     this.data = JSON.parse(data) || Object.create(null)
-    this.setRootStorage()
   }
 
   /**

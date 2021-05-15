@@ -20,6 +20,9 @@ const mapDispatch = (dispatch: any) => {
   return {
     addUseComponents: (action: any) => {
       dispatch(action)
+    },
+    initUseComponents: (action: any) => {
+      dispatch(action)
     }
   }
 }
@@ -61,6 +64,12 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
   const addUseComponents = useCallback(function (value: UseComponentsType) {
     props['addUseComponents']({
       type: 'ADD_USE_COMPONENTS',
+      value
+    })
+  }, [props])
+  const initUseComponents = useCallback(function (value: UseComponentsType[]) {
+    props['initUseComponents']({
+      type: 'INIT_USE_COMPONENTS',
       value
     })
   }, [props])
@@ -110,7 +119,8 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
       if (!target) return
 
-      const useComponents = (await STORAGE.getItem<[]>('useComponents') || [])
+      const useComponents = (await STORAGE.getItem<UseComponentsType[]>('useComponents') || [])
+      initUseComponents(useComponents)
       let index = 0
       const len = useComponents.length
       while (index < len) {
@@ -126,6 +136,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
         index++
       }
     })()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
