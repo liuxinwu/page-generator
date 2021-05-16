@@ -8,6 +8,7 @@
 }
 
 .editor-main {
+  position: relative;
   width: 375px;
   min-height: 627px;
   height: intrinsic;

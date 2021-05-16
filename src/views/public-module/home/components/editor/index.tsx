@@ -7,6 +7,7 @@ import { Provider, connect } from 'react-redux'
 import { store } from 'store'
 import { UseComponentsType } from 'store/type'
 import Storage from 'utils/store'
+import Operate from 'components/common/operate'
 
 let id = 0
 
@@ -51,7 +52,9 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
         ReactDOM.render(
           // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
           <Provider store={store} >
-            <Com {...query} name={name} />
+            <Operate>
+              <Com {...query} name={name} />
+            </Operate>
           </Provider>,
           div
         )
@@ -141,18 +144,20 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
   return (
     <div className={classnames(Style["editor-wrap"])}>
-      <div
-        ref={el => editorMain.current = el}
-        className={classnames(Style["editor-main"])}
-        style={{
-          width: w,
-          minHeight: h - 50,
-        }}
-        onDrop={handleDrop}
-        onDragOver={(event) => {
-          event.preventDefault();
-        }}
-      ></div>
+      <Operate>
+        <div
+          ref={el => editorMain.current = el}
+          className={classnames(Style["editor-main"])}
+          style={{
+            width: w,
+            minHeight: h - 50,
+          }}
+          onDrop={handleDrop}
+          onDragOver={(event) => {
+            event.preventDefault();
+          }}
+        ></div>
+      </Operate>
     </div>
   );
 })

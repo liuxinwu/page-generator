@@ -6,6 +6,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 > 基于 React 全家桶开发的页面生成器项目
 
+## 开发思路
+
+- 路由层面的封装（封装成熟悉的 Vue Router 配置的形式）
+- 基于 hmtl5 的 Drag api实现拖拽效果
+- 由于 Drag 传递的内容是文本行的，所以采用 innerHTML 的形式，实现对内容的渲染，
+后来由于 innerHTML 的导致方式事件失效，后采用 React.render 的方式渲染对应的组件、通过一的关系对应表找到组件（缺点，会附加一个父元素）
+- react-redux 保存设备的大小，组件的使用记录、reducers 按模块拆分
+- 本地存贮的封装（命名空间、任意数据类型、过期时间）
+- api、serve、cache(内存缓存) 层的封装
+- ECharts 图表的封装、动态导入需要的图表模块
+- 实现拖拽修改元素大小的图标，双击时出现（借助高阶组件实现）
+
 ## Available Scripts
 
 In the project directory, you can run:

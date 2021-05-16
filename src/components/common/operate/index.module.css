@@ -1,0 +1,9 @@
+.drag-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 30px;
+  font-weight: 700;
+  transform: translate(50%, 50%);
+  cursor: row-resize;
+}
