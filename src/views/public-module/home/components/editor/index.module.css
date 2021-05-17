@@ -1,5 +1,6 @@
 .editor-wrap {
   margin-top: 58px;
+  min-height: 100%;
   display: flex;
   flex: 1;
   justify-content: center;

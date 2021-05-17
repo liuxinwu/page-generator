@@ -6,7 +6,7 @@ header {
   background: #fff;
   border-bottom: 0 solid #ff7671;
   z-index: 99999;
-  position: absolute;
+  position: fixed;
   top: 0;
   min-width: inherit;
   width: 100%;

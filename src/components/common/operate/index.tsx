@@ -12,19 +12,21 @@ function DragIcon({ visible, parent }: { visible: boolean, parent: HTMLElement |
 
   useEffect(() => {
     if (parent === undefined) return
-    console.log(parent, parent.style.height)
-    const width = parseInt(parent.style.width) || 0
-    const height = parseInt(parent.style.height) || 0
-    parent.style.width = (+width + moveOffset.x + moveOffset.offsetX) + 'px'
-    parent.style.height = (+height + moveOffset.y + moveOffset.offsetY) + 'px'
-    console.log(moveOffset, width, (+width + moveOffset.x + moveOffset.offsetX))
+    // 在没有明确设置宽高的情况下 这样是获取不到的
+    // const width = parseInt(parent.style.width) || 0
+    // const height = parseInt(parent.style.height) || 0
+    const { offsetWidth, offsetHeight } = parent
+    const width = offsetWidth + moveOffset.x + moveOffset.offsetX
+    const height = offsetHeight + moveOffset.y + moveOffset.offsetY
+    parent.style.cssText += `width: ${width}px;height: ${height}px;`
   }, [parent, moveOffset])
 
   return <>
     { visible && <i 
       className={classnames('iconfont', 'icon-zhankaiduijiaoxian2', Style['drag-icon'])}
       onMouseDown={handleMouseDown}
-    /> }
+    />
+    }
   </>
 }
 

@@ -143,7 +143,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
   }, [])
 
   return (
-    <div className={classnames(Style["editor-wrap"])}>
+    <div className={classnames(Style["editor-wrap"])} id="editorWrap">
       <Operate>
         <div
           ref={el => editorMain.current = el}
