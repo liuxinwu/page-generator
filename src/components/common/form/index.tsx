@@ -1,7 +1,14 @@
 import React, { useState, FormEvent, FunctionComponentElement } from 'react'
 import Style from './index.module.css'
 
-export const Form = (): FunctionComponentElement<any> => {
+export const Form = (
+  {
+    children,
+    ...props
+  }: {
+    children?: React.FC
+  }
+): FunctionComponentElement<any> => {
   const [form, setForm] = useState({
     username: 'Tome',
     phone: ''
@@ -22,7 +29,7 @@ export const Form = (): FunctionComponentElement<any> => {
     console.log(form)
   }
 
-  return <form className={Style['form-wrap']} onSubmit={handleSubmit}>
+  return <form className={Style['form-wrap']} onSubmit={handleSubmit} {...props}>
     <div className={Style['form-item']}>
       <label className={Style['form-item-label']} >姓名：</label>
       <div className={Style['form-item-value']}>
@@ -38,5 +45,7 @@ export const Form = (): FunctionComponentElement<any> => {
     <div className={Style['form-item']}>
       <button className={Style['form-item-submit']} >登录</button>
     </div>
+
+    { children }
   </form>
 }

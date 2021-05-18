@@ -9,6 +9,10 @@ function _import(name: string) {
 const COMPONENTS_TYPE = ["Block", "H", "P", "Ul", "Button", "Img", "Form", "ChartWarp", "Video", "Audio"]
 const components = {}
 COMPONENTS_TYPE.forEach(component => {
+  if (component === 'ChartWarp') {
+    components[component] = _import('chart')
+    return
+  }
   components[component] = _import(component.toLocaleLowerCase())
 })
 

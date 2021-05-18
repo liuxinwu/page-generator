@@ -113,7 +113,9 @@ const Operate = React.memo(function({...props}) {
 
   // 给元素绑定双击事件
   useEffect(() => {
-    let el = document.querySelector(`#operate_${id}`)
+    // let el = document.querySelector(`#operate_${id}`)
+    // id 与图表有冲突 所以用自定义属性来处理
+    let el = document.querySelector(`[data-id=operate_${id}`)
     el?.addEventListener('click', handleDoubleClick)
 
     return () => {
@@ -126,7 +128,7 @@ const Operate = React.memo(function({...props}) {
     {
       React.Children.map(props.children, child => {
         return React.cloneElement(child as any, {
-          id: `operate_${++id}`,
+          'data-id': `operate_${++id}`,
           children: renderChildren
         })
       })

@@ -9,15 +9,19 @@ let id = 0
 
 export const ChartWarp = function({
   type,
-  option
+  children,
+  option,
+  ...props
 }: {
   type: string
+  children?: React.FC
   option: echarts.EChartsCoreOption
 }) {
   const idStr = useRef<string>(`id${(id++)}`)
 
-  return <div id={idStr.current} className={classnames(Style['chart-wrap'])}>
+  return <div id={idStr.current} className={classnames(Style['chart-wrap'])} {...props}>
     <DynamicChart type={type} id={idStr.current} option={option}/>
+    { children }
   </div>
 }
 

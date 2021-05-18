@@ -21,7 +21,7 @@ export default function Chart() {
     <li className={classnames(Style['second-menu-item'])}>
       <h3>饼图</h3>
       
-      <Drag type="ChartWarp" query={{
+      <Drag type="Chart" query={{
         type: 'Pic',
         option: chartOptions.pic
       }}>
