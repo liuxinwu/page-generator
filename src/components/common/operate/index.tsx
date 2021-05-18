@@ -11,7 +11,11 @@ interface ParentType extends HTMLElement {
   isRoot?: boolean | undefined
 }
 
-function DragIcon({ visible, parent }: { visible: boolean, parent: ParentType | undefined }) {
+/**
+ * 拖拽改大小
+ * @param param0 
+ */
+function DragSizeIcon({ visible, parent }: { visible: boolean, parent: ParentType | undefined }) {
   const mouseDownCallback = useCallback(() => {
     if (parent === undefined) return
     parent.style.cssText += `box-shadow: 0px 0px 3px 3px rgb(255, 69, 85, .8);`
@@ -51,6 +55,10 @@ function DragIcon({ visible, parent }: { visible: boolean, parent: ParentType | 
   </>
 }
 
+/**
+ * 1. 绑定双击事件
+ * 2. 添加一些操作功能（拖拽改大小、拖拽改位置、取消操作）
+ */
 const Operate = React.memo(function({...props}) {
   const [visible, setVisible] = useState(false)
   const [parent, setParent] = useState<ParentType | undefined>()
@@ -73,6 +81,7 @@ const Operate = React.memo(function({...props}) {
   }, 500)
   const handleDoubleClick = useCallback(click, [click])
 
+  // 给元素绑定双击事件
   useEffect(() => {
     let el = document.querySelector(`#operate_${id}`)
     el?.addEventListener('click', handleDoubleClick)
@@ -88,7 +97,7 @@ const Operate = React.memo(function({...props}) {
       React.Children.map(props.children, child => {
         return React.cloneElement(child as any, {
           id: `operate_${++id}`,
-          children: [<DragIcon visible={visible} key="DragIcon" parent={parent} />]
+          children: [<DragSizeIcon visible={visible} key="DragSizeIcon" parent={parent} />]
         })
       })
     }
