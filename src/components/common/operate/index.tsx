@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { doubleClick } from 'utils/dom'
 import classnames from 'classnames'
 import Style from './index.module.css'
@@ -15,10 +15,10 @@ interface ParentType extends HTMLElement {
  * 拖拽改大小
  * @param param0 
  */
-function DragSizeIcon({ visible, parent }: { visible: boolean, parent: ParentType | undefined }) {
+function DragSizeIcon({ parent }: { parent: ParentType | undefined }) {
   const mouseDownCallback = useCallback(() => {
     if (parent === undefined) return
-    parent.style.cssText += `box-shadow: 0px 0px 3px 3px rgb(255, 69, 85, .8);`
+    parent.style.cssText += `box-shadow: 0px 0px 3px 3px rgba(255, 69, 85, .8);`
   }, [parent])
   const mouseUpCallback = useCallback(() => {
     if (parent === undefined) return
@@ -46,13 +46,33 @@ function DragSizeIcon({ visible, parent }: { visible: boolean, parent: ParentTyp
     }
   }, [parent, moveOffset])
 
-  return <>
-    { visible && <i 
-      className={classnames('iconfont', 'icon-zhankaiduijiaoxian2', Style['drag-icon'])}
-      onMouseDown={handleMouseDown}
-    />
-    }
-  </>
+  return <i 
+    className={classnames('iconfont', 'icon-zhankaiduijiaoxian2', Style['drag-size-icon'])}
+    onMouseDown={handleMouseDown}
+  />
+}
+
+/**
+ * 拖拽改位置
+ * @param param0 
+ */
+function DragPositionIcon({ parent }: { parent: ParentType | undefined }) {
+  const { moveOffset, handleMouseDown } = useMouseEvent({})
+
+  useEffect(() => {
+    if (parent === undefined) return
+    
+    let left = parseInt(parent.style.left) || 0
+    let top = parseInt(parent.style.top) || 0
+    left += moveOffset.x
+    top += moveOffset.y
+    parent.style.cssText += `left: ${left}px;top: ${top}px;`
+  }, [parent, moveOffset])
+
+  return <i 
+    className={classnames('iconfont', 'icon-tuodong', Style['drag-position-icon'])}
+    onMouseDown={handleMouseDown}
+  />
 }
 
 /**
@@ -80,6 +100,16 @@ const Operate = React.memo(function({...props}) {
     e.stopPropagation()
   }, 500)
   const handleDoubleClick = useCallback(click, [click])
+  const renderChildren = useMemo(() => {
+    return visible && <div className={Style['drag-icon-wrap']}>
+      <i 
+        className={classnames('iconfont', 'icon-quxiao', Style['drag-cancel-icon'])}
+        onClick={() => setVisible(false)}
+      />
+      { !parent?.isRoot && <DragPositionIcon parent={parent} /> }
+      <DragSizeIcon parent={parent} />
+    </div>
+  }, [visible, parent])
 
   // 给元素绑定双击事件
   useEffect(() => {
@@ -97,7 +127,7 @@ const Operate = React.memo(function({...props}) {
       React.Children.map(props.children, child => {
         return React.cloneElement(child as any, {
           id: `operate_${++id}`,
-          children: [<DragSizeIcon visible={visible} key="DragSizeIcon" parent={parent} />]
+          children: renderChildren
         })
       })
     }

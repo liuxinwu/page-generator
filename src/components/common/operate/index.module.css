@@ -1,9 +1,35 @@
-.drag-icon {
+.drag-icon-wrap {
   position: absolute;
   right: 0;
   bottom: 0;
+  z-index: 9999;
+  transform: translate(100%, 0);
+  display: flex;
+  flex-flow: column nowrap;
+  box-shadow: 0 0 1px 1px rgba(255, 69, 85, .5);
+  background-color: #f1f3f7;
+}
+
+.drag-size-icon {
   font-size: 30px;
   font-weight: 700;
-  transform: translate(50%, 50%);
   cursor: row-resize;
+  margin-top: 1px;
+  background-color: #fff;
+}
+
+.drag-position-icon {
+  text-align: center;
+  font-size: 26px;
+  cursor: move;
+  background-color: #fff;
+  margin-top: 1px;
+}
+
+.drag-cancel-icon {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: #fff;
 }
