@@ -7,18 +7,39 @@ import useMouseEvent from 'hooks/useMouseEvent'
 let id = 0
 const cssText = 'position: absolute;left: 20px;right: 20px;'
 
-function DragIcon({ visible, parent }: { visible: boolean, parent: HTMLElement | undefined }) {
-  const { moveOffset, handleMouseDown } = useMouseEvent()
+interface ParentType extends HTMLElement {
+  isRoot?: boolean | undefined
+}
+
+function DragIcon({ visible, parent }: { visible: boolean, parent: ParentType | undefined }) {
+  const mouseDownCallback = useCallback(() => {
+    if (parent === undefined) return
+    parent.style.cssText += `box-shadow: 0px 0px 3px 3px rgb(255, 69, 85, .8);`
+  }, [parent])
+  const mouseUpCallback = useCallback(() => {
+    if (parent === undefined) return
+    parent.style.cssText += `box-shadow: none;`
+  }, [parent])
+  const { moveOffset, handleMouseDown } = useMouseEvent({
+    mouseDownCallback,
+    mouseUpCallback
+  })
 
   useEffect(() => {
     if (parent === undefined) return
+    
     // 在没有明确设置宽高的情况下 这样是获取不到的
     // const width = parseInt(parent.style.width) || 0
     // const height = parseInt(parent.style.height) || 0
     const { offsetWidth, offsetHeight } = parent
-    const width = offsetWidth + moveOffset.x + moveOffset.offsetX
-    const height = offsetHeight + moveOffset.y + moveOffset.offsetY
+    const width = offsetWidth + moveOffset.x
+    const height = offsetHeight + moveOffset.y
     parent.style.cssText += `width: ${width}px;height: ${height}px;`
+
+    if (parent.isRoot) {
+      const scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+      document.body.scrollTop = document.documentElement.scrollTop = scrollTop + moveOffset.y
+    }
   }, [parent, moveOffset])
 
   return <>
@@ -32,13 +53,15 @@ function DragIcon({ visible, parent }: { visible: boolean, parent: HTMLElement |
 
 const Operate = React.memo(function({...props}) {
   const [visible, setVisible] = useState(false)
-  const [parent, setParent] = useState<HTMLElement | undefined>()
+  const [parent, setParent] = useState<ParentType | undefined>()
   const click = doubleClick((e: any) => {
     const target = e.target
     let parentNode = e.target.parentNode
 
     if (target.className.includes('editor-main')) {
       parentNode = target
+      // 标志是否是跟元素
+      parentNode.isRoot = true
     } else {
       parentNode.style.cssText += cssText
     }

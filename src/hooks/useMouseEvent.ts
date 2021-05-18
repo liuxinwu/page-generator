@@ -1,12 +1,18 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react'
 
-export default function useMouseEvent() {
+export default function useMouseEvent(
+  {
+    mouseDownCallback,
+    mouseUpCallback
+  }: {
+    mouseDownCallback?: Function,
+    mouseUpCallback?: Function
+  }
+) {
   const movIng = useRef(false)
   const [moveOffset, setMoveOffset] = useState({
     x: 0,
-    y: 0,
-    offsetX: 0,
-    offsetY: 0
+    y: 0
   })
   const coordinate = useRef({
     startX: 0,
@@ -20,14 +26,14 @@ export default function useMouseEvent() {
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     movIng.current = true
     const { clientX, clientY, offsetX, offsetY } = e.nativeEvent
-    const { startX, startY } = coordinate.current
     coordinate.current = Object.assign(coordinate.current, {
-      startX: startX || clientX,
-      startY: startY || clientY,
+      startX: clientX,
+      startY: clientY,
       offsetX,
       offsetY
     })
-  }, [])
+    mouseDownCallback && mouseDownCallback()
+  }, [mouseDownCallback])
 
   const handleMouseMove = useCallback((e) => {
     if (!movIng.current) return
@@ -37,34 +43,28 @@ export default function useMouseEvent() {
     const y = clientY - startY
     setMoveOffset({
       x,
-      y,
-      offsetX: moveOffset.offsetX,
-      offsetY: moveOffset.offsetY
+      y
     })
     coordinate.current = Object.assign(coordinate.current, {
       startX: clientX,
       startY: clientY
     })
-  }, [moveOffset])
+  }, [])
   
   const handleMouseUp = useCallback((e) => {
     if (!movIng.current) return
     movIng.current = false
     const { clientX, clientY } = e
-    const { startX, startY } = coordinate.current
-    const x = clientX - startX
-    const y = clientY - startY
     setMoveOffset({
       x: 0,
-      y: 0,
-      offsetX: x + moveOffset.offsetX,
-      offsetY: y + moveOffset.offsetY
+      y: 0
     })
     coordinate.current = Object.assign(coordinate.current, {
       startX: clientX,
       startY: clientY
     })
-  }, [moveOffset])
+    mouseUpCallback && mouseUpCallback()
+  }, [mouseUpCallback])
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove)
