@@ -1,11 +1,11 @@
 import React, { ReactChild, Suspense } from 'react'
 import { BrowserRouter, BrowserRouterProps, Switch } from 'react-router-dom'
-import routes from './index.config'
+import routes from './routerConfig'
 import GenRoute from './genRoute'
 import SetTilel from 'components/common/set-title'
 
 function c(allowTransition: boolean) {
-  console.log('c', allowTransition)
+  
 }
 
 // 没有发现什么作用

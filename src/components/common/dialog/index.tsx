@@ -16,7 +16,7 @@ interface DialogType {
 
 function Dialog({ visible, closeDialog, children, title, cancleText, okText, type = 'info', content }: DialogType) {
   useEffect(() => {
-    console.log('Dialog')
+    
   })
 
   function handleCloseDialog() {

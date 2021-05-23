@@ -61,7 +61,7 @@ class RequestProxy implements RequestProxyType {
           method: 'post',
           url: '/refresh-token'
         })
-        console.log(res, '/refresh-token')
+        
         // store.commit('userStore/setToken', res.data.token)
         return this.transfromRquest(config)
 
@@ -87,7 +87,7 @@ class RequestProxy implements RequestProxyType {
 		if (this.requestCount !== 0) return;
 
 		if (isOpen) {
-      console.log("开启 Loading");
+      
       
       // this.loadingConfig.timeId = setTimeout(() => {
       //   this.loadingConfig.service = Loading.service({
@@ -99,7 +99,7 @@ class RequestProxy implements RequestProxyType {
 			return
 		}
     
-    console.log("关闭 Loading");
+    
     // clearInterval(this.loadingConfig.timeId)
     // this.loadingConfig.service && this.loadingConfig.service.close()
   }
@@ -127,8 +127,7 @@ class RequestProxy implements RequestProxyType {
   private handleError(customConfig: CustomConfigType, error: any) {
     if (error.message === "取消请求") return
 
-    customConfig.isNeedShowError &&
-      console.log(`错误提示：${error.message || "太火爆了，请稍后再试！"}`);
+    customConfig.isNeedShowError && console.error('请求出错了。。。')
   }
 
   /**

@@ -16,7 +16,7 @@ export const Form = (
 
   function handleInput(e: any, key: string) {
     const { value } = e.target as any
-    console.log(e.target)
+    
 
     setForm({
       ...form,
@@ -26,7 +26,7 @@ export const Form = (
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    console.log(form)
+    
   }
 
   return <>

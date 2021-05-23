@@ -1,5 +1,5 @@
 
-import { equipmentList } from 'views/public-module/home/data/equipment'
+import { equipmentList } from 'config/equipment'
 import { StateType } from './type'
 // import Storage from 'utils/store'
 

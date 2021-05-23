@@ -1,14 +1,9 @@
-import React from 'react'
-import Header from 'layout/components/header'
-import Content from 'layout/components/content'
-// import Footer from 'layout/components/footer'
+import Header from './components/header'
+import Container from './components/container'
 
 export default function DefaultLayout(){
-  return <div className="default-layout-wrap">
+  return <div className="default_layout_wrap">
     <Header />
-    
-    <Content />
-
-    {/* <Footer /> */}
+    <Container />
   </div>
 }

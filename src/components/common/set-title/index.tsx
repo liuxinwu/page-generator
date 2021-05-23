@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getRoute } from 'router/index.config'
+import { getRoute } from 'router/routerConfig'
 
 export default function SetTitle() {
   const { pathname } = useLocation()
