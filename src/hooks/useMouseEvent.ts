@@ -4,6 +4,11 @@
 
 import React, { useEffect, useCallback, useRef, useState } from 'react'
 
+interface PropsType {
+  mouseDownCallback?: Function,
+  mouseUpCallback?: Function
+}
+
 /**
  * 收集拖拽信息
  * @param param0 
@@ -13,14 +18,12 @@ import React, { useEffect, useCallback, useRef, useState } from 'react'
  * }
  */
 export default function useMouseEvent(
-  {
+  props?: PropsType
+) {
+  const {
     mouseDownCallback,
     mouseUpCallback
-  }: {
-    mouseDownCallback?: Function,
-    mouseUpCallback?: Function
-  }
-) {
+  } = props || {}
   const movIng = useRef(false)
   // 每一次的移动距离
   const [moveOffset, setMoveOffset] = useState({

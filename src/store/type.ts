@@ -1,20 +1,25 @@
 export interface StateType {
   equipment: EquipmentType
-  useComponents: Set<UseComponentsType>
+  useComponents: Map<string, UseComponentsType>
 }
 
 export interface EquipmentType {
   name: string;
   size: {
-      w: number;
-      h: number;
+    w: number;
+    h: number;
   };
 }
 
 export interface UseComponentsType {
   name: string
+  type?: string
+  css?: string
+  text?: string
+  query?: object
+}
+
+export interface ActionType<T> {
   type: string
-  css: object
-  text: string
-  query: object
+  value: T
 }

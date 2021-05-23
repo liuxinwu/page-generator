@@ -11,9 +11,8 @@
 .editor-main {
   position: relative;
   width: 375px;
-  min-height: 627px;
+  height: 667px;
   height: intrinsic;
-  padding: 0 0 50px;
   box-sizing: border-box;
   background-color: white;
 }

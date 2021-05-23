@@ -4,7 +4,8 @@
 }
 
 .hl-grid-wrap-item {
-  width: 25%;
-  height: 40px;
+  flex: 1;
+  height: 100%;
+  min-height: 40px;
   box-sizing: border-box;
 }

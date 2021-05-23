@@ -20,11 +20,11 @@ export default connect(mapState)(function Header({
   }, [useComponents])
 
   return <header>
-    <ul className={Style['nav']}>
+    {/* <ul className={Style['nav']}>
       <Link to="/">home</Link> 
       <Link to="/news/nba">nba</Link> 
       <Link to="/news/cba">cba</Link> 
-    </ul>
+    </ul> */}
 
     <div className={Style['button-group']}>
       <button className={Style.save} onClick={handleSave}>保存</button>

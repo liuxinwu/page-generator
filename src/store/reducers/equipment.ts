@@ -5,6 +5,7 @@ export default function equipment(state = defaultState.equipment, action: {
   value: object
 }) {
   const value = action.value
+  console.log(state, 'equipment state', value)
   
   switch(action.type) {
     case 'SET_EQUIPMENT_LIST':

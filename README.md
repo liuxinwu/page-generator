@@ -18,6 +18,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - ECharts 图表的封装、动态导入需要的图表模块
 - 实现拖拽修改元素大小的图标，双击时出现（借助高阶组件实现）
 
+## 问题点
+
+- 通过 style.cssText 设置样式时在 safari 里面背景图会闪烁
+
 ## Available Scripts
 
 In the project directory, you can run:

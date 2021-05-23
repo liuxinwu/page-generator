@@ -41,19 +41,21 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 }) {
   const editorMain = useRef<HTMLDivElement | null>()
   const { w, h } = props.equipment.size;
-  const render = function(type: string, target: HTMLDivElement, query: object, name: string): Promise<void> {
+  console.log(w, h)
+  const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = '', isAdd = true): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const source = await components[type]()
         const Com = source[type]
         const div = document.createElement('div')
+        div.style.cssText = css
 
         target.append(div)
         ReactDOM.render(
           // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
           <Provider store={store} >
-            <Operate type={type}>
-              <Com {...query} name={name} />
+            <Operate currentEl={div} name={name} isAdd={isAdd}>
+              <Com {...query} name={name}/>
             </Operate>
           </Provider>,
           div
@@ -77,6 +79,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
     })
   }, [props])
   const handleDrop = useCallback(async (event: React.DragEvent) => {
+    console.log(event, 'ev')
     // 阻止默认事件
     event.preventDefault();
     /**
@@ -84,9 +87,10 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
      * 之前是用 innerHTML 的思路、但事件失效
      * 后采用复用组件的思路
      */
-    let {type, data, query} = JSON.parse(event.dataTransfer.getData("custom/drag"));
+    let { type = '', data, query } = JSON.parse(event.dataTransfer.getData("custom/drag"));
     event.dataTransfer.clearData();
     const name = `${type}${++id}`
+    const target = document.querySelector('#editorWrap') as HTMLDivElement
 
     // 背景处理
     if (type === 'BgImg') {
@@ -100,7 +104,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
         text: imgEl.src,
         query
       })
-      ;(event.target as HTMLElement).style.cssText = `background: url(${imgEl.src}) no-repeat center / cover;`
+      target.style.cssText += `background: url(${imgEl.src}) no-repeat center / cover;`
       return
     }
     
@@ -111,9 +115,8 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       text: '',
       query
     })
-    console.log(props, 'props')
-    await render(type, event.target as HTMLDivElement, query, name)
-  }, [addUseComponents, props]);
+    await render(type, target, query, name)
+  }, [addUseComponents]);
 
   // 读取已保存数据
   useEffect(() => {
@@ -127,30 +130,46 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       let index = 0
       const len = useComponents.length
       while (index < len) {
-        const {type, name, query, text} = useComponents[index]
+        const { type = '', name, query = {}, text, css } = useComponents[index][1]
 
         if (type === 'BgImg') {
-          target.style.cssText = `background: url(${text}) no-repeat center / cover;`
+          target.style.cssText += `background: url(${text}) no-repeat center / cover;`
           index++
           continue
         }
 
-        await render(type, target, query, name)
+        if (name === 'root') {
+          target.style.cssText += css
+          index++
+          continue
+        }
+
+        await render(type, target, query, name, css, false)
         index++
       }
     })()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // 修改设备尺寸
+  useEffect(() => {
+    const target = editorMain.current
+
+    if (!target) return
+    const { height } = target.getBoundingClientRect()
+    target.style.cssText += `width: ${w}px;height: ${ height > h ? height : h }px;`
+  }, [w, h])
+
   return (
-    <div className={classnames(Style["editor-wrap"])} id="editorWrap">
-      <Operate type='root'>
+    <div className={classnames(Style["editor-wrap"])}>
+      <Operate currentEl="editorWrap" name="root">
         <div
+          id="editorWrap"
           ref={el => editorMain.current = el}
           className={classnames(Style["editor-main"])}
           style={{
             width: w,
-            minHeight: h - 50,
+            height: h,
           }}
           onDrop={handleDrop}
           onDragOver={(event) => {
