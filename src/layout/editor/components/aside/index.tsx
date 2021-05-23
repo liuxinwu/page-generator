@@ -1,28 +1,27 @@
-
-import './index.module.css'
-import Menu from 'components/business/menu'
+import { useCallback, useState } from 'react'
+import Nav, { NavType } from 'components/business/nav'
+import SelectComponent from 'components/business/selectComponent'
+import Style from './index.module.css'
 
 export default function Aside() {
-  const menu = [
-    {
-      iconClass: 'icon-biaoge',
-      title: '基本布局'
-    },
-    {
-      iconClass: 'icon-biaodan',
-      title: '表单元素'
-    },
-    {
-      iconClass: 'icon-shishiyinshipinyun',
-      title: '音视频'
-    },
-    {
-      iconClass: 'icon-buju',
-      title: '图表'
-    }
-  ]
+  const [currentNav, setCurrentNav] = useState<{
+    nav?: NavType
+    index?: number
+  }>()
+  const onCurrentNav = useCallback((nav?: NavType, index?: number) => {
+    setCurrentNav({
+      nav,
+      index
+    })
+  }, [])
 
-  return <aside id="aside" onClick={e => e.stopPropagation()}>
-    <Menu source={menu} />
-  </aside>
+  return (
+    <>
+      <aside className={Style.aside_wrap} onClick={e => e.stopPropagation()}>
+        <Nav onCurrentNav={onCurrentNav} />
+      </aside>
+
+      { currentNav?.nav && <SelectComponent currentNav={currentNav} />}
+    </>
+  )
 }

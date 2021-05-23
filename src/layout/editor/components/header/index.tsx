@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { useCallback } from 'react'
 import Style from './index.module.css'
 import { connect } from 'react-redux'
 import { StateType } from 'store/type'
 import Storage from 'utils/store'
+import { Avatar, Button } from 'antd'
 
 const STORAGE = new Storage()
 
@@ -14,21 +14,18 @@ const mapState = ((state: StateType) => ({
 export default connect(mapState)(function Header({
   useComponents
 }: any) {
+
   const handleSave = useCallback(() => {
-    
     STORAGE.setItem('useComponents', Array.from(useComponents))
   }, [useComponents])
 
   return <header>
-    {/* <ul className={Style['nav']}>
-      <Link to="/">home</Link> 
-      <Link to="/news/nba">nba</Link> 
-      <Link to="/news/cba">cba</Link> 
-    </ul> */}
+    <Avatar style={{ backgroundColor: '#f56a00' }} size="large">page-generator</Avatar>
 
     <div className={Style['button-group']}>
-      <button className={Style.save} onClick={handleSave}>保存</button>
-      <button className={Style.download}>下载</button>
+      <Button type="primary" danger onClick={handleSave}>保存</Button>
+      <Button type="primary" >下载</Button>
     </div>
+
   </header>
 })

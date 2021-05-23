@@ -1,0 +1,31 @@
+@import 'scss/index';
+
+
+.nav_list {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.nav_item {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  color: #2c3e50;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $primaryColor;
+    color: #fff;
+  }
+}
+
+.nav_item_icon {
+  font-size: 20px;
+}
+
+.nav_item_text {
+  font-size: 12px;
+}

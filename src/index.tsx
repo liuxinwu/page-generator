@@ -5,7 +5,8 @@ import App from './App';
 import { Provider } from 'react-redux'
 import { store } from 'store'
 import reportWebVitals from './reportWebVitals';
-
+import 'antd/dist/antd.css';
+import 'animate.css'
 
 
 ReactDOM.render(
