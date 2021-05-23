@@ -7,8 +7,6 @@ import { equipmentList } from 'config/equipment'
 export default function Home() {
   const [equipment, setEquipment] = useState(equipmentList[1])
 
-  
-
   return <div className={Style['home-wrap']}>
     <Equipment setEquipment={setEquipment} />
 

@@ -175,8 +175,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
   return (
     <div className={classnames(Style["editor-wrap"])}>
-      <Operate currentEl="editorWrap" name="root">
-        <div
+      <div
           id="editorWrap"
           ref={el => editorMain.current = el}
           className={classnames(Style["editor-main"])}
@@ -184,8 +183,9 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
           onDragOver={(event) => {
             event.preventDefault();
           }}
-        ></div>
-      </Operate>
+        >
+          <Operate currentEl="editorWrap" name="root" />
+        </div>
     </div>
   );
 })
