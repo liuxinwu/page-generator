@@ -6,10 +6,6 @@ import useMouseEvent from 'hooks/useMouseEvent'
 import { connect } from 'react-redux'
 import { StateType, UseComponentsType, ActionType } from 'store/type'
 
-let id = 0
-let zIndex = 0
-// 记录所有子组件的高度
-let offsetTop = 0
 const BOX_SHADOW_ACTIVE = 'box-shadow: 0px 0px 3px 3px rgba(255, 69, 85, .8);'
 const BOX_SHADOW_NONE = 'box-shadow: none;'
 const mapState = (state: StateType) => ({
@@ -48,8 +44,7 @@ const Operate = connect(mapState, mapDispatch)(React.memo(function({
   // 双击事件
   const _doubleClick = doubleClick((e: any) => {
     if (!currentEl?.isRoot) {
-      let cssText = `z-index: ${++zIndex};`
-      currentEl!.style.cssText += `${cssText}${BOX_SHADOW_ACTIVE}`;
+      currentEl!.style.cssText += BOX_SHADOW_ACTIVE;
     }
     setVisible(true)
     e.preventDefault()
@@ -83,43 +78,6 @@ const Operate = connect(mapState, mapDispatch)(React.memo(function({
     }
   }, [handleDoubleClick, currentEl])
 
-  // 设置元素位置及根元素高度
-  useEffect(() => {
-    if (!currentEl) return
-    if (currentEl.isRoot) return
-    
-    // 为了准确获当前元素的高度（确保子元素渲染了）
-    setTimeout(() => {
-      const rootEl = document.querySelector('#editorWrap') as HTMLElement
-      const { height: parentHeight } = currentEl.getBoundingClientRect()
-
-      if (isAdd) {
-        const cssText = currentEl.style.cssText += `
-        position: absolute;
-        top: ${offsetTop}px;
-        right: 0;
-        left: 0;
-        `
-        offsetTop += parentHeight
-        let { height: rootElHeight } = rootEl.getBoundingClientRect()
-        changeUseComponents({
-          type: 'EDIT_USE_COMPONENTS',
-          value: {
-            name,
-            css: cssText
-          }
-        })
-        
-        if (offsetTop > rootElHeight) {
-          // 这里设置 cssText 的话会导致背景图闪动
-          rootEl.style.height = `${rootElHeight + parentHeight}px`
-        }
-      } else {
-        offsetTop += parentHeight
-      }
-    }, 1000 / 60)
-  }, [currentEl, changeUseComponents, name, isAdd])
-
   // 设置根元素
   useEffect(() => {
     if (!parent) return
@@ -140,7 +98,6 @@ const Operate = connect(mapState, mapDispatch)(React.memo(function({
     {
       React.Children.map(children, child => {
         return React.cloneElement(child as any, {
-          'data-id': `operate_${++id}`,
           children: renderChildren
         })
       })

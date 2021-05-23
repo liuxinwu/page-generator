@@ -8,8 +8,9 @@ import { store } from 'store'
 import { UseComponentsType } from 'store/type'
 import Storage from 'utils/store'
 import Operate from 'components/common/operate'
+import { uid } from 'uid'
 
-let id = 0
+let zIndex = 0
 
 const mapState = (state: any) => {
   return {
@@ -41,7 +42,6 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 }) {
   const editorMain = useRef<HTMLDivElement | null>()
   const { w, h } = props.equipment.size;
-  console.log(w, h)
   const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = '', isAdd = true): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -79,7 +79,11 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
     })
   }, [props])
   const handleDrop = useCallback(async (event: React.DragEvent) => {
-    console.log(event, 'ev')
+    const { clientY } = event
+    const editorMainEl = editorMain.current
+    if (!editorMainEl) return
+    const { top } = editorMainEl.getBoundingClientRect()
+
     // 阻止默认事件
     event.preventDefault();
     /**
@@ -89,7 +93,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
      */
     let { type = '', data, query } = JSON.parse(event.dataTransfer.getData("custom/drag"));
     event.dataTransfer.clearData();
-    const name = `${type}${++id}`
+    const name = `${type}_${uid(5)}`
     const target = document.querySelector('#editorWrap') as HTMLDivElement
 
     // 背景处理
@@ -108,14 +112,21 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       return
     }
     
+    const css = `
+      position: absolute;
+      top: ${clientY - top}px;
+      right: 0;
+      left: 0;
+      z-index: ${++zIndex};
+    `
     addUseComponents({
       name,
       type,
-      css: Object.create(null),
+      css,
       text: '',
       query
     })
-    await render(type, target, query, name)
+    await render(type, target, query, name, css)
   }, [addUseComponents]);
 
   // 读取已保存数据
@@ -131,7 +142,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       const len = useComponents.length
       while (index < len) {
         const { type = '', name, query = {}, text, css } = useComponents[index][1]
-
+        
         if (type === 'BgImg') {
           target.style.cssText += `background: url(${text}) no-repeat center / cover;`
           index++
@@ -144,6 +155,8 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
           continue
         }
 
+        const oldZIndex = Number(css.match(/(z-index: (\d+))/)[2])
+        if (oldZIndex > zIndex) zIndex = oldZIndex
         await render(type, target, query, name, css, false)
         index++
       }
@@ -167,10 +180,6 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
           id="editorWrap"
           ref={el => editorMain.current = el}
           className={classnames(Style["editor-main"])}
-          style={{
-            width: w,
-            height: h,
-          }}
           onDrop={handleDrop}
           onDragOver={(event) => {
             event.preventDefault();

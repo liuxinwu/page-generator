@@ -20,7 +20,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## 问题点
 
-- 通过 style.cssText 设置样式时在 safari 里面背景图会闪烁
+- 通过 `style.cssText` 设置样式时在 `safari` 里面背景图会闪烁
 
 ## Available Scripts
 
