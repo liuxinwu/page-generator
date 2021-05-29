@@ -1,34 +1,46 @@
 
+import React from 'react'
+import classnames from 'classnames'
 import Style from './index.module.css'
 
 export const Drag = ({
-  type,
-  query = {},
+  componentName,
+  status = 'menu',
+  options = {},
   children
-}: {
-  type?: string
-  query?: object,
-  children: any
-}) => {
+}: React.PropsWithChildren<{
+  options?: {
+    [index: string]: any
+  }
+  componentName?:string
+  status?: string
+}>) => {
   function handleDragStart(e: React.DragEvent) {
-    const target = e.target as HTMLElement
     const dt = e.dataTransfer
-    let data = ''
-
-    if (target.getAttribute('id') === 'dragWrap') {
-      data = target.innerHTML
-    } else {
-      data = target.outerHTML
-    }
     
     dt!.setData('custom/drag', JSON.stringify({
-      type,
-      data,
-      query: query || {}
+      componentName,
+      options
     }))
   }
 
-  return <div id="dragWrap" draggable="true" onDragStart={handleDragStart} className={Style['cursor-move']} >
-    { children }
-  </div>
+  return (
+    <>
+      {
+        status === 'menu' ? 
+        React.Children.map(children as React.ReactElement, (child: React.ReactElement) => {
+          const { props } = child
+          const className = classnames(props.className, Style.cursor_move)
+          return (
+            React.cloneElement(child, {
+              draggable: true,
+              className,
+              onDragStart: handleDragStart
+            })
+          )
+        }) :
+        children
+      }
+    </>
+  )
 }

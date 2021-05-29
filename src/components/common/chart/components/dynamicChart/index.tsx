@@ -31,25 +31,14 @@ export const DynamicChart = connect(mapStateToProps)(function({
 
   const dynamicImportChart = useCallback((): Promise<any> => {
     return new Promise((resolve, reject) => {
-      switch(type) {
-        case 'Pic': {
-          // import 动态参数的问题
-          // https://www.zhihu.com/question/263977423
-          const path = 'pie'
-          import(`echarts/lib/chart/${path}/install`).then(_ => {
-            resolve(_)
-          })
-          break
-        }
-        case 'Line': {
-          const path = 'line'
-          import(`echarts/lib/chart/${path}/install`).then(_ => {
-            resolve(_)
-          })
-          break
-        }
-        default:
-          console.error('没有找到对应的 echarts 组件')
+      try {
+        // import 动态参数的问题
+        // https://www.zhihu.com/question/263977423
+        import(`echarts/lib/chart/${type}/install`).then(_ => {
+          resolve(_)
+        })
+      } catch (error) {
+        console.error('没有找到对应的 echarts 组件')
       }
     })
     

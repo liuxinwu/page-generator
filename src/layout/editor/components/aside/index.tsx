@@ -1,27 +1,39 @@
-import { useCallback, useState } from 'react'
-import Nav, { NavType } from 'components/business/nav'
-import SelectComponent from 'components/business/selectComponent'
-import Style from './index.module.css'
+import { useCallback, useState } from "react";
+import Nav, { NavType } from "components/business/nav";
+import ChildNav from "components/business/childNav/index";
+import Style from "./index.module.css";
 
 export default function Aside() {
   const [currentNav, setCurrentNav] = useState<{
-    nav?: NavType
-    index?: number
-  }>()
+    nav?: NavType;
+    index?: number;
+  }>({});
+  const [isClose, setIsClose] = useState(false);
   const onCurrentNav = useCallback((nav?: NavType, index?: number) => {
+    if (!nav && !index) setIsClose(true);
+    else setIsClose(false);
     setCurrentNav({
       nav,
-      index
-    })
-  }, [])
+      index,
+    });
+  }, []);
 
   return (
     <>
-      <aside className={Style.aside_wrap} onClick={e => e.stopPropagation()}>
+      <aside className={Style.aside_wrap} onClick={(e) => e.stopPropagation()}>
         <Nav onCurrentNav={onCurrentNav} />
       </aside>
 
-      { currentNav?.nav && <SelectComponent currentNav={currentNav} />}
+      <ChildNav
+        currentNav={currentNav}
+        animationName={
+          currentNav?.nav !== undefined
+            ? "animate__fadeInLeftBig"
+            : isClose
+            ? "animate__fadeOutLeftBig"
+            : "select_component_hidden"
+        }
+      />
     </>
-  )
+  );
 }

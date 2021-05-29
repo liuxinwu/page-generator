@@ -2,7 +2,6 @@ import React, { memo, useCallback, useEffect, useRef } from "react";
 import ReactDOM from 'react-dom'
 import classnames from "classnames";
 import Style from "./index.module.css";
-import components from 'config/components'
 import { Provider, connect } from 'react-redux'
 import { store } from 'store'
 import { UseComponentsType } from 'store/type'
@@ -45,17 +44,16 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
   const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = '', isAdd = true): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const source = await components[type]()
-        const Com = source[type]
+        const source = await import(`components/common/${type}`)
+        const Com = source.default
         const div = document.createElement('div')
         div.style.cssText = css
-
         target.append(div)
         ReactDOM.render(
           // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
           <Provider store={store} >
             <Operate currentEl={div} name={name} isAdd={isAdd}>
-              <Com {...query} name={name}/>
+              <Com {...query} name={name} status="editor"/>
             </Operate>
           </Provider>,
           div
@@ -91,26 +89,26 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
      * 之前是用 innerHTML 的思路、但事件失效
      * 后采用复用组件的思路
      */
-    let { type = '', data, query } = JSON.parse(event.dataTransfer.getData("custom/drag"));
+    let { componentName: type, options: query } = JSON.parse(event.dataTransfer.getData("custom/drag"));
     event.dataTransfer.clearData();
     const name = `${type}_${uid(5)}`
     const target = document.querySelector('#editorWrap') as HTMLDivElement
 
     // 背景处理
-    if (type === 'BgImg') {
-      const parser = new DOMParser()
-      const doc = parser.parseFromString(data, "text/html")
-      const imgEl = doc.body.children[0] as HTMLImageElement
-      addUseComponents({
-        name,
-        type,
-        css: Object.create(null),
-        text: imgEl.src,
-        query
-      })
-      target.style.cssText += `background: url(${imgEl.src}) no-repeat center / cover;`
-      return
-    }
+    // if (type === 'BgImg') {
+    //   const parser = new DOMParser()
+    //   const doc = parser.parseFromString(data, "text/html")
+    //   const imgEl = doc.body.children[0] as HTMLImageElement
+    //   addUseComponents({
+    //     name,
+    //     type,
+    //     css: Object.create(null),
+    //     text: imgEl.src,
+    //     query
+    //   })
+    //   target.style.cssText += `background: url(${imgEl.src}) no-repeat center / cover;`
+    //   return
+    // }
     
     const css = `
       position: absolute;

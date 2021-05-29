@@ -4,6 +4,7 @@ import { useCallback, useEffect } from "react";
 import Style from "./index.module.scss";
 
 export interface NavType {
+  type: string
   icon: string
   text: string
 }
@@ -14,15 +15,7 @@ interface NavPropsType {
 export default function Nav(
   { onCurrentNav }: React.PropsWithChildren<NavPropsType>
 ) {
-  const handleMouseEnter = useCallback((nav, index) => {
-    if ([0, 2].includes(index)) {
-      console.log("handleMouseEnter");
-      onCurrentNav(nav, index)
-    }
-  }, [onCurrentNav]);
-
   const handleClick = useCallback((nav, index) => {
-    if (index === 0) return
     onCurrentNav(nav, index)
   }, [onCurrentNav]);
 
@@ -43,7 +36,6 @@ export default function Nav(
         <li
           key={nav.icon}
           className={Style.nav_item}
-          onMouseEnter={() => handleMouseEnter(nav, index)}
           onClick={() => handleClick(nav, index)}
         >
           <i

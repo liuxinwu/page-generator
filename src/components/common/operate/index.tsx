@@ -43,24 +43,41 @@ const Operate = connect(
     }>) {
       // 当前操作的元素
       const [currentEl, setCurrentEl] = useState<ParentType>();
+      
       // 是否显示操作功能组件
       const [visible, setVisible] = useState(false);
+      
       // 双击事件
       const _doubleClick = doubleClick((e: any) => {
         if (!currentEl?.isRoot) {
           currentEl!.style.cssText += BOX_SHADOW_ACTIVE;
         }
+
+        // 文本类型时添加可编辑属性
+        if (currentEl?.name?.startsWith('text')) {
+          const firstChild = currentEl.firstChild as HTMLElement
+          firstChild && (firstChild.contentEditable = 'true')
+        }
+
         setVisible(true);
         e.preventDefault();
         e.stopPropagation();
       }, 500);
       const handleDoubleClick = useCallback(_doubleClick, [_doubleClick]);
+      
       // 取消事件
       const handleCancle = useCallback(() => {
         if (!currentEl) return;
         currentEl!.style.cssText += `${BOX_SHADOW_NONE}`;
         setVisible(false);
+
+        // 文本类型时去除可编辑属性
+        if (currentEl.name?.startsWith('text')) {
+          const firstChild = currentEl.firstChild as HTMLElement
+          firstChild && (firstChild.contentEditable = 'false')
+        }
       }, [currentEl]);
+      
       // 渲染操作功能组件
       const renderChildren = useMemo(() => {
         return (

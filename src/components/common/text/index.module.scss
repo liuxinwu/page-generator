@@ -1,0 +1,45 @@
+.text {
+  width: 224px;
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.default_text {
+  font-size: 14px;
+}
+
+.small_title {
+  font-size: 18px;
+}
+
+.sub_title {
+  font-size: 24px;
+}
+
+.title {
+  font-size: 36px;
+}
+
+.big_title {
+  font-size: 48px;
+}
+
+.select {
+  font-size: 24px;
+}
+
+.size {
+  font-size: 20px;
+  color: rgb(21,147,255);
+}
+
+.color {
+  color: #f0f;
+}
