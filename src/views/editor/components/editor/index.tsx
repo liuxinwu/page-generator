@@ -41,18 +41,19 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 }) {
   const editorMain = useRef<HTMLDivElement | null>()
   const { w, h } = props.equipment.size;
-  const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = '', isAdd = true): Promise<void> {
+  const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = ''): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const source = await import(`components/common/${type}`)
         const Com = source.default
         const div = document.createElement('div')
+        div.className += ' cursor_move'
         div.style.cssText = css
         target.append(div)
         ReactDOM.render(
           // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
           <Provider store={store} >
-            <Operate currentEl={div} name={name} isAdd={isAdd}>
+            <Operate currentEl={div} name={name} >
               <Com {...query} name={name} status="editor"/>
             </Operate>
           </Provider>,
@@ -93,22 +94,6 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
     event.dataTransfer.clearData();
     const name = `${type}_${uid(5)}`
     const target = document.querySelector('#editorWrap') as HTMLDivElement
-
-    // 背景处理
-    // if (type === 'BgImg') {
-    //   const parser = new DOMParser()
-    //   const doc = parser.parseFromString(data, "text/html")
-    //   const imgEl = doc.body.children[0] as HTMLImageElement
-    //   addUseComponents({
-    //     name,
-    //     type,
-    //     css: Object.create(null),
-    //     text: imgEl.src,
-    //     query
-    //   })
-    //   target.style.cssText += `background: url(${imgEl.src}) no-repeat center / cover;`
-    //   return
-    // }
     
     const css = `
       position: absolute;
@@ -139,13 +124,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       let index = 0
       const len = useComponents.length
       while (index < len) {
-        const { type = '', name, query = {}, text, css } = useComponents[index][1]
-        
-        if (type === 'BgImg') {
-          target.style.cssText += `background: url(${text}) no-repeat center / cover;`
-          index++
-          continue
-        }
+        const { type = '', name, query = {}, css } = useComponents[index][1]
 
         if (name === 'root') {
           target.style.cssText += css
@@ -155,7 +134,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
         const oldZIndex = Number(css.match(/(z-index: (\d+))/)[2])
         if (oldZIndex > zIndex) zIndex = oldZIndex
-        await render(type, target, query, name, css, false)
+        await render(type, target, query, name, css)
         index++
       }
     })()

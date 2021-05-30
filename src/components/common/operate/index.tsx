@@ -32,13 +32,11 @@ const Operate = connect(
       children,
       currentEl: parent,
       name,
-      isAdd = true,
       changeUseComponents,
     }: React.PropsWithChildren<{
       name: string;
       children?: React.ReactNode;
       currentEl?: ParentType | string;
-      isAdd?: boolean;
       changeUseComponents: (val: ActionType<UseComponentsType>) => void;
     }>) {
       // 当前操作的元素

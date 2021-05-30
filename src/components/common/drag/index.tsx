@@ -1,11 +1,10 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Style from './index.module.css'
 
 export const Drag = ({
   componentName,
-  status = 'menu',
+  status,
   options = {},
   children
 }: React.PropsWithChildren<{
@@ -13,7 +12,7 @@ export const Drag = ({
     [index: string]: any
   }
   componentName?:string
-  status?: string
+  status: string
 }>) => {
   function handleDragStart(e: React.DragEvent) {
     const dt = e.dataTransfer
@@ -27,19 +26,25 @@ export const Drag = ({
   return (
     <>
       {
-        status === 'menu' ? 
         React.Children.map(children as React.ReactElement, (child: React.ReactElement) => {
+          let newProps = {}
           const { props } = child
-          const className = classnames(props.className, Style.cursor_move)
-          return (
-            React.cloneElement(child, {
+          const className = classnames(props.className, 'cursor_move')
+
+          if (status === 'menu') {
+            newProps ={
               draggable: true,
               className,
               onDragStart: handleDragStart
-            })
+            }
+          } else {
+            // TODO
+          }
+
+          return (
+            React.cloneElement(child, newProps)
           )
-        }) :
-        children
+        })
       }
     </>
   )

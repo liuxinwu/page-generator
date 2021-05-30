@@ -10,16 +10,18 @@ let id = 0
 export const ChartWarp = function({
   type,
   children,
+  status = 'menu',
   option,
 }: {
   type: string
   children?: React.FC
+  status?: string
   option: echarts.EChartsCoreOption
 }) {
   const idStr = useRef<string>(`id${(id++)}`)
 
   return (
-    <Drag componentName="chart" options={{
+    <Drag componentName="chart" status={status} options={{
       type,
       option
     }} >
