@@ -7,10 +7,10 @@ interface RouteType extends RouteProps {
   redirect?: string
 }
 
-const routeModule = require.context('./module', false, /\.ts$/)
-const route = routeModule.keys().map(_ => {
-  return routeModule(_).default
-})
+// const routeModule = require.context('./module', false, /\.ts$/)
+// const route = routeModule.keys().map(_ => {
+//   return routeModule(_).default
+// })
 
 const routes: RouteType[] = [
   {
@@ -44,7 +44,7 @@ const routes: RouteType[] = [
       title: '编辑器'
     }
   },
-  ...route,
+  // ...route,
   {
     path: '*',
     component: lazy(() => import('views/404')),
