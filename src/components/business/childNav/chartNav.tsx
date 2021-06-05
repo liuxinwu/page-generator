@@ -21,7 +21,7 @@ export default function ChartNav() {
           <div key={chart.type}>
             <h2 className={Style.piece_of_title}>{chart.text}</h2>
             <div className={Style.chart_wrap}>
-              <Chart type="line" option={chartOptions[chart.type]} />
+              <Chart type={chart.type} option={chartOptions[chart.type]} />
             </div>
           </div>
         ))

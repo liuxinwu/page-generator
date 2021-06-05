@@ -8,7 +8,11 @@ const excludes = ['./index.ts']
 reducersModule.keys().forEach(_ => {
   if (!excludes.includes(_)) {
     const module = reducersModule(_)
-    reducers[module.default.name] = module.default
+    const [, name] = _.match(/\/(.*).ts$/) || []
+    reducers[name] = module.default
+    // 坑点 这里不能使用函数名，因为在编译之后函数名会被编译
+    // 导致后面找不到
+    // reducers[module.default.name] = module.default
   }
 })
 
