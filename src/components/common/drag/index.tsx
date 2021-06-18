@@ -42,7 +42,7 @@ export const Drag = ({
           }
 
           return (
-            React.cloneElement(child, newProps)
+            React.cloneElement(child, { ...newProps, ...options })
           )
         })
       }

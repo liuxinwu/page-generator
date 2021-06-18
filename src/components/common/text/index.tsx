@@ -3,6 +3,9 @@ import { ChildrenProps } from 'types/childrenProps'
 import { Drag } from 'components/common/drag'
 import classnames from 'classnames'
 import Style from './index.module.scss'
+import { connect } from 'react-redux'
+import { StateType } from 'store/type'
+import Content from 'layout/editor/components/content'
 
 enum Type {
   text = 1,
@@ -58,6 +61,19 @@ export const textConfig =  {
   }
 }
 
+const mapState = ({ useComponents }: StateType) => ({
+  useComponents
+})
+
+const mapDispatch = (dispatch: any) => ({
+  editUseComponents: (value: object) => {
+    dispatch({
+      type: 'EDIT_USE_COMPONENTS',
+      value
+    })
+  }
+})
+
 /**
  * 
  * @param name 组件标识
@@ -66,12 +82,13 @@ export const textConfig =  {
  * @param children 子组件
  * @returns 
  */
-export default function Text({
+export default connect(mapState, mapDispatch)(function Text({
   name,
   label,
   status = 'menu',
   type = 1,
   children,
+  ...props
 }: ChildrenProps<{
   label?: string
   type?: number
@@ -97,20 +114,32 @@ export default function Text({
     return (status === 'menu' && classnames(Style.text, className)) || classnames(className, 'text_anign_center')
   }, [type, status])
 
+  const handleInput = (e: any) => {
+    console.log(name, 'name')
+    props['editUseComponents']({
+      name,
+      value: e.target.value
+    })
+  }
+
+  const isEditorStatus = status === 'editor'
+
   return (
     <Drag status={status} componentName="text" options={{
-      type
+      type,
+      contentEditable: isEditorStatus
     }}>
     {
       createElement(
         renderLabel(),
         {
           name,
-          className: getClassName()
+          className: getClassName(),
+          onInput: isEditorStatus ? handleInput : () => {}
         },
         renderChildren()
       )
     }
     </Drag>
   )
-}
+})

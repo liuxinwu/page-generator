@@ -53,10 +53,10 @@ const Operate = connect(
         }
 
         // 文本类型时添加可编辑属性
-        if (currentEl?.name?.startsWith('text')) {
-          const firstChild = currentEl.firstChild as HTMLElement
-          firstChild && (firstChild.contentEditable = 'true')
-        }
+        // if (currentEl?.name?.startsWith('text')) {
+        //   const firstChild = currentEl.firstChild as HTMLElement
+        //   firstChild && (firstChild.contentEditable = 'true')
+        // }
 
         setVisible(true);
         e && e.preventDefault();
