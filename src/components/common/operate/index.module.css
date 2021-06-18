@@ -6,7 +6,7 @@
   transform: translate(100%, 0);
   display: flex;
   flex-flow: column nowrap;
-  box-shadow: 0 0 1px 1px rgba(255, 69, 85, .5);
+  border: 1px dashed rgba(255, 69, 85, .5);
   background-color: #f1f3f7;
 }
 

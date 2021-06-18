@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { doubleClick } from "utils/dom";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import classnames from "classnames";
 import Style from "./index.module.css";
 import useMouseEvent from "hooks/useMouseEvent";
 import { connect } from "react-redux";
 import { StateType, UseComponentsType, ActionType } from "store/type";
 
-const BOX_SHADOW_ACTIVE = "box-shadow: 0px 0px 3px 3px rgba(255, 69, 85, .8);";
-const BOX_SHADOW_NONE = "box-shadow: none;";
+const ACTIVE_STYLE = "border: 1px dashed rgba(255, 69, 85, .8);";
+const UN_ACTIVE_STYLE = "border: 0;";
 const mapState = (state: StateType) => ({
   useComponents: state.useComponents,
 });
@@ -40,15 +39,17 @@ const Operate = connect(
       changeUseComponents: (val: ActionType<UseComponentsType>) => void;
     }>) {
       // 当前操作的元素
-      const [currentEl, setCurrentEl] = useState<ParentType>();
+      let el = useRef<ParentType>()
       
       // 是否显示操作功能组件
       const [visible, setVisible] = useState(false);
       
       // 双击事件
-      const _doubleClick = doubleClick((e: any) => {
+      const handleDoubleClick = (e: any) => {
+        console.log('do')
+        let currentEl = el.current
         if (!currentEl?.isRoot) {
-          currentEl!.style.cssText += BOX_SHADOW_ACTIVE;
+          currentEl!.style.cssText += ACTIVE_STYLE;
         }
 
         // 文本类型时添加可编辑属性
@@ -58,15 +59,15 @@ const Operate = connect(
         }
 
         setVisible(true);
-        e.preventDefault();
-        e.stopPropagation();
-      }, 500);
-      const handleDoubleClick = useCallback(_doubleClick, [_doubleClick]);
+        e && e.preventDefault();
+        e && e.stopPropagation();
+      }
       
       // 取消事件
-      const handleCancle = useCallback(() => {
+      const handleCancle = (e: React.MouseEvent) => {
+        let currentEl = el.current
         if (!currentEl) return;
-        currentEl!.style.cssText += `${BOX_SHADOW_NONE}`;
+        currentEl!.style.cssText += `${UN_ACTIVE_STYLE}`;
         setVisible(false);
 
         // 文本类型时去除可编辑属性
@@ -74,10 +75,15 @@ const Operate = connect(
           const firstChild = currentEl.firstChild as HTMLElement
           firstChild && (firstChild.contentEditable = 'false')
         }
-      }, [currentEl]);
+        // 阻止原生的事件冒泡
+        e.nativeEvent.stopImmediatePropagation()
+        // 阻止 React 合成事件的冒泡
+        e.stopPropagation();
+      };
       
       // 渲染操作功能组件
       const renderChildren = useMemo(() => {
+        let currentEl = el.current
         return (
           (visible && (
             <div className={Style["drag-icon-wrap"]}>
@@ -87,7 +93,7 @@ const Operate = connect(
                   "icon-quxiao",
                   Style["drag-cancel-icon"]
                 )}
-                onClick={() => handleCancle()}
+                onClick={handleCancle}
               />
               {(!currentEl?.isRoot && (
                 <DragPositionIcon
@@ -104,31 +110,30 @@ const Operate = connect(
           )) ||
           null
         );
-      }, [visible, currentEl, handleCancle, changeUseComponents]);
-
-      // 给元素绑定双击事件
-      useEffect(() => {
-        currentEl?.addEventListener("click", handleDoubleClick);
-
-        return () => {
-          currentEl?.removeEventListener("click", handleDoubleClick);
-        };
-      }, [handleDoubleClick, currentEl]);
+      }, [visible, changeUseComponents]);
 
       // 设置根元素
       useEffect(() => {
         if (!parent) return;
         if (typeof parent === "string") {
-          const currentEl = document.querySelector(`#${parent}`) as ParentType;
+          const _currentEl = document.querySelector(`#${parent}`) as ParentType;
           // 标志是否是根元素
-          currentEl!.isRoot = true;
-          currentEl!.name = name;
-          setCurrentEl(currentEl);
-          return;
+          _currentEl!.isRoot = true;
+          _currentEl!.name = name;
+          el.current = _currentEl;
+        } else {
+          parent.name = name;
+          el.current = parent;
         }
 
-        parent.name = name;
-        setCurrentEl(parent);
+        const currentEl = el.current
+        // 自动触发一次
+        handleDoubleClick(null)
+        currentEl?.addEventListener("click", handleDoubleClick);
+
+        return () => {
+          currentEl?.removeEventListener("click", handleDoubleClick);
+        };
       }, [parent, name]);
 
       return (
@@ -181,7 +186,7 @@ function DragSizeIcon({
       type: "EDIT_USE_COMPONENTS",
       value: {
         name: currentEl.name as string,
-        css: cssText + BOX_SHADOW_NONE,
+        css: cssText + UN_ACTIVE_STYLE,
       },
     });
   }, [currentEl, moveOffset, changeUseComponents]);
@@ -224,7 +229,7 @@ function DragPositionIcon({
       type: "EDIT_USE_COMPONENTS",
       value: {
         name: currentEl.name as string,
-        css: cssText + BOX_SHADOW_NONE,
+        css: cssText + UN_ACTIVE_STYLE,
       },
     });
   }, [currentEl, moveOffset, changeUseComponents]);
