@@ -5,7 +5,6 @@ import classnames from 'classnames'
 import Style from './index.module.scss'
 import { connect } from 'react-redux'
 import { StateType } from 'store/type'
-import Content from 'layout/editor/components/content'
 
 enum Type {
   text = 1,
@@ -94,6 +93,8 @@ export default connect(mapState, mapDispatch)(function Text({
   type?: number
 }>) {
 
+  const isEditorStatus = status === 'editor'
+
   const renderLabel = useCallback(() => {
     if (label) return label
     
@@ -103,10 +104,11 @@ export default connect(mapState, mapDispatch)(function Text({
   }, [label, type])
 
   const renderChildren = useCallback(() => {
+    if (isEditorStatus && children) return [children]
+
     let defalutValue = textConfig[Type[type]][`${status}Text`]
-    
     return [defalutValue, children]
-  }, [children, type, status])
+  }, [children, type, status, isEditorStatus])
 
   const getClassName = useCallback(() => {
     let className = textConfig[Type[type]].className || ''
@@ -115,19 +117,17 @@ export default connect(mapState, mapDispatch)(function Text({
   }, [type, status])
 
   const handleInput = (e: any) => {
-    console.log(name, 'name')
     props['editUseComponents']({
       name,
-      value: e.target.value
+      text: e.target.innerText
     })
   }
-
-  const isEditorStatus = status === 'editor'
 
   return (
     <Drag status={status} componentName="text" options={{
       type,
-      contentEditable: isEditorStatus
+      suppressContentEditableWarning: true,
+      contentEditable: isEditorStatus,
     }}>
     {
       createElement(

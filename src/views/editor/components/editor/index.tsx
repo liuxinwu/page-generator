@@ -41,7 +41,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 }) {
   const editorMain = useRef<HTMLDivElement | null>()
   const { w, h } = props.equipment.size;
-  const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = ''): Promise<void> {
+  const render = function(type: string, target: HTMLDivElement, query: object, name: string, css = '', text = ''): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const source = await import(`components/common/${type}`)
@@ -54,7 +54,9 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
           // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
           <Provider store={store} >
             <Operate currentEl={div} name={name} >
-              <Com {...query} name={name} status="editor"/>
+              <Com {...query} name={name} status="editor">
+                {text}
+              </Com>
             </Operate>
           </Provider>,
           div
@@ -78,9 +80,12 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
     })
   }, [props])
   const handleDrop = useCallback(async (event: React.DragEvent) => {
-    const { clientY } = event
+    if (!event.dataTransfer.getData("custom/drag")) return
+    
     const editorMainEl = editorMain.current
     if (!editorMainEl) return
+    
+    const { clientY } = event
     const { top } = editorMainEl.getBoundingClientRect()
 
     // 阻止默认事件
@@ -124,7 +129,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
       let index = 0
       const len = useComponents.length
       while (index < len) {
-        const { type = '', name, query = {}, css } = useComponents[index][1]
+        const { type = '', name, query = {}, css, text } = useComponents[index][1]
 
         if (name === 'root') {
           target.style.cssText += css
@@ -134,7 +139,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
         const oldZIndex = Number(css.match(/(z-index: (\d+))/)[2])
         if (oldZIndex > zIndex) zIndex = oldZIndex
-        await render(type, target, query, name, css)
+        await render(type, target, query, name, css, text)
         index++
       }
     })()
@@ -152,17 +157,19 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
   return (
     <div className={classnames(Style["editor-wrap"])}>
-      <div
-          id="editorWrap"
-          ref={el => editorMain.current = el}
-          className={classnames(Style["editor-main"])}
-          onDrop={handleDrop}
-          onDragOver={(event) => {
-            event.preventDefault();
-          }}
-        >
-          <Operate currentEl="editorWrap" name="root" />
-        </div>
+      <div className={Style['editor-main-wrap']}>
+        <Operate currentEl="editorWrap" name="root" >
+          <div
+            id="editorWrap"
+            ref={el => editorMain.current = el}
+            className={classnames(Style["editor-main"])}
+            onDrop={handleDrop}
+            onDragOver={(event) => {
+              event.preventDefault();
+            }}
+          />
+        </Operate>
+      </div>
     </div>
   );
 })

@@ -31,3 +31,7 @@ ul,
 li {
   list-style: none;
 }
+
+*[contentEditable] {
+  outline: 0;
+}

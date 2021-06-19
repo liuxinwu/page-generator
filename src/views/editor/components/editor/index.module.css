@@ -8,6 +8,11 @@
   background: #f1f3f7;
 }
 
+.editor-main-wrap {
+  display: inline-block;
+  position: relative;
+}
+
 .editor-main {
   position: relative;
   width: 375px;

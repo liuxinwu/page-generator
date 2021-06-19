@@ -44,19 +44,12 @@ const Operate = connect(
       // 是否显示操作功能组件
       const [visible, setVisible] = useState(false);
       
-      // 双击事件
-      const handleDoubleClick = (e: any) => {
-        console.log('do')
+      // 元素聚焦事件
+      const handleFocus = (e: any) => {
         let currentEl = el.current
         if (!currentEl?.isRoot) {
           currentEl!.style.cssText += ACTIVE_STYLE;
         }
-
-        // 文本类型时添加可编辑属性
-        // if (currentEl?.name?.startsWith('text')) {
-        //   const firstChild = currentEl.firstChild as HTMLElement
-        //   firstChild && (firstChild.contentEditable = 'true')
-        // }
 
         setVisible(true);
         e && e.preventDefault();
@@ -70,11 +63,6 @@ const Operate = connect(
         currentEl!.style.cssText += `${UN_ACTIVE_STYLE}`;
         setVisible(false);
 
-        // 文本类型时去除可编辑属性
-        if (currentEl.name?.startsWith('text')) {
-          const firstChild = currentEl.firstChild as HTMLElement
-          firstChild && (firstChild.contentEditable = 'false')
-        }
         // 阻止原生的事件冒泡
         e.nativeEvent.stopImmediatePropagation()
         // 阻止 React 合成事件的冒泡
@@ -84,6 +72,7 @@ const Operate = connect(
       // 渲染操作功能组件
       const renderChildren = useMemo(() => {
         let currentEl = el.current
+        if (!currentEl) return
         return (
           (visible && (
             <div className={Style["drag-icon-wrap"]}>
@@ -128,11 +117,11 @@ const Operate = connect(
 
         const currentEl = el.current
         // 自动触发一次
-        handleDoubleClick(null)
-        currentEl?.addEventListener("click", handleDoubleClick);
+        handleFocus(null)
+        currentEl?.addEventListener("click", handleFocus);
 
         return () => {
-          currentEl?.removeEventListener("click", handleDoubleClick);
+          currentEl?.removeEventListener("click", handleFocus);
         };
       }, [parent, name]);
 
