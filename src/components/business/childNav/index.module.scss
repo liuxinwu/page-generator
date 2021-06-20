@@ -5,9 +5,9 @@
   left: 81px;
   padding: 10px;
   min-width: 200px;
-  // max-width: calc(50vw - 81px - 190px);
+  max-width: calc(50vw - 400px);
   background-color: #fff;
-  z-index: 8888;
+  z-index: 20;
   animation-duration: 300ms;
   // 去除选中文本
   user-select: none;
@@ -19,7 +19,7 @@
 }
 
 .chart_wrap {
-  width: 400px;
+  width: 300px;
 }
 
 .piece_of_title {

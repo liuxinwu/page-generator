@@ -2,7 +2,7 @@ footer {
   height: 40px;
   background: #fff;
   border-top: 0 solid #ff7671;
-  z-index: 9999;
+  z-index: 10;
   position: absolute;
   bottom: 0;
   min-width: inherit;

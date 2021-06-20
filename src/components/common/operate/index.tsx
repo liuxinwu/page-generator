@@ -1,22 +1,28 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import classnames from "classnames";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Style from "./index.module.css";
 import useMouseEvent from "hooks/useMouseEvent";
 import { connect } from "react-redux";
-import { StateType, UseComponentsType, ActionType } from "store/type";
+import { StateType, UseComponentsType, ActionType, ActiveComponentType } from "store/type";
+import classnames from 'classnames'
 
-const ACTIVE_STYLE = "border: 1px dashed rgba(255, 69, 85, .8);";
-const UN_ACTIVE_STYLE = "border: 0;";
 const mapState = (state: StateType) => ({
   useComponents: state.useComponents,
 });
-const mapDispatch = (dispath: any) => ({
-  changeUseComponents: (val: ActionType<UseComponentsType>) => dispath(val),
+const mapDispatch = (dispatch: any) => ({
+  changeUseComponents: (val: ActionType<UseComponentsType>) => dispatch(val),
+  replaceActiveComponent: (value: ActiveComponentType) => {
+    dispatch({
+      type: 'REPLACE_ACTIVE_COMPONENTS',
+      value
+    })
+  }
 });
 interface ParentType extends HTMLDivElement {
   isRoot?: boolean | undefined;
   name?: string;
 }
+
+const activityDomMap = new Map<string, Function>()
 
 /**
  * 1. 绑定双击事件
@@ -32,76 +38,41 @@ const Operate = connect(
       currentEl: parent,
       name,
       changeUseComponents,
+      replaceActiveComponent,
+      ...props
     }: React.PropsWithChildren<{
       name: string;
       children?: React.ReactNode;
       currentEl?: ParentType | string;
       changeUseComponents: (val: ActionType<UseComponentsType>) => void;
+      replaceActiveComponent: (val: ActiveComponentType) => void
     }>) {
       // 当前操作的元素
       let el = useRef<ParentType>()
+      const { moveOffset, handleMouseDown } = useMouseEvent();
       
       // 是否显示操作功能组件
       const [visible, setVisible] = useState(false);
       
       // 元素聚焦事件
-      const handleFocus = (e: any) => {
+      const handleFocus = useCallback((e: MouseEvent) => {
         let currentEl = el.current
-        if (!currentEl?.isRoot) {
-          currentEl!.style.cssText += ACTIVE_STYLE;
-        }
-
         setVisible(true);
-        e && e.preventDefault();
-        e && e.stopPropagation();
+        e.stopPropagation()
+
+        replaceActiveComponent({ name, dom: currentEl })
+        // 去除其它元素的聚焦状态
+        activityDomMap.forEach((blur, _name) => name !== _name && blur() )
+      }, [name, replaceActiveComponent])
+
+      // 元素失焦事件
+      function handleBlur() {
+        setVisible(false)
       }
-      
-      // 取消事件
-      const handleCancle = (e: React.MouseEvent) => {
-        let currentEl = el.current
-        if (!currentEl) return;
-        currentEl!.style.cssText += `${UN_ACTIVE_STYLE}`;
-        setVisible(false);
 
-        // 阻止原生的事件冒泡
-        e.nativeEvent.stopImmediatePropagation()
-        // 阻止 React 合成事件的冒泡
-        e.stopPropagation();
-      };
-      
-      // 渲染操作功能组件
-      const renderChildren = useMemo(() => {
-        let currentEl = el.current
-        if (!currentEl) return
-        return (
-          (visible && (
-            <div className={Style["drag-icon-wrap"]}>
-              <i
-                className={classnames(
-                  "iconfont",
-                  "icon-quxiao",
-                  Style["drag-cancel-icon"]
-                )}
-                onClick={handleCancle}
-              />
-              {(!currentEl?.isRoot && (
-                <DragPositionIcon
-                  currentEl={currentEl}
-                  changeUseComponents={changeUseComponents}
-                />
-              )) ||
-                null}
-              <DragSizeIcon
-                currentEl={currentEl}
-                changeUseComponents={changeUseComponents}
-              />
-            </div>
-          )) ||
-          null
-        );
-      }, [visible, changeUseComponents]);
-
-      // 设置根元素
+      // 获取元素、并标识元素类型
+      // 默认聚焦
+      // 事件监听
       useEffect(() => {
         if (!parent) return;
         if (typeof parent === "string") {
@@ -116,19 +87,55 @@ const Operate = connect(
         }
 
         const currentEl = el.current
-        // 自动触发一次
-        handleFocus(null)
-        currentEl?.addEventListener("click", handleFocus);
+        activityDomMap.set(name, handleBlur)
+
+        currentEl.addEventListener("click", handleFocus);
+        !currentEl.isRoot && currentEl.addEventListener("mousedown", handleMouseDown);
+        window.addEventListener('click', handleBlur)
 
         return () => {
-          currentEl?.removeEventListener("click", handleFocus);
+          currentEl.removeEventListener("click", handleFocus);
+          !currentEl.isRoot && currentEl.removeEventListener("mousedown", handleMouseDown);
+          window.removeEventListener('click', handleBlur)
         };
-      }, [parent, name]);
+      }, [parent, name, handleMouseDown, handleFocus]);
+
+      // 拖拽改变位置
+      useEffect(() => {
+        const currentEl = el.current
+        if (currentEl === undefined) return;
+    
+        let left = parseInt(currentEl.style.left) || 0;
+        let top = parseInt(currentEl.style.top) || 0;
+        left += moveOffset.x;
+        top += moveOffset.y;
+        const cssText =
+          (currentEl.style.cssText += `left: ${left}px;top: ${top}px;`);
+        changeUseComponents({
+          type: "EDIT_USE_COMPONENTS",
+          value: {
+            name: currentEl.name as string,
+            css: cssText,
+          },
+        });
+      }, [moveOffset, changeUseComponents]);
 
       return (
         <>
           {children}
-          {renderChildren}
+          {visible && <>
+            <DragSizeIcon
+              currentEl={el.current}
+              changeUseComponents={changeUseComponents}
+            />
+          </>}
+
+          <div className={'tip_line'} style={{ display: visible ? 'block' : 'none'}}>
+            <span className={classnames(Style.line, Style.top_line)}></span>
+            <span className={classnames(Style.line, Style.right_line)}></span>
+            <span className={classnames(Style.line, Style.bottom_line)}></span>
+            <span className={classnames(Style.line, Style.left_line)}></span>
+          </div>
         </>
       );
     },
@@ -175,62 +182,19 @@ function DragSizeIcon({
       type: "EDIT_USE_COMPONENTS",
       value: {
         name: currentEl.name as string,
-        css: cssText + UN_ACTIVE_STYLE,
+        css: cssText,
       },
     });
   }, [currentEl, moveOffset, changeUseComponents]);
 
   return (
     <i
-      className={classnames(
-        "iconfont",
-        "icon-zhankaiduijiaoxian2",
-        Style["drag-size-icon"]
-      )}
-      onMouseDown={handleMouseDown}
-    />
-  );
-}
-
-/**
- * 拖拽改位置
- * @param param0
- */
-function DragPositionIcon({
-  currentEl,
-  changeUseComponents,
-}: {
-  currentEl: ParentType | undefined;
-  changeUseComponents: (val: ActionType<UseComponentsType>) => void;
-}) {
-  const { moveOffset, handleMouseDown } = useMouseEvent();
-
-  useEffect(() => {
-    if (currentEl === undefined) return;
-
-    let left = parseInt(currentEl.style.left) || 0;
-    let top = parseInt(currentEl.style.top) || 0;
-    left += moveOffset.x;
-    top += moveOffset.y;
-    const cssText =
-      (currentEl.style.cssText += `left: ${left}px;top: ${top}px;`);
-    changeUseComponents({
-      type: "EDIT_USE_COMPONENTS",
-      value: {
-        name: currentEl.name as string,
-        css: cssText + UN_ACTIVE_STYLE,
-      },
-    });
-  }, [currentEl, moveOffset, changeUseComponents]);
-
-  return (
-    <i
-      className={classnames(
-        "iconfont",
-        "icon-tuodong",
-        Style["drag-position-icon"]
-      )}
-      onMouseDown={handleMouseDown}
+      className={Style["drag-size-icon"]}
+      onMouseDown={(e) => {
+        e.nativeEvent.stopImmediatePropagation()
+        e.nativeEvent.preventDefault()
+        handleMouseDown(e.nativeEvent)
+      }}
     />
   );
 }

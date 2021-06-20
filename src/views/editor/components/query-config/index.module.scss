@@ -1,0 +1,46 @@
+.query_config_wrap {
+  position: fixed;
+  top: 58px;
+  bottom: 0;
+  right: 0;
+  min-width: 300px;
+  background-color: #f1f3f7;
+  z-index: 10;
+  animation-duration: 300ms;
+  // 去除选中文本
+  user-select: none;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, .1);
+  overflow: hidden;
+  overflow-y: auto;
+
+  :global {
+    .ant-tabs {
+      background-color: #fff;
+    }
+
+    .ant-tabs-nav-list {
+      width: 100%;
+    }
+    .ant-tabs-tab {
+      flex:1;
+      justify-content: center;
+    }
+    .ant-collapse-header {
+      background-color: #fff;
+    }
+  }
+}
+
+.hidden_btn {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 5px 20px 5px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: rgba(255, 69, 85, .8);
+  border-bottom-right-radius: 50%;
+  border-top-right-radius: 50%;
+  cursor: pointer;
+}

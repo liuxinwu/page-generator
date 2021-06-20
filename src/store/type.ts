@@ -1,6 +1,7 @@
 export interface StateType {
   equipment: EquipmentType
   useComponents: Map<string, UseComponentsType>
+  activeComponent: ActiveComponentType
 }
 
 export interface EquipmentType {
@@ -22,4 +23,10 @@ export interface UseComponentsType {
 export interface ActionType<T> {
   type: string
   value: T
+}
+
+export interface ActiveComponentType {
+  name: string
+  dom: HTMLDivElement | undefined
+  [index: string]: any
 }

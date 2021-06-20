@@ -1,0 +1,29 @@
+.border_item {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-top: 10px;
+
+  .border_item_title {
+    width: auto;
+  }
+
+  .border_item_value {
+    margin-left: 10px;
+    flex: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+  }
+
+  :global {
+    .ant-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ant-input-number {
+      width: 80px;
+    }
+  }
+}

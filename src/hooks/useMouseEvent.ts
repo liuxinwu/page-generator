@@ -2,7 +2,7 @@
  * 收集拖拽信息
  */
 
-import React, { useEffect, useCallback, useRef, useState } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 
 interface PropsType {
   mouseDownCallback?: Function,
@@ -51,9 +51,9 @@ export default function useMouseEvent(
     })
   }, [])
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+  const handleMouseDown = useCallback((e: MouseEvent) => {
     movIng.current = true
-    const { clientX, clientY, offsetX, offsetY } = e.nativeEvent
+    const { clientX, clientY, offsetX, offsetY } = e
     coordinate.current = Object.assign(coordinate.current, {
       startX: clientX,
       startY: clientY,

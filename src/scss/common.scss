@@ -5,3 +5,14 @@
 .cursor_move {
   cursor: move !important;
 }
+
+.el_block {
+
+  &:hover .tip_line {
+    display: block !important;
+  }
+
+  & > :nth-child(1) {
+    height: 100%;
+  }
+}

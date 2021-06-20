@@ -1,10 +1,11 @@
-import { createElement, useCallback } from 'react'
+import React, { useState ,createElement, useCallback, useEffect } from 'react'
 import { ChildrenProps } from 'types/childrenProps'
 import { Drag } from 'components/common/drag'
 import classnames from 'classnames'
 import Style from './index.module.scss'
 import { connect } from 'react-redux'
 import { StateType } from 'store/type'
+import { doubleClick } from 'utils/dom'
 
 enum Type {
   text = 1,
@@ -92,7 +93,7 @@ export default connect(mapState, mapDispatch)(function Text({
   label?: string
   type?: number
 }>) {
-
+  const [isEdit, setIsEdit] = useState(false)
   const isEditorStatus = status === 'editor'
 
   const renderLabel = useCallback(() => {
@@ -123,11 +124,27 @@ export default connect(mapState, mapDispatch)(function Text({
     })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleDoubleClick = useCallback(doubleClick((e: React.MouseEvent) => {
+    setIsEdit(true)
+  }, 300), [])
+
+  useEffect(() => {
+    function disableEdit() {
+      setIsEdit(false)
+    }
+    window.addEventListener('click', disableEdit)
+
+    return () => {
+      window.removeEventListener('click', disableEdit)
+    }
+  }, [])
+
   return (
     <Drag status={status} componentName="text" options={{
       type,
       suppressContentEditableWarning: true,
-      contentEditable: isEditorStatus,
+      contentEditable: isEditorStatus && isEdit,
     }}>
     {
       createElement(
@@ -135,7 +152,8 @@ export default connect(mapState, mapDispatch)(function Text({
         {
           name,
           className: getClassName(),
-          onInput: isEditorStatus ? handleInput : () => {}
+          onInput: isEditorStatus ? handleInput : () => {},
+          onClick: handleDoubleClick
         },
         renderChildren()
       )

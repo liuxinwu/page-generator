@@ -1,0 +1,9 @@
+.input_slider_wrap {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+
+  .slider_wrap {
+    flex: 1;
+  }
+}
