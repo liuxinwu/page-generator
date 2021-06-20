@@ -5,8 +5,7 @@ import Style from './index.module.css'
 import useMouseEvent from 'hooks/useMouseEvent'
 
 let id = 0
-const cssText = 'position: absolute;left: 20px;right: 20px;'
-
+let zIndex = 0
 interface ParentType extends HTMLElement {
   isRoot?: boolean | undefined
 }
@@ -79,22 +78,36 @@ function DragPositionIcon({ parent }: { parent: ParentType | undefined }) {
  * 1. 绑定双击事件
  * 2. 添加一些操作功能（拖拽改大小、拖拽改位置、取消操作）
  */
-const Operate = React.memo(function({...props}) {
+const Operate = React.memo(function({
+  type,
+  children
+}: React.PropsWithChildren<{
+  type: string
+  children?: React.ReactNode
+}>) {
   const [visible, setVisible] = useState(false)
   const [parent, setParent] = useState<ParentType | undefined>()
   const click = doubleClick((e: any) => {
     const target = e.target
-    let parentNode = e.target.parentNode
+    let parentNode = target.parentNode
 
-    if (target.className.includes('editor-main')) {
+    if (type === 'root') {
       parentNode = target
       // 标志是否是跟元素
       parentNode.isRoot = true
     } else {
-      parentNode.style.cssText += cssText
+      let cssText = `position: absolute;z-index: ${++zIndex};background: #fff;`
+
+      if (type === 'ChartWarp') {
+        parentNode = parentNode.parentNode.parentNode
+      } else {
+        cssText += 'display:inline-block;'
+      }
+      const { top } = parentNode.getBoundingClientRect()
+
+      parentNode.style.cssText += `${cssText};top: ${top - 116}px;`
     }
     setParent(parentNode)
-
     setVisible(true)
     e.preventDefault()
     e.stopPropagation()
@@ -126,7 +139,7 @@ const Operate = React.memo(function({...props}) {
 
   return <>
     {
-      React.Children.map(props.children, child => {
+      React.Children.map(children, child => {
         return React.cloneElement(child as any, {
           'data-id': `operate_${++id}`,
           children: renderChildren

@@ -52,7 +52,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
         ReactDOM.render(
           // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
           <Provider store={store} >
-            <Operate>
+            <Operate type={type}>
               <Com {...query} name={name} />
             </Operate>
           </Provider>,
@@ -144,7 +144,7 @@ const Editor = connect(mapState, mapDispatch)(function(props: {
 
   return (
     <div className={classnames(Style["editor-wrap"])} id="editorWrap">
-      <Operate>
+      <Operate type='root'>
         <div
           ref={el => editorMain.current = el}
           className={classnames(Style["editor-main"])}
