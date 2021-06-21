@@ -1,5 +1,6 @@
 import { InputSlider } from 'components/common/input-slider'
 import { Border } from 'components/common/border'
+import { PositionSize } from 'components/common/position-size'
 
 export const isNeedBaseConfig = () => {
   const names = ['text', 'chart', 'audio', 'video', 'component']
@@ -45,6 +46,8 @@ export const baseConfig = [
   },
   {
     title: '位置与大小',
-    atter: 'rototal',
+    com: PositionSize,
+    atter: 'position-size',
+    options: {}
   },
 ]

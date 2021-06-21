@@ -39,6 +39,39 @@ export default connect(mapState, mapDispatch)(function QueryConfig({
     console.log(key);
   }
 
+  function getDefaultValue(atter: string) {
+    if (!activeComponent.dom) return
+    const dom = activeComponent.dom
+    const { style } = dom
+
+    switch(atter) {
+      case 'opacity':
+        return style[atter] || 1
+      case 'rotate':
+        const transform = style.transform
+        let rotate = transform.match(/rotate\((\d+)deg\)/)
+        return (rotate && rotate[1]) || 0
+      case 'border':
+        return {
+          style: style['border-style'],
+          width: parseInt(style['border-width']),
+          radius: parseInt(style['border-radius']),
+          color: style['border-color'],
+        }
+      case 'position-size': 
+        const { top, right, bottom, left  } = style
+        return {
+          width: dom.offsetWidth,
+          height: dom.offsetHeight,
+          top: parseInt(top),
+          right: parseInt(right),
+          bottom: parseInt(bottom),
+          left: parseInt(left)
+        }
+    }
+    return 0
+  }
+
   function setConfig(name: string, atter: string  ,value: number | string) {
     if (!activeComponent.name) return
     let cssText = ''
@@ -49,7 +82,10 @@ export default connect(mapState, mapDispatch)(function QueryConfig({
       case 'rotate':
         cssText = `transform: rotate(${value}deg);`
         break
-      case 'border': 
+      case 'border':
+        cssText = value as string
+        break
+      case 'position-size':
         cssText = value as string
         break
     }
@@ -88,7 +124,7 @@ export default connect(mapState, mapDispatch)(function QueryConfig({
             baseConfig.map((config, index) => {
               const Com = config.com
               return <Panel header={config.title} key={index + 2} >
-              { Com && <Com {...config.options} comName={activeComponent.name} atter={config.atter} onConfigChange={setConfig}/> }
+              { Com && <Com {...config.options} comName={activeComponent.name} atter={config.atter} onConfigChange={setConfig} defaultValue={getDefaultValue(config.atter)}/> }
             </Panel>
             })
           }

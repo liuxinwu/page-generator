@@ -9,9 +9,12 @@ export default function Video({
   src: string
 }>) {
 
+  const isEditor = status === 'editor'
+
   return (
     <Drag componentName='video' status={status} options={{
-      src: src
+      src,
+      controls: isEditor
     }}>
       <video src={src} />
     </Drag>

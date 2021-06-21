@@ -30,18 +30,20 @@ const BORDER_STYLE = [
 export function Border({
   comName,
   atter,
-  onConfigChange
+  onConfigChange,
+  defaultValue
 }: {
   comName: string
   atter: string
   onConfigChange: Function
+  defaultValue: {
+    style: string
+    width: number
+    radius: number
+    color: string
+  }
 }) {
-  const [options, setOptions] = useState({
-    style: "hidden",
-    width: 0,
-    radius: 0,
-    color: "transparent",
-  });
+  const [options, setOptions] = useState(defaultValue);
 
   function handleChange(key: string, value: string | number) {
     setOptions({ ...options, [key]: value })
@@ -73,13 +75,13 @@ export function Border({
       <li className={Style.border_item}>
         <span className={Style.border_item_title}>大小</span>
         <div className={Style.border_item_value}>
-          <InputSlider max={20} comName='' atter='' value={width} onConfigChange={(name, atter, value) => handleChange('width', value)} />
+          <InputSlider max={20} comName='' atter='' defaultValue={width} onConfigChange={(name, atter, value) => handleChange('width', value)} />
         </div>
       </li>
       <li className={Style.border_item}>
         <span className={Style.border_item_title}>圆角（%）</span>
         <div className={Style.border_item_value}>
-          <InputSlider max={50} comName='' atter='' value={radius} onConfigChange={(name, atter, value) => handleChange('radius', value)} />
+          <InputSlider max={50} comName='' atter='' defaultValue={radius} onConfigChange={(name, atter, value) => handleChange('radius', value)} />
         </div>
       </li>
       <li className={Style.border_item}>
