@@ -62,6 +62,7 @@ const Editor = connect(
     return new Promise(async (resolve, reject) => {
       try {
         const source = await import(`components/common/${type}`);
+        console.log(source, type, 'type')
         const Com = source.default;
         const div = document.createElement("div");
         div.className += " cursor_move el_block";

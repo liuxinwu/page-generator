@@ -6,7 +6,8 @@ import Style from "./index.module.scss";
 // 子菜单组件
 const components = {
   text: React.lazy(() => import("./textNav")),
-  chart: React.lazy(() => import('./chartNav'))
+  chart: React.lazy(() => import('./chartNav')),
+  pic: React.lazy(() => import('./picNav'))
 };
 
 interface ChildNavType {

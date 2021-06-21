@@ -7,12 +7,16 @@
 }
 
 .el_block {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
 
   &:hover .tip_line {
     display: block !important;
   }
 
   & > :nth-child(1) {
+    width: 100%;
     height: 100%;
   }
 }
