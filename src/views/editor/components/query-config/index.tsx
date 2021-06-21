@@ -40,17 +40,17 @@ export default connect(mapState, mapDispatch)(function QueryConfig({
   }
 
   function getDefaultValue(atter: string) {
-    if (!activeComponent.dom) return
+    if (!activeComponent.dom) return 0
     const dom = activeComponent.dom
     const { style } = dom
 
     switch(atter) {
       case 'opacity':
-        return style[atter] || 1
+        return parseInt(style[atter]) || 1
       case 'rotate':
         const transform = style.transform
         let rotate = transform.match(/rotate\((\d+)deg\)/)
-        return (rotate && rotate[1]) || 0
+        return parseInt((rotate && rotate[1]) || `0`)
       case 'border':
         return {
           style: style['border-style'],
@@ -124,7 +124,7 @@ export default connect(mapState, mapDispatch)(function QueryConfig({
             baseConfig.map((config, index) => {
               const Com = config.com
               return <Panel header={config.title} key={index + 2} >
-              { Com && <Com {...config.options} comName={activeComponent.name} atter={config.atter} onConfigChange={setConfig} defaultValue={getDefaultValue(config.atter)}/> }
+              { Com && <Com {...config.options} comName={activeComponent.name} atter={config.atter} onConfigChange={setConfig} defaultValue={getDefaultValue(config.atter) as any}/> }
             </Panel>
             })
           }
