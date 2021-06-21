@@ -7,7 +7,8 @@ import Style from "./index.module.scss";
 const components = {
   text: React.lazy(() => import("./textNav")),
   chart: React.lazy(() => import('./chartNav')),
-  pic: React.lazy(() => import('./picNav'))
+  pic: React.lazy(() => import('./picNav')),
+  video: React.lazy(() => import('./videoNav'))
 };
 
 interface ChildNavType {

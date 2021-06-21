@@ -28,18 +28,21 @@
   line-height: 1.2;
 }
 
-.pic_list {
+.pic_list,
+.video_list {
   display: flex;
   flex-flow: row wrap;
 
-  .pic_item {
+  .pic_item,
+  .video_item {
     width: 50%;
     padding: 5px 10px;
     display: flex;
     justify-content: center;
     align-items: baseline;
 
-    img {
+    img,
+    video {
       width: 80px;
     }
   }

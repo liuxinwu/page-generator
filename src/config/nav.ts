@@ -20,7 +20,7 @@ export const NAV_OPTIONS = [
     text: '音频'
   },
   {
-    type: 'audio',
+    type: 'video',
     icon: 'icon-video',
     text: '视频'
   },
