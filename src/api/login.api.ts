@@ -1,5 +1,11 @@
-import { ApiType } from './api.type'
+import { ApiType, AxiosRequestConfig, AxiosResponse, CustomConfigType } from './api.type'
 import { genApi } from './genApi'
+
+interface UserInfoType {
+  id: number
+  name: string
+  age: number
+}
 
 const loginModule: ApiType = {
   loginIn: {
@@ -8,4 +14,6 @@ const loginModule: ApiType = {
   }
 }
 
-export default genApi(loginModule)
+export default genApi(loginModule) as {
+  loginIn: (config?: AxiosRequestConfig, customConfig?: CustomConfigType) => Promise<AxiosResponse<UserInfoType>> 
+}

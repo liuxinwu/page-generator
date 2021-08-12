@@ -30,6 +30,7 @@ export interface CustomConfigType {
   isNeedToken?: boolean;
   isNeedLoading?: boolean;
   isNeedShowError?: boolean;
+  isNeedCache?: boolean;
 }
 
 export interface RequestType {

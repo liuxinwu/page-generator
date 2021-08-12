@@ -5,6 +5,8 @@ import {
 } from "./index.type";
 import Request from "./request";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
+import Cache from 'cache'
+const cache = new Cache()
 // import store from "@/store";
 // import { Loading } from 'element-ui'
 
@@ -13,7 +15,8 @@ class RequestProxy implements RequestProxyType {
   private defaultCustomConfig: CustomConfigType = {
     isNeedLoading: true,
     isNeedToken: false,
-    isNeedShowError: true
+    isNeedShowError: true,
+    isNeedCache: false
 	};
 	// 记录并行的请求次数
   private requestCount: number = 0;
@@ -46,6 +49,7 @@ class RequestProxy implements RequestProxyType {
 
     try {
       const result = await this.axios.request(config);
+      customConfig.isNeedCache && cache.set(config.url!, result.data)
       return result;
     } catch (error) {
       const { code, config } = error
