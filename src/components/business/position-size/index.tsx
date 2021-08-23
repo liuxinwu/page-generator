@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Style from './index.module.scss'
 import { Input } from 'antd'
 
@@ -38,6 +38,10 @@ export function PositionSize(
     })
     onConfigChange(comName, atter, cssText)
   }
+
+  useEffect(() => {
+    setPositionSize(defaultValue)
+  }, [defaultValue])
 
   return (
     <ul className={Style.position_size_list}>

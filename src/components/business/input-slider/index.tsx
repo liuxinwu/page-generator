@@ -1,5 +1,5 @@
 import { Slider, InputNumber, InputNumberProps, SliderSingleProps } from 'antd'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Style from './index.module.scss'
 
 export const InputSlider = (
@@ -23,6 +23,10 @@ export const InputSlider = (
     setInputValue(value)
     onConfigChange(comName, atter, value)
   }
+
+  useEffect(() => {
+    setInputValue(defaultValue)
+  }, [defaultValue])
 
   return (
     <div className={Style.input_slider_wrap}>

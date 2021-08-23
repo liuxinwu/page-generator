@@ -1,0 +1,8 @@
+{
+  "hosts": {
+      "rs": "cdn-page.daxjgxx.com"
+  },
+  "src_dir" : "/Users/liuxinwu/code/page-generator/build/",
+  "bucket" : "page-generate",
+  "overwrite": true
+}

@@ -56,6 +56,10 @@ export function Border({
     onConfigChange(comName, atter, `border: ${width}px ${style} ${color};border-radius: ${radius}%;`)
   }, [comName, atter, options, onConfigChange])
 
+  useEffect(() => {
+    setOptions(defaultValue)
+  }, [defaultValue])
+
   return (
     <ul className={Style.border_wrap}>
       <li className={Style.border_item}>

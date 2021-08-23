@@ -1,6 +1,7 @@
 import { InputSlider } from 'components/business/input-slider'
 import { Border } from 'components/business/border'
 import { PositionSize } from 'components/business/position-size'
+import { BoxShadow } from 'components/business/box-shadow'
 
 export const isNeedBaseConfig = () => {
   const names = ['text', 'chart', 'audio', 'video', 'component']
@@ -42,7 +43,9 @@ export const baseConfig = [
   },
   {
     title: '阴影',
-    atter: 'rototal',
+    com: BoxShadow,
+    atter: 'box-shadow',
+    options: {}
   },
   {
     title: '位置与大小',
