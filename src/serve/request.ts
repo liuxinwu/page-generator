@@ -35,18 +35,25 @@ class Request implements RequestType {
   private interceptorsRequest() {
     this.instance.interceptors.request.use(
       config => {
-        config.cancelToken = new this.CancelToken(c => {
-          this.findInQueue({
-            info: `${config.url}_${config.method}`,
-            c
-          });
-          // 类似这种取消请求
-          // 其实服务端是有收到的
-          // 只是浏览器层面做了一层处理
-        });
+
+        // 类似这种取消请求
+        // 其实服务端是有收到的
+        // 只是浏览器层面做了一层处理
+        // config.cancelToken = new this.CancelToken(c => {
+        //   this.findInQueue({
+        //     info: `${config.url}_${config.method}`,
+        //     c
+        //   });
+        // });
+
+        this.findInQueue({
+          info: `${config.url}_${config.method}`,
+          c: () => {}
+        })
         return config;
       },
       function(error) {
+        console.log(error, 'jjj')
         // 对请求错误做些什么
         return Promise.reject(error);
       }
@@ -99,18 +106,24 @@ class Request implements RequestType {
   }
 
   private findInQueue(requestInfo: any) {
-    const index = this.theQueue.findIndex(
-      request => request.info === requestInfo.info
-    );
+    // CancleToken 方式
+    // const index = this.theQueue.findIndex(
+    //   request => request.info === requestInfo.info
+    // );
 
-    if (index >= 0) {
-      this.theQueue[index].c("取消请求");
-      this.theQueue.splice(index, 1);
-    }
-    this.theQueue.push(requestInfo);
+    // if (index >= 0) {
+    //   this.theQueue[index].c("取消请求");
+    //   this.theQueue.splice(index, 1);
+    // }
+    // this.theQueue.push(requestInfo);
+
+    // 自定义队列取消重复请求，在发送请求之前做出拦截
+    // if (this.theQueue.find(queue => queue.info === requestInfo.info)) throw new Error('取消请求')
+    // this.theQueue.push(requestInfo)
   }
 
   private removeQueue(requestInfo: any) {
+    // CancleToken 方式
     const index = this.theQueue.findIndex(
       request => request.info === requestInfo.info
     );
