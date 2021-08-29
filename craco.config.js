@@ -19,10 +19,10 @@ module.exports = {
       env, paths
     }) => {
       webpackConfig.devtool = 'inline-source-map'
-      webpackConfig.output = {
+      env === 'production' && (webpackConfig.output = {
         ...webpackConfig.output,
         publicPath: "http://cdn-page.daxjgxx.com/",
-      }
+      })
       return webpackConfig
     }
   }

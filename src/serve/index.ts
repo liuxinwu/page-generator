@@ -61,10 +61,10 @@ class RequestProxy implements RequestProxyType {
         
 
         // 方式二 自动刷新 token 并重新发起失败的请求
-        const res = await this.transfromRquest({
-          method: 'post',
-          url: '/refresh-token'
-        })
+        // const res = await this.transfromRquest({
+        //   method: 'post',
+        //   url: '/refresh-token'
+        // })
         
         // store.commit('userStore/setToken', res.data.token)
         return this.transfromRquest(config)

@@ -22,6 +22,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - api、serve、cache(内存缓存) 层的封装
 - ECharts 图表的封装、动态导入需要的图表模块
 - 实现拖拽修改元素大小的图标，双击时出现（借助高阶组件实现）
+- [资源上传静态七牛云](https://developer.qiniu.com/kodo/1302/qshell)
+
+  `"src_dir" : "./build/",` 注意路径问题，用绝对路径有问题
 
 ## 问题点
 
