@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getRoute } from 'router/routerConfig'
 
@@ -7,7 +7,7 @@ export default function SetTitle() {
 
   useEffect(() => {
     const { title = '' } = getRoute(pathname)?.meta || {}
-    document.title = (title || process.env.REACT_APP_TITLE) as string
+    document.title = (title || '页面生成器') as string
   }, [pathname])
 
   return <></>

@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
-import Nav, { NavType } from "components/business/nav";
-import ChildNav from "components/business/childNav/index";
+import { useCallback, useState, Suspense } from "react";
+import Nav, { NavType } from 'components/business/nav';
+import ChildNav from 'components/business/childNav/index';
 import Style from "./index.module.css";
 
 export default function Aside() {
@@ -24,16 +24,19 @@ export default function Aside() {
         <Nav onCurrentNav={onCurrentNav} />
       </aside>
 
-      <ChildNav
-        currentNav={currentNav}
-        animationName={
-          currentNav?.nav !== undefined
-            ? "animate__fadeInLeftBig"
-            : isClose
-            ? "animate__fadeOutLeftBig"
-            : "select_component_hidden"
-        }
-      />
+      <Suspense fallback="加载中...">
+        <ChildNav
+          currentNav={currentNav}
+          animationName={
+            currentNav?.nav !== undefined
+              ? "animate__fadeInLeftBig"
+              : isClose
+              ? "animate__fadeOutLeftBig"
+              : "select_component_hidden"
+          }
+        />
+      </Suspense>
+      
     </>
   );
 }

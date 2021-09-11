@@ -1,4 +1,4 @@
-import React, { ReactChild, Suspense } from 'react'
+import { ReactChild, Suspense } from 'react'
 import { BrowserRouter, BrowserRouterProps, Switch } from 'react-router-dom'
 import routes from './routerConfig'
 import GenRoute from './genRoute'

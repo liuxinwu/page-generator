@@ -33,7 +33,6 @@ export function BoxShadow({
     type: string;
   };
 }) {
-  console.log(defaultValue, 'defaultValue')
   const [options, setOptions] = useState(defaultValue);
 
   function handleChange(key: string, value: string | number) {

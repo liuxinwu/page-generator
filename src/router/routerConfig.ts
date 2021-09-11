@@ -12,6 +12,7 @@ interface RouteType extends RouteProps {
 //   return routeModule(_).default
 // })
 
+
 const routes: RouteType[] = [
   {
     path: '/',
@@ -69,8 +70,7 @@ function genRouteCache() {
     })
   }
 
-  cache(routes)
-  
+  cache(routes)  
 
   return (path: string) => {
     const route = routeCache[path]

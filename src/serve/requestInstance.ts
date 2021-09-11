@@ -8,7 +8,7 @@ interface ConType {
 
 function createInstance(Con: ConType): RequestProxyType {
   return new Con({
-    baseURL: process.env.REACT_APP_BASE_URL
+    baseURL: import.meta.env.VITE_BASE_URL
   });
 }
 

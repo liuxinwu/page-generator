@@ -1,5 +1,4 @@
-import React from "react";
-import { NavType } from "components/business/nav";
+import { NavType } from 'components/business/nav';
 import classnames from "classnames";
 import Style from "./index.module.scss";
 

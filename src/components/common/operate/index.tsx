@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Style from "./index.module.css";
 import useMouseEvent from "hooks/useMouseEvent";
 import { connect } from "react-redux";

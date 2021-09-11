@@ -1,4 +1,4 @@
-import React, { useEffect, memo, ReactChild, ReactNode } from 'react'
+import { useEffect, memo, ReactChild, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 import Style from './index.module.css'
 

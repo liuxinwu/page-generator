@@ -1,4 +1,3 @@
-
 import Style from './index.module.css'
 import { equipmentList } from 'config/equipment'
 

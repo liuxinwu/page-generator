@@ -1,4 +1,4 @@
-import React, { useState ,createElement, useCallback, useEffect } from 'react'
+import { useState ,createElement, useCallback, useEffect } from 'react'
 import { ChildrenProps } from 'types/childrenProps'
 import { Drag } from 'components/common/drag'
 import classnames from 'classnames'
@@ -124,7 +124,6 @@ export default connect(mapState, mapDispatch)(function Text({
     })
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleDoubleClick = useCallback(doubleClick((e: React.MouseEvent) => {
     setIsEdit(true)
   }, 300), [])

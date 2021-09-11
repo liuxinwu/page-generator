@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, FunctionComponentElement } from 'react'
+import { useState, FormEvent, FunctionComponentElement } from 'react'
 import Style from './index.module.css'
 
 export const Form = (

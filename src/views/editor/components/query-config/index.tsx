@@ -1,4 +1,3 @@
-import React from 'react'
 import classnames from "classnames";
 import Style from "./index.module.scss";
 import {
@@ -12,7 +11,7 @@ import { Tabs, Collapse } from "antd";
 import { baseConfig } from "config/queryConfig";
 
 const CONFIG_COM = {
-  text: React.lazy(() => import("components/business/text-config/index"))
+  text: React.lazy(() => import('components/business/text-config/index'))
 }
 
 const { Panel } = Collapse;

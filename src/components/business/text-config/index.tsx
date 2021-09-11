@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Style from './index.module.scss'
 import { Input } from 'antd';
 import { upload } from 'qiniu-js'

@@ -1,12 +1,12 @@
-import React, { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Style from "./index.module.css";
 import { Provider, connect } from "react-redux";
-import { store } from "store";
+import { store } from "store/index";
 import { UseComponentsType } from "store/type";
 import Storage from "utils/store";
-import Operate from "components/common/operate";
+import Operate from 'components/common/operate';
 import { uid } from "uid";
 
 let zIndex = 0;
@@ -61,25 +61,33 @@ const Editor = connect(
   ): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const source = await import(`components/common/${type}`);
-        const Com = source.default;
-        const div = document.createElement("div");
-        div.className += " cursor_move el_block";
-        div.style.cssText = css;
-        target.append(div);
-        isAdd && props['replaceActiveComponent']({ name, dom: div })
-        ReactDOM.render(
-          // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
-          <Provider store={store}>
-            <Operate currentEl={div} name={name}>
-              <Com {...query} name={name} status="editor">
-                {text}
-              </Com>
-            </Operate>
-          </Provider>,
-          div
-        );
-        resolve();
+        // path 必须是一个路径的形式 / ./ ../
+        // 需要让浏览器认识它
+        const modules = import.meta.glob('../../../../components/common/*/index.tsx')
+        for (const path in modules) {
+          if (path.endsWith(`${type}/index.tsx`)) {
+            modules[path]().then(function (_) {
+              const Com = _.default;
+              const div = document.createElement("div");
+              div.className += " cursor_move el_block";
+              div.style.cssText = css;
+              target.append(div);
+              isAdd && props['replaceActiveComponent']({ name, dom: div })
+              ReactDOM.render(
+                // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
+                <Provider store={store}>
+                  <Operate currentEl={div} name={name}>
+                    <Com {...query} name={name} status="editor">
+                      {text}
+                    </Com>
+                  </Operate>
+                </Provider>,
+                div
+              );
+              resolve();
+            })
+          }
+        }
       } catch (error) {
         reject(error);
       }
@@ -179,7 +187,6 @@ const Editor = connect(
         index++;
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 修改设备尺寸
@@ -188,9 +195,8 @@ const Editor = connect(
 
     if (!target) return;
     const { height } = target.getBoundingClientRect();
-    target.style.cssText += `width: ${w}px;height: ${
-      height > h ? height : h
-    }px;`;
+    target.style.cssText += `width: ${w}px;height: ${height > h ? height : h
+      }px;`;
   }, [w, h]);
 
   return (

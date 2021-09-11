@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 import Style from './index.module.css'
 import FixedWrap from 'components/common/fixed-wrap'

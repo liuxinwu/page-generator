@@ -1,9 +1,9 @@
 import { useHistory } from 'react-router'
 import Api from 'api'
-
+import BNANER_IMG from 'images/banner.jpg'
+console.log(Api)
 export default function Home() {
   const { push } = useHistory()
-  
   // 测试 api 服务
   async function handleTestApi() {
     const res = await Api.loginModule.loginIn({}, {isNeedCache: true})
@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <div>
-      <img src="https://cdnoss.zhizuoh5.com/syspic/img/azz/5ec72c0de927d.jpg?x-oss-process=image/auto-orient,1/quality,q_89/format,jpg" alt="" onClick={() => {
+      <img width="100%" src={BNANER_IMG} alt="" onClick={() => {
         push('/editor')
       }}/>
       <button onClick={handleTestApi}>测试 api 服务</button>

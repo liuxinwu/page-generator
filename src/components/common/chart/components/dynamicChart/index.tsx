@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import * as echarts from 'echarts/core'
 import {
   GridComponent,
   TooltipComponent,
-  LegendComponent
+  LegendComponent,
+  TitleComponent
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers'
 import { connect } from 'react-redux'
@@ -34,8 +35,10 @@ export const DynamicChart = connect(mapStateToProps)(function({
       try {
         // import 动态参数的问题
         // https://www.zhihu.com/question/263977423
-        import(`echarts/lib/chart/${type}/install`).then(_ => {
-          resolve(_)
+        import(`echarts/charts`).then(_ => {
+          const first = type.charAt(0).toLocaleUpperCase()
+          const key = `${first}${type.slice(1)}Chart`
+          resolve(_[key])
         })
       } catch (error) {
         console.error('没有找到对应的 echarts 组件')
@@ -50,7 +53,7 @@ export const DynamicChart = connect(mapStateToProps)(function({
     const timeId = setTimeout(async () => {
       if (!chart.current) {
         const chartType = await dynamicImportChart()
-        echarts.use([chartType, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer])
+        echarts.use([chartType, GridComponent, TooltipComponent, LegendComponent, TitleComponent, CanvasRenderer])
         el = document.querySelector(`#${id}`)! as HTMLElement
         chart.current = echarts.init(el)
       }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Equipment from './components/equipment'
 import Editor from './components/editor'
 import Style from './index.module.css'

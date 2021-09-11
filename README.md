@@ -36,6 +36,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   eg:
     src/components/common/text/index.tsx  line: 11
 
+## webpack 转换至 vite 以提升构建速度
+
+- 别名配置，需在 `tsconfig.json` 中声明对应的 `paths`,否则 `vscode` 不识别
+- 全局注册 `React`
+  - jsxInject: `import React from 'react'`
+  - 需在 `tsconfig.json` 中声明对应的 `"jsx": "react-jsx",`,否则 `vscode` 不识别
+- `import(xx)` 动态引入、require.context
+  - 需要用 `import.meta.glob`、`import.meta.globEager` 代替、不然找不到资源
+  - `import.meta.glob`、`import.meta.globEager` 的参数必须是一个路径的形式 `/ ./ ../`
+
 ## Available Scripts
 
 In the project directory, you can run:
