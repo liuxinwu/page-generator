@@ -37,7 +37,7 @@ export default (({ command }: ConfigEnv): UserConfigExport => {
     },
     server: {
       proxy: {
-        '/api-5000': {
+        '/api': {
           target: 'http://127.0.0.1:5000',
         },
       }}
