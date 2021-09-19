@@ -2,7 +2,7 @@
   "hosts": {
     "rs": "cdn-page.daxjgxx.com"
   },
-  "src_dir" : "./build/",
+  "src_dir" : "./dist/",
   "bucket" : "page-generate",
   "overwrite": true
 }

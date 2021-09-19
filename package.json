@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "test": "vite build --mode test",
-    "build": "vite build",
+    "build": "vite build && qshell qupload .qshell.json",
     "serve": "vite preview"
   },
   "dependencies": {
