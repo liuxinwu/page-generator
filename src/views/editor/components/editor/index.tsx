@@ -128,7 +128,7 @@ const Editor = connect(
        * 之前是用 innerHTML 的思路、但事件失效
        * 后采用复用组件的思路
        */
-      let { componentName: type, options: query } = JSON.parse(
+      const { componentName: type, options: query } = JSON.parse(
         event.dataTransfer.getData("custom/drag")
       );
       event.dataTransfer.clearData();
