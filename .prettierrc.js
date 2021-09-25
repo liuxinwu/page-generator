@@ -3,4 +3,6 @@ module.exports = {
   printWidth: 80,
   // 无分号
   semi: false,
+  // 单引号
+  singleQuote: ture
 }
