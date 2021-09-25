@@ -1,12 +1,12 @@
 import { useHistory } from 'react-router'
-import Api from 'api'
+import loginModule from 'api/login.api'
 import BNANER_IMG from 'images/banner.jpg'
-console.log(Api)
+
 export default function Home() {
   const { push } = useHistory()
   // 测试 api 服务
   async function handleTestApi() {
-    const res = await Api.loginModule.loginIn({}, { isNeedCache: true })
+    const res = await loginModule.loginIn({}, { isNeedCache: true })
     console.log(res)
 
     // 验证 请求发送出去之后再 xhr.abort() 服务端还是能收到该请求的

@@ -77,17 +77,6 @@ export default connect(
         )
         const [hShadow = 0, vShadow = 0, blur = 0, spread = 0, type = ''] =
           other.trim().split(' ')
-        console.log(
-          {
-            hShadow: parseInt(hShadow) || 0,
-            vShadow: parseInt(vShadow),
-            blur: parseInt(blur),
-            spread: parseInt(spread),
-            color: rgb,
-            type,
-          },
-          'de'
-        )
         return {
           hShadow: parseInt(hShadow) || 0,
           vShadow: parseInt(vShadow),

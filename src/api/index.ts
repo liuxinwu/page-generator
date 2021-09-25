@@ -1,3 +1,9 @@
+/**
+ * 这种动态生成 api 的方式
+ * 对 ts 类型检查不太友好
+ * 暂时没有找到好的方式解决
+ */
+
 import { ApiMethods } from './api.type'
 
 const api: ApiMethods = {}
