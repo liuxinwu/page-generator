@@ -1,8 +1,8 @@
-import { useEffect, memo, ReactChild, ReactNode } from "react"
-import ReactDOM from "react-dom"
-import Style from "./index.module.css"
+import { useEffect, memo, ReactChild, ReactNode } from 'react'
+import ReactDOM from 'react-dom'
+import Style from './index.module.css'
 
-type Type = "info" | "success" | "error" | "confirm" | "warning"
+type Type = 'info' | 'success' | 'error' | 'confirm' | 'warning'
 interface DialogType {
   visible: boolean
   closeDialog: Function
@@ -21,7 +21,7 @@ function Dialog({
   title,
   cancleText,
   okText,
-  type = "info",
+  type = 'info',
   content,
 }: DialogType) {
   useEffect(() => {})
@@ -32,23 +32,23 @@ function Dialog({
 
   return visible ? (
     <div
-      className={[Style["dialog-wrap"], Style["dialog-wrap-show"]].join(" ")}
+      className={[Style['dialog-wrap'], Style['dialog-wrap-show']].join(' ')}
       onClick={handleCloseDialog}
     >
       <div
-        className={Style["dialog-content"]}
+        className={Style['dialog-content']}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={Style["dialog-header"]}>
+        <div className={Style['dialog-header']}>
           {type ? <strong>{type} </strong> : null}
-          {title ? title : "提示信息"}
+          {title ? title : '提示信息'}
         </div>
-        <div className={Style["dialog-main"]}>
+        <div className={Style['dialog-main']}>
           {children} {content}
         </div>
-        <div className={Style["dialog-footer"]}>
-          {cancleText ? <button>cancleText</button> : ""}
-          {okText ? <button>okText</button> : ""}
+        <div className={Style['dialog-footer']}>
+          {cancleText ? <button>cancleText</button> : ''}
+          {okText ? <button>okText</button> : ''}
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@ function areEqual(prevProps: DialogType, nextProps: DialogType) {
 }
 
 function confing(config: any) {
-  const div = document.createElement("div")
+  const div = document.createElement('div')
   document.body.appendChild(div)
 
   function render(config: any) {
@@ -91,7 +91,7 @@ function confing(config: any) {
 
 export function info() {
   confing({
-    okText: "关闭",
+    okText: '关闭',
   })
 }
 

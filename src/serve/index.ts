@@ -1,7 +1,7 @@
-import { RequestProxyType, CustomConfigType, RequestType } from "./index.type"
-import Request from "./request"
-import { AxiosRequestConfig, AxiosResponse } from "axios"
-import Cache from "cache"
+import { RequestProxyType, CustomConfigType, RequestType } from './index.type'
+import Request from './request'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import Cache from 'cache'
 const cache = new Cache()
 // import store from "@/store";
 // import { Loading } from 'element-ui'
@@ -121,9 +121,9 @@ class RequestProxy implements RequestProxyType {
    * @param error 错误信息对象
    */
   private handleError(customConfig: CustomConfigType, error: any) {
-    if (error.message === "取消请求") return
+    if (error.message === '取消请求') return
 
-    customConfig.isNeedShowError && console.error("请求出错了。。。")
+    customConfig.isNeedShowError && console.error('请求出错了。。。')
   }
 
   /**
@@ -131,7 +131,7 @@ class RequestProxy implements RequestProxyType {
    * @param url 路径
    * @param isBaseURL 是否是根路径
    */
-  private transformUrl(url = "", isBaseURL = false) {
+  private transformUrl(url = '', isBaseURL = false) {
     if (!url) return url
 
     if (isBaseURL) {
@@ -157,7 +157,7 @@ class RequestProxy implements RequestProxyType {
     return this.transfromRquest(
       {
         url,
-        method: "GET",
+        method: 'GET',
         ...config,
       },
       customConfig
@@ -172,7 +172,7 @@ class RequestProxy implements RequestProxyType {
     return this.transfromRquest(
       {
         url,
-        method: "POST",
+        method: 'POST',
         ...config,
       },
       customConfig
@@ -187,7 +187,7 @@ class RequestProxy implements RequestProxyType {
     return this.transfromRquest(
       {
         url,
-        method: "PUT",
+        method: 'PUT',
         ...config,
       },
       customConfig
@@ -202,7 +202,7 @@ class RequestProxy implements RequestProxyType {
     return this.transfromRquest(
       {
         url,
-        method: "DELETE",
+        method: 'DELETE',
         ...config,
       },
       customConfig

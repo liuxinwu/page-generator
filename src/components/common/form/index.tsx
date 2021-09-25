@@ -1,5 +1,5 @@
-import { useState, FormEvent, FunctionComponentElement } from "react"
-import Style from "./index.module.css"
+import { useState, FormEvent, FunctionComponentElement } from 'react'
+import Style from './index.module.css'
 
 export const Form = ({
   children,
@@ -8,8 +8,8 @@ export const Form = ({
   children?: React.FC
 }): FunctionComponentElement<any> => {
   const [form, setForm] = useState({
-    username: "Tome",
-    phone: "",
+    username: 'Tome',
+    phone: '',
   })
 
   function handleInput(e: any, key: string) {
@@ -27,33 +27,33 @@ export const Form = ({
 
   return (
     <>
-      <form className={Style["form-wrap"]} onSubmit={handleSubmit} {...props}>
-        <div className={Style["form-item"]}>
-          <label className={Style["form-item-label"]}>姓名：</label>
-          <div className={Style["form-item-value"]}>
+      <form className={Style['form-wrap']} onSubmit={handleSubmit} {...props}>
+        <div className={Style['form-item']}>
+          <label className={Style['form-item-label']}>姓名：</label>
+          <div className={Style['form-item-value']}>
             <input
-              className={Style["form-item-input"]}
+              className={Style['form-item-input']}
               type="text"
               placeholder="请输入姓名"
               value={form.username}
-              onInput={(e) => handleInput(e, "username")}
+              onInput={(e) => handleInput(e, 'username')}
             />
           </div>
         </div>
-        <div className={Style["form-item"]}>
-          <label className={Style["form-item-label"]}>电话号码：</label>
-          <div className={Style["form-item-value"]}>
+        <div className={Style['form-item']}>
+          <label className={Style['form-item-label']}>电话号码：</label>
+          <div className={Style['form-item-value']}>
             <input
-              className={Style["form-item-input"]}
+              className={Style['form-item-input']}
               type="text"
               placeholder="请输入电话号码"
               value={form.phone}
-              onInput={(e) => handleInput(e, "phone")}
+              onInput={(e) => handleInput(e, 'phone')}
             />
           </div>
         </div>
-        <div className={Style["form-item"]}>
-          <button className={Style["form-item-submit"]}>登录</button>
+        <div className={Style['form-item']}>
+          <button className={Style['form-item-submit']}>登录</button>
         </div>
       </form>
       {children}

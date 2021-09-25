@@ -69,5 +69,5 @@ export const removeClass = (el: HTMLElement, className: string): void => {
   if (!className) return
   if (!hasClass(el, className)) return
 
-  el.className = el.className.replace(className, "").trim()
+  el.className = el.className.replace(className, '').trim()
 }

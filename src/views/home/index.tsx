@@ -1,6 +1,6 @@
-import { useHistory } from "react-router"
-import Api from "api"
-import BNANER_IMG from "images/banner.jpg"
+import { useHistory } from 'react-router'
+import Api from 'api'
+import BNANER_IMG from 'images/banner.jpg'
 console.log(Api)
 export default function Home() {
   const { push } = useHistory()
@@ -35,7 +35,7 @@ export default function Home() {
         src={BNANER_IMG}
         alt=""
         onClick={() => {
-          push("/editor")
+          push('/editor')
         }}
       />
       <button onClick={handleTestApi}>测试 api 服务</button>

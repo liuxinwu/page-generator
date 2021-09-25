@@ -1,9 +1,9 @@
-import { combineReducers } from "redux"
+import { combineReducers } from 'redux'
 
 // 引入不同模块的 reducers
 const reducers: { [x: string]: () => {} } = {}
-const reducersModule = import.meta.globEager("./*.ts")
-const excludes = ["./index.ts"]
+const reducersModule = import.meta.globEager('./*.ts')
+const excludes = ['./index.ts']
 
 for (const path in reducersModule) {
   if (!excludes.includes(path)) {

@@ -1,4 +1,4 @@
-import { state as defaultState } from "../state"
+import { state as defaultState } from '../state'
 
 export default function equipment(
   state = defaultState.equipment,
@@ -10,7 +10,7 @@ export default function equipment(
   const value = action.value
 
   switch (action.type) {
-    case "SET_EQUIPMENT_LIST":
+    case 'SET_EQUIPMENT_LIST':
       return {
         ...state,
         ...value,

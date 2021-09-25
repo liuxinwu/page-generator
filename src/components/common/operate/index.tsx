@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef, useCallback } from "react"
-import Style from "./index.module.css"
-import useMouseEvent from "hooks/useMouseEvent"
-import { connect } from "react-redux"
+import { useState, useEffect, useRef, useCallback } from 'react'
+import Style from './index.module.css'
+import useMouseEvent from 'hooks/useMouseEvent'
+import { connect } from 'react-redux'
 import {
   StateType,
   UseComponentsType,
   ActionType,
   ActiveComponentType,
-} from "store/type"
-import classnames from "classnames"
+} from 'store/type'
+import classnames from 'classnames'
 
 const mapState = (state: StateType) => ({
   useComponents: state.useComponents,
@@ -17,7 +17,7 @@ const mapDispatch = (dispatch: any) => ({
   changeUseComponents: (val: ActionType<UseComponentsType>) => dispatch(val),
   replaceActiveComponent: (value: ActiveComponentType) => {
     dispatch({
-      type: "REPLACE_ACTIVE_COMPONENTS",
+      type: 'REPLACE_ACTIVE_COMPONENTS',
       value,
     })
   },
@@ -83,7 +83,7 @@ const Operate = connect(
       // 事件监听
       useEffect(() => {
         if (!parent) return
-        if (typeof parent === "string") {
+        if (typeof parent === 'string') {
           const _currentEl = document.querySelector(`#${parent}`) as ParentType
           // 标志是否是根元素
           _currentEl!.isRoot = true
@@ -97,16 +97,16 @@ const Operate = connect(
         const currentEl = el.current
         activityDomMap.set(name, handleBlur)
 
-        currentEl.addEventListener("click", handleFocus)
+        currentEl.addEventListener('click', handleFocus)
         !currentEl.isRoot &&
-          currentEl.addEventListener("mousedown", handleMouseDown)
-        window.addEventListener("click", handleBlur)
+          currentEl.addEventListener('mousedown', handleMouseDown)
+        window.addEventListener('click', handleBlur)
 
         return () => {
-          currentEl.removeEventListener("click", handleFocus)
+          currentEl.removeEventListener('click', handleFocus)
           !currentEl.isRoot &&
-            currentEl.removeEventListener("mousedown", handleMouseDown)
-          window.removeEventListener("click", handleBlur)
+            currentEl.removeEventListener('mousedown', handleMouseDown)
+          window.removeEventListener('click', handleBlur)
         }
       }, [parent, name, handleMouseDown, handleFocus])
 
@@ -122,7 +122,7 @@ const Operate = connect(
         const cssText =
           (currentEl.style.cssText += `left: ${left}px;top: ${top}px;`)
         changeUseComponents({
-          type: "EDIT_USE_COMPONENTS",
+          type: 'EDIT_USE_COMPONENTS',
           value: {
             name: currentEl.name as string,
             css: cssText,
@@ -143,8 +143,8 @@ const Operate = connect(
           )}
 
           <div
-            className={"tip_line"}
-            style={{ display: visible ? "block" : "none" }}
+            className={'tip_line'}
+            style={{ display: visible ? 'block' : 'none' }}
           >
             <span className={classnames(Style.line, Style.top_line)}></span>
             <span className={classnames(Style.line, Style.right_line)}></span>
@@ -194,7 +194,7 @@ function DragSizeIcon({
         scrollTop + moveOffset.y
     }
     changeUseComponents({
-      type: "EDIT_USE_COMPONENTS",
+      type: 'EDIT_USE_COMPONENTS',
       value: {
         name: currentEl.name as string,
         css: cssText,
@@ -204,7 +204,7 @@ function DragSizeIcon({
 
   return (
     <i
-      className={Style["drag-size-icon"]}
+      className={Style['drag-size-icon']}
       onMouseDown={(e) => {
         e.nativeEvent.stopImmediatePropagation()
         e.nativeEvent.preventDefault()

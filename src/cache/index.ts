@@ -20,7 +20,7 @@ class Cache {
       const value = this.cache[url]
 
       if (value === undefined) {
-        throw Error("不存在该缓存")
+        throw Error('不存在该缓存')
       }
 
       return value
@@ -51,13 +51,13 @@ class Cache {
         resolve({
           code: 0,
           data: cb.call(this),
-          msg: "读取缓存数据成功！",
+          msg: '读取缓存数据成功！',
         })
       } catch (error) {
         reject({
           code: -1,
           data: error,
-          msg: "读取缓存数据出错了！",
+          msg: '读取缓存数据出错了！',
         })
       }
     })

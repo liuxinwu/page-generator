@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
-import Style from "./index.module.scss"
-import { Input } from "antd"
+import { useEffect, useState } from 'react'
+import Style from './index.module.scss'
+import { Input } from 'antd'
 
-const keyArr = ["width", "height", "top", "right", "bottom", "left"]
+const keyArr = ['width', 'height', 'top', 'right', 'bottom', 'left']
 
 export function PositionSize({
   comName,
@@ -30,7 +30,7 @@ export function PositionSize({
       ...positionSize,
       [key]: value,
     })
-    let cssText = ""
+    let cssText = ''
 
     keyArr.forEach((_key) => {
       if (key === _key) {

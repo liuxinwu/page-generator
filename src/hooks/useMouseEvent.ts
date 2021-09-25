@@ -2,7 +2,7 @@
  * 收集拖拽信息
  */
 
-import { useEffect, useCallback, useRef, useState } from "react"
+import { useEffect, useCallback, useRef, useState } from 'react'
 
 interface PropsType {
   mouseDownCallback?: Function
@@ -86,12 +86,12 @@ export default function useMouseEvent(props?: PropsType) {
 
   useEffect(() => {
     // 监听 window 的鼠标事件
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("mouseup", handleMouseUp)
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("mouseup", handleMouseUp)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
     }
   }, [handleMouseMove, handleMouseUp])
 

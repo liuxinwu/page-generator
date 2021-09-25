@@ -1,5 +1,5 @@
-import { Suspense } from "react"
-import { Route, Switch, Redirect } from "react-router-dom"
+import { Suspense } from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 export default function GenRoute({ routes }: any) {
   return (

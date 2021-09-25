@@ -1,11 +1,11 @@
-import { useState, createElement, useCallback, useEffect } from "react"
-import { ChildrenProps } from "types/childrenProps"
-import { Drag } from "components/common/drag"
-import classnames from "classnames"
-import Style from "./index.module.scss"
-import { connect } from "react-redux"
-import { StateType } from "store/type"
-import { doubleClick } from "utils/dom"
+import { useState, createElement, useCallback, useEffect } from 'react'
+import { ChildrenProps } from 'types/childrenProps'
+import { Drag } from 'components/common/drag'
+import classnames from 'classnames'
+import Style from './index.module.scss'
+import { connect } from 'react-redux'
+import { StateType } from 'store/type'
+import { doubleClick } from 'utils/dom'
 
 enum Type {
   text = 1,
@@ -26,37 +26,37 @@ const diversifiedText = (
 
 export const textConfig = {
   text: {
-    label: "p",
-    menuText: "点击添加文本",
-    editorText: "双击修改当前文本",
+    label: 'p',
+    menuText: '点击添加文本',
+    editorText: '双击修改当前文本',
     className: Style.default_text,
   },
   smallTitle: {
-    label: "h4",
-    menuText: "小标题",
-    editorText: "双击修改小标题",
+    label: 'h4',
+    menuText: '小标题',
+    editorText: '双击修改小标题',
     className: Style.small_title,
   },
   subTitle: {
-    label: "h3",
-    menuText: "标题",
-    editorText: "双击修改标题",
+    label: 'h3',
+    menuText: '标题',
+    editorText: '双击修改标题',
     className: Style.sub_title,
   },
   title: {
-    label: "h2",
-    menuText: "副标题",
-    editorText: "双击修改副标题",
+    label: 'h2',
+    menuText: '副标题',
+    editorText: '双击修改副标题',
     className: Style.title,
   },
   bigTitle: {
-    label: "h1",
-    menuText: "大标题",
-    editorText: "双击大标题",
+    label: 'h1',
+    menuText: '大标题',
+    editorText: '双击大标题',
     className: Style.big_title,
   },
   diversifiedTitle: {
-    label: "div",
+    label: 'div',
     menuText: diversifiedText,
     editorText: diversifiedText,
   },
@@ -69,7 +69,7 @@ const mapState = ({ useComponents }: StateType) => ({
 const mapDispatch = (dispatch: any) => ({
   editUseComponents: (value: object) => {
     dispatch({
-      type: "EDIT_USE_COMPONENTS",
+      type: 'EDIT_USE_COMPONENTS',
       value,
     })
   },
@@ -89,7 +89,7 @@ export default connect(
 )(function Text({
   name,
   label,
-  status = "menu",
+  status = 'menu',
   type = 1,
   children,
   ...props
@@ -98,7 +98,7 @@ export default connect(
   type?: number
 }>) {
   const [isEdit, setIsEdit] = useState(false)
-  const isEditorStatus = status === "editor"
+  const isEditorStatus = status === 'editor'
 
   const renderLabel = useCallback(() => {
     if (label) return label
@@ -116,16 +116,16 @@ export default connect(
   }, [children, type, status, isEditorStatus])
 
   const getClassName = useCallback(() => {
-    const className = textConfig[Type[type]].className || ""
+    const className = textConfig[Type[type]].className || ''
 
     return (
-      (status === "menu" && classnames(Style.text, className)) ||
-      classnames(className, "text_anign_center")
+      (status === 'menu' && classnames(Style.text, className)) ||
+      classnames(className, 'text_anign_center')
     )
   }, [type, status])
 
   const handleInput = (e: any) => {
-    props["editUseComponents"]({
+    props['editUseComponents']({
       name,
       text: e.target.innerText,
     })
@@ -142,10 +142,10 @@ export default connect(
     function disableEdit() {
       setIsEdit(false)
     }
-    window.addEventListener("click", disableEdit)
+    window.addEventListener('click', disableEdit)
 
     return () => {
-      window.removeEventListener("click", disableEdit)
+      window.removeEventListener('click', disableEdit)
     }
   }, [])
 

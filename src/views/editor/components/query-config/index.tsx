@@ -1,17 +1,17 @@
-import classnames from "classnames"
-import Style from "./index.module.scss"
+import classnames from 'classnames'
+import Style from './index.module.scss'
 import {
   StateType,
   ActiveComponentType,
   UseComponentsType,
   ActionType,
-} from "store/type"
-import { connect } from "react-redux"
-import { Tabs, Collapse } from "antd"
-import { baseConfig } from "config/queryConfig"
+} from 'store/type'
+import { connect } from 'react-redux'
+import { Tabs, Collapse } from 'antd'
+import { baseConfig } from 'config/queryConfig'
 
 const CONFIG_COM = {
-  text: React.lazy(() => import("components/business/text-config/index")),
+  text: React.lazy(() => import('components/business/text-config/index')),
 }
 
 const { Panel } = Collapse
@@ -23,7 +23,7 @@ const mapDispatch = (dispatch: any) => ({
   changeUseComponents: (val: ActionType<UseComponentsType>) => dispatch(val),
   replaceActiveComponent: (value: ActiveComponentType) => {
     dispatch({
-      type: "REPLACE_ACTIVE_COMPONENTS",
+      type: 'REPLACE_ACTIVE_COMPONENTS',
       value,
     })
   },
@@ -42,7 +42,7 @@ export default connect(
   changeUseComponents: (val: ActionType<UseComponentsType>) => void
 }) {
   function handleHidden() {
-    replaceActiveComponent({ name: "", dom: undefined })
+    replaceActiveComponent({ name: '', dom: undefined })
   }
 
   function callback(key: string) {
@@ -55,28 +55,28 @@ export default connect(
     const { style } = dom
 
     switch (atter) {
-      case "opacity":
+      case 'opacity':
         return +style[atter] || 1
-      case "rotate": {
+      case 'rotate': {
         const transform = style.transform
         const rotate = transform.match(/rotate\((\d+)deg\)/)
-        return parseInt((rotate && rotate[1]) || "0")
+        return parseInt((rotate && rotate[1]) || '0')
       }
-      case "border":
+      case 'border':
         return {
-          style: style["border-style"],
-          width: parseInt(style["border-width"]),
-          radius: parseInt(style["border-radius"]),
-          color: style["border-color"],
+          style: style['border-style'],
+          width: parseInt(style['border-width']),
+          radius: parseInt(style['border-radius']),
+          color: style['border-color'],
         }
-      case "box-shadow":
+      case 'box-shadow':
         const boxShadow = style[atter]
         if (!boxShadow) return {}
-        const [, rgb = "", other = ""] = boxShadow.match(
+        const [, rgb = '', other = ''] = boxShadow.match(
           /(rgb\([\d, ]+\))?(.+)/
         )
-        const [hShadow = 0, vShadow = 0, blur = 0, spread = 0, type = ""] =
-          other.trim().split(" ")
+        const [hShadow = 0, vShadow = 0, blur = 0, spread = 0, type = ''] =
+          other.trim().split(' ')
         console.log(
           {
             hShadow: parseInt(hShadow) || 0,
@@ -86,7 +86,7 @@ export default connect(
             color: rgb,
             type,
           },
-          "de"
+          'de'
         )
         return {
           hShadow: parseInt(hShadow) || 0,
@@ -96,7 +96,7 @@ export default connect(
           color: rgb,
           type,
         }
-      case "position-size":
+      case 'position-size':
         const { top, right, bottom, left } = style
         return {
           width: dom.offsetWidth,
@@ -112,27 +112,27 @@ export default connect(
 
   function setConfig(name: string, atter: string, value: number | string) {
     if (!activeComponent.name) return
-    let cssText = ""
+    let cssText = ''
     switch (atter) {
-      case "opacity":
+      case 'opacity':
         cssText = `${atter}:${value};`
         break
-      case "rotate":
+      case 'rotate':
         cssText = `transform: rotate(${value}deg);`
         break
-      case "border":
+      case 'border':
         cssText = value as string
         break
-      case "box-shadow":
+      case 'box-shadow':
         cssText = value as string
         break
-      case "position-size":
+      case 'position-size':
         cssText = value as string
         break
     }
     const newCssText = (activeComponent.dom!.style.cssText += cssText)
     changeUseComponents({
-      type: "EDIT_USE_COMPONENTS",
+      type: 'EDIT_USE_COMPONENTS',
       value: {
         name,
         css: newCssText,
@@ -141,7 +141,7 @@ export default connect(
   }
 
   function getCurrentConfigCom() {
-    const type = activeComponent.name.split("_")[0]
+    const type = activeComponent.name.split('_')[0]
     const Com = CONFIG_COM[type]
     return (Com && <Com />) || null
   }
@@ -149,18 +149,18 @@ export default connect(
   return (
     <div
       className={classnames(
-        "animate__animated",
+        'animate__animated',
         Style.query_config_wrap,
-        (activeComponent.name && "animate__fadeInRightBig") ||
-          "animate__fadeOutRightBig"
+        (activeComponent.name && 'animate__fadeInRightBig') ||
+          'animate__fadeOutRightBig'
       )}
       onClick={(e) => e.stopPropagation()}
     >
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="配置" key="1">
           <Collapse
-            defaultActiveKey={["1"]}
-            expandIconPosition={"right"}
+            defaultActiveKey={['1']}
+            expandIconPosition={'right'}
             bordered={false}
             accordion
           >

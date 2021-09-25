@@ -1,13 +1,13 @@
-import { memo, useCallback, useEffect, useRef } from "react"
-import ReactDOM from "react-dom"
-import classnames from "classnames"
-import Style from "./index.module.css"
-import { Provider, connect } from "react-redux"
-import { store } from "store/index"
-import { UseComponentsType } from "store/type"
-import Storage from "utils/store"
-import Operate from "components/common/operate"
-import { uid } from "uid"
+import { memo, useCallback, useEffect, useRef } from 'react'
+import ReactDOM from 'react-dom'
+import classnames from 'classnames'
+import Style from './index.module.css'
+import { Provider, connect } from 'react-redux'
+import { store } from 'store/index'
+import { UseComponentsType } from 'store/type'
+import Storage from 'utils/store'
+import Operate from 'components/common/operate'
+import { uid } from 'uid'
 
 let zIndex = 0
 
@@ -27,7 +27,7 @@ const mapDispatch = (dispatch: any) => {
     },
     replaceActiveComponent: (value: any) => {
       dispatch({
-        type: "REPLACE_ACTIVE_COMPONENTS",
+        type: 'REPLACE_ACTIVE_COMPONENTS',
         value,
       })
     },
@@ -56,8 +56,8 @@ const Editor = connect(
       target: HTMLDivElement,
       query: object,
       name: string,
-      css = "",
-      text = "",
+      css = '',
+      text = '',
       isAdd = false
     ): Promise<void> {
       return new Promise(async (resolve, reject) => {
@@ -65,17 +65,17 @@ const Editor = connect(
           // path 必须是一个路径的形式 / ./ ../
           // 需要让浏览器认识它
           const modules = import.meta.glob(
-            "../../../../components/common/*/index.tsx"
+            '../../../../components/common/*/index.tsx'
           )
           for (const path in modules) {
             if (path.endsWith(`${type}/index.tsx`)) {
               modules[path]().then(function (_) {
                 const Com = _.default
-                const div = document.createElement("div")
-                div.className += " cursor_move el_block"
+                const div = document.createElement('div')
+                div.className += ' cursor_move el_block'
                 div.style.cssText = css
                 target.append(div)
-                isAdd && props["replaceActiveComponent"]({ name, dom: div })
+                isAdd && props['replaceActiveComponent']({ name, dom: div })
                 ReactDOM.render(
                   // 为了能够在 /components/common/chart/components/dynamicChart 使用 redux
                   <Provider store={store}>
@@ -100,8 +100,8 @@ const Editor = connect(
   )
   const addUseComponents = useCallback(
     function (value: UseComponentsType) {
-      props["addUseComponents"]({
-        type: "ADD_USE_COMPONENTS",
+      props['addUseComponents']({
+        type: 'ADD_USE_COMPONENTS',
         value,
       })
     },
@@ -109,8 +109,8 @@ const Editor = connect(
   )
   const initUseComponents = useCallback(
     function (value: UseComponentsType[]) {
-      props["initUseComponents"]({
-        type: "INIT_USE_COMPONENTS",
+      props['initUseComponents']({
+        type: 'INIT_USE_COMPONENTS',
         value,
       })
     },
@@ -118,7 +118,7 @@ const Editor = connect(
   )
   const handleDrop = useCallback(
     async (event: React.DragEvent) => {
-      if (!event.dataTransfer.getData("custom/drag")) return
+      if (!event.dataTransfer.getData('custom/drag')) return
 
       const editorMainEl = editorMain.current
       if (!editorMainEl) return
@@ -134,11 +134,11 @@ const Editor = connect(
        * 后采用复用组件的思路
        */
       const { componentName: type, options: query } = JSON.parse(
-        event.dataTransfer.getData("custom/drag")
+        event.dataTransfer.getData('custom/drag')
       )
       event.dataTransfer.clearData()
       const name = `${type}_${uid(5)}`
-      const target = document.querySelector("#editorWrap") as HTMLDivElement
+      const target = document.querySelector('#editorWrap') as HTMLDivElement
 
       const css = `
       position: absolute;
@@ -151,10 +151,10 @@ const Editor = connect(
         name,
         type,
         css,
-        text: "",
+        text: '',
         query,
       })
-      await render(type, target, query, name, css, "", true)
+      await render(type, target, query, name, css, '', true)
     },
     [addUseComponents, render]
   )
@@ -167,20 +167,20 @@ const Editor = connect(
       if (!target) return
 
       const useComponents =
-        (await STORAGE.getItem<UseComponentsType[]>("useComponents")) || []
+        (await STORAGE.getItem<UseComponentsType[]>('useComponents')) || []
       initUseComponents(useComponents)
       let index = 0
       const len = useComponents.length
       while (index < len) {
         const {
-          type = "",
+          type = '',
           name,
           query = {},
           css,
           text,
         } = useComponents[index][1]
 
-        if (name === "root") {
+        if (name === 'root') {
           target.style.cssText += css
           index++
           continue
@@ -206,11 +206,11 @@ const Editor = connect(
   }, [w, h])
 
   return (
-    <div className={classnames(Style["editor-wrap"])}>
+    <div className={classnames(Style['editor-wrap'])}>
       <div
         id="editorWrap"
         ref={(el) => (editorMain.current = el)}
-        className={classnames(Style["editor-main"])}
+        className={classnames(Style['editor-main'])}
         onDrop={handleDrop}
         onDragOver={(event) => {
           event.preventDefault()

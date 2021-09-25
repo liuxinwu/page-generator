@@ -4,14 +4,14 @@
 
 // 所有类型
 const ALL_TYPE = [
-  "String",
-  "Number",
-  "Boolean",
-  "Undefined",
-  "Null",
-  "Object",
-  "Array",
-  "Function",
+  'String',
+  'Number',
+  'Boolean',
+  'Undefined',
+  'Null',
+  'Object',
+  'Array',
+  'Function',
 ]
 
 /**

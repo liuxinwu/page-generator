@@ -1,6 +1,6 @@
-import Request from "./index"
-import { RequestProxyType } from "./index.type"
-import { AxiosRequestConfig } from "axios"
+import Request from './index'
+import { RequestProxyType } from './index.type'
+import { AxiosRequestConfig } from 'axios'
 
 interface ConType {
   new (config: AxiosRequestConfig): RequestProxyType

@@ -1,5 +1,5 @@
 export type ChildrenProps<T> = T &
   React.PropsWithChildren<{
-    status?: "menu" | "editor"
+    status?: 'menu' | 'editor'
     name?: string
   }>

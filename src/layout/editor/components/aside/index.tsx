@@ -1,7 +1,7 @@
-import { useCallback, useState, Suspense } from "react"
-import Nav, { NavType } from "components/business/nav"
-import ChildNav from "components/business/childNav/index"
-import Style from "./index.module.css"
+import { useCallback, useState, Suspense } from 'react'
+import Nav, { NavType } from 'components/business/nav'
+import ChildNav from 'components/business/childNav/index'
+import Style from './index.module.css'
 
 export default function Aside() {
   const [currentNav, setCurrentNav] = useState<{
@@ -29,10 +29,10 @@ export default function Aside() {
           currentNav={currentNav}
           animationName={
             currentNav?.nav !== undefined
-              ? "animate__fadeInLeftBig"
+              ? 'animate__fadeInLeftBig'
               : isClose
-              ? "animate__fadeOutLeftBig"
-              : "select_component_hidden"
+              ? 'animate__fadeOutLeftBig'
+              : 'select_component_hidden'
           }
         />
       </Suspense>

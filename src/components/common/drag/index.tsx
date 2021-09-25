@@ -1,4 +1,4 @@
-import classnames from "classnames"
+import classnames from 'classnames'
 
 export const Drag = ({
   componentName,
@@ -16,7 +16,7 @@ export const Drag = ({
     const dt = e.dataTransfer
 
     dt!.setData(
-      "custom/drag",
+      'custom/drag',
       JSON.stringify({
         componentName,
         options,
@@ -31,9 +31,9 @@ export const Drag = ({
         (child: React.ReactElement) => {
           let newProps = {}
           const { props } = child
-          const className = classnames(props.className, "cursor_move")
+          const className = classnames(props.className, 'cursor_move')
 
-          if (status === "menu") {
+          if (status === 'menu') {
             newProps = {
               draggable: true,
               className,

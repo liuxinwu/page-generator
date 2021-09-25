@@ -1,14 +1,14 @@
-import { Drag } from "../drag"
-import { ChildrenProps } from "types/childrenProps"
+import { Drag } from '../drag'
+import { ChildrenProps } from 'types/childrenProps'
 
 export default function Video({
   name,
-  status = "menu",
+  status = 'menu',
   src,
 }: ChildrenProps<{
   src: string
 }>) {
-  const isEditor = status === "editor"
+  const isEditor = status === 'editor'
 
   return (
     <Drag

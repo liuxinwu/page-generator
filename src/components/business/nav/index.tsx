@@ -1,7 +1,7 @@
-import classnames from "classnames"
-import { NAV_OPTIONS } from "config/nav"
-import { useCallback, useEffect } from "react"
-import Style from "./index.module.scss"
+import classnames from 'classnames'
+import { NAV_OPTIONS } from 'config/nav'
+import { useCallback, useEffect } from 'react'
+import Style from './index.module.scss'
 
 export interface NavType {
   type: string
@@ -26,10 +26,10 @@ export default function Nav({
     function handleBodyClick() {
       onCurrentNav()
     }
-    document.addEventListener("click", handleBodyClick)
+    document.addEventListener('click', handleBodyClick)
 
     return () => {
-      document.removeEventListener("click", handleBodyClick)
+      document.removeEventListener('click', handleBodyClick)
     }
   }, [onCurrentNav])
 
@@ -42,7 +42,7 @@ export default function Nav({
           onClick={() => handleClick(nav, index)}
         >
           <i
-            className={classnames("iconfont", Style.nav_item_icon, nav.icon)}
+            className={classnames('iconfont', Style.nav_item_icon, nav.icon)}
           ></i>
           <span className={Style.nav_item_text}>{nav.text}</span>
         </li>

@@ -10,7 +10,7 @@
  *    过期时  storage.getItem('b')  -> ''
  */
 
-import { typeOf } from "./typeOf"
+import { typeOf } from './typeOf'
 
 type StorageVal = string | number | object | []
 
@@ -28,11 +28,11 @@ export default class Storage {
    * 初始化空间及内容
    * @param nameSpace 命名空间
    */
-  constructor(nameSpace = "default") {
+  constructor(nameSpace = 'default') {
     // 命名空间
     this.nameSpace = `${nameSpace}Storage`
     // 初始化值并同步缓存里面的数据
-    const data = localStorage.getItem(this.nameSpace) || "{}"
+    const data = localStorage.getItem(this.nameSpace) || '{}'
     this.data = JSON.parse(data) || Object.create(null)
   }
 
@@ -79,8 +79,8 @@ export default class Storage {
         const nowTime = new Date().getTime()
 
         if (nowTime - startTime > expirationTime && expirationTime > 0) {
-          console.error("该缓存已过期")
-          resolve("" as unknown as T)
+          console.error('该缓存已过期')
+          resolve('' as unknown as T)
           this.removeItem(key)
           return
         }
@@ -128,7 +128,7 @@ export default class Storage {
    * 设置命名空间缓存
    */
   private async setRootStorage() {
-    return this.setItem("", "", 0, true)
+    return this.setItem('', '', 0, true)
   }
 
   /**

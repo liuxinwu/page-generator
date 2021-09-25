@@ -1,8 +1,8 @@
-import { ReactChild, Suspense } from "react"
-import { BrowserRouter, BrowserRouterProps, Switch } from "react-router-dom"
-import routes from "./routerConfig"
-import GenRoute from "./genRoute"
-import SetTilel from "components/common/set-title"
+import { ReactChild, Suspense } from 'react'
+import { BrowserRouter, BrowserRouterProps, Switch } from 'react-router-dom'
+import routes from './routerConfig'
+import GenRoute from './genRoute'
+import SetTilel from 'components/common/set-title'
 
 function c(allowTransition: boolean) {}
 
@@ -14,9 +14,9 @@ function getUserConfirmation(message: string, callback: Function) {
 }
 
 const PROPS_DEFAULT_CONFIG = {
-  basename: "",
+  basename: '',
   keyLength: 6,
-  getUserConfirmation: getUserConfirmation("welcome to page generator !", c),
+  getUserConfirmation: getUserConfirmation('welcome to page generator !', c),
 }
 
 export default function Router(

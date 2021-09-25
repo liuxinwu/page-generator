@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react"
-import { Select } from "antd"
-import { InputSlider } from "../input-slider"
-import Style from "./index.module.scss"
-import { SketchPicker } from "react-color"
+import { useEffect, useState } from 'react'
+import { Select } from 'antd'
+import { InputSlider } from '../input-slider'
+import Style from './index.module.scss'
+import { SketchPicker } from 'react-color'
 
 const BORDER_STYLE = [
   {
-    type: "无",
-    value: "hidden",
+    type: '无',
+    value: 'hidden',
   },
   {
-    type: "实线",
-    value: "solid",
+    type: '实线',
+    value: 'solid',
   },
   {
-    type: "虚线",
-    value: "dashed",
+    type: '虚线',
+    value: 'dashed',
   },
   {
-    type: "点线",
-    value: "dotted",
+    type: '点线',
+    value: 'dotted',
   },
   {
-    type: "双线",
-    value: "double",
+    type: '双线',
+    value: 'double',
   },
 ]
 
@@ -72,7 +72,7 @@ export function Border({
           <Select
             value={style}
             style={{ minWidth: 100 }}
-            onChange={(value) => handleChange("style", value)}
+            onChange={(value) => handleChange('style', value)}
           >
             {BORDER_STYLE.map((border) => (
               <Select.Option value={border.value}>{border.type}</Select.Option>
@@ -89,7 +89,7 @@ export function Border({
             atter=""
             defaultValue={width}
             onConfigChange={(name, atter, value) =>
-              handleChange("width", value)
+              handleChange('width', value)
             }
           />
         </div>
@@ -103,7 +103,7 @@ export function Border({
             atter=""
             defaultValue={radius}
             onConfigChange={(name, atter, value) =>
-              handleChange("radius", value)
+              handleChange('radius', value)
             }
           />
         </div>
@@ -113,7 +113,7 @@ export function Border({
         <div className={Style.border_item_value}>
           <SketchPicker
             color={color}
-            onChangeComplete={(value) => handleChange("color", value.hex)}
+            onChangeComplete={(value) => handleChange('color', value.hex)}
           />
         </div>
       </li>

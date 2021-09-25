@@ -1,13 +1,13 @@
-import { NavType } from "components/business/nav"
-import classnames from "classnames"
-import Style from "./index.module.scss"
+import { NavType } from 'components/business/nav'
+import classnames from 'classnames'
+import Style from './index.module.scss'
 
 // 子菜单组件
 const components = {
-  text: React.lazy(() => import("./textNav")),
-  chart: React.lazy(() => import("./chartNav")),
-  pic: React.lazy(() => import("./picNav")),
-  video: React.lazy(() => import("./videoNav")),
+  text: React.lazy(() => import('./textNav')),
+  chart: React.lazy(() => import('./chartNav')),
+  pic: React.lazy(() => import('./picNav')),
+  video: React.lazy(() => import('./videoNav')),
 }
 
 interface ChildNavType {
@@ -20,7 +20,7 @@ interface ChildNavType {
 
 export default function ChildNav({
   currentNav,
-  animationName = "",
+  animationName = '',
 }: React.PropsWithChildren<ChildNavType>) {
   const { nav } = currentNav
 
@@ -31,7 +31,7 @@ export default function ChildNav({
   return (
     <div
       className={classnames(
-        "animate__animated",
+        'animate__animated',
         Style.select_component,
         animationName
       )}

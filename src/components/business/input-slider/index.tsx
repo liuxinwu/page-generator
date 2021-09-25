@@ -1,6 +1,6 @@
-import { Slider, InputNumber, InputNumberProps, SliderSingleProps } from "antd"
-import { useEffect, useState } from "react"
-import Style from "./index.module.scss"
+import { Slider, InputNumber, InputNumberProps, SliderSingleProps } from 'antd'
+import { useEffect, useState } from 'react'
+import Style from './index.module.scss'
 
 export const InputSlider = ({
   max,
@@ -35,13 +35,13 @@ export const InputSlider = ({
         max={max}
         step={step}
         onChange={onChange}
-        value={typeof inputValue === "number" ? inputValue : 0}
+        value={typeof inputValue === 'number' ? inputValue : 0}
       />
       <InputNumber
         min={min}
         max={max}
         step={step}
-        style={{ margin: "0 8px" }}
+        style={{ margin: '0 8px' }}
         value={inputValue}
         onChange={onChange}
       />

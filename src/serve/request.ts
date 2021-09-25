@@ -3,8 +3,8 @@ import Axios, {
   AxiosResponse,
   AxiosRequestConfig,
   Canceler,
-} from "axios"
-import { RequestType } from "./index.type"
+} from 'axios'
+import { RequestType } from './index.type'
 
 class Request implements RequestType {
   public instance: AxiosInstance
@@ -52,7 +52,7 @@ class Request implements RequestType {
         return config
       },
       function (error) {
-        console.log(error, "jjj")
+        console.log(error, 'jjj')
         // 对请求错误做些什么
         return Promise.reject(error)
       }
@@ -68,7 +68,7 @@ class Request implements RequestType {
           info: `${config.url}_${config.method}`,
         })
         // 对响应数据做点什么
-        const { code = -1, data = {}, msg = "" } = response.data
+        const { code = -1, data = {}, msg = '' } = response.data
         if (code === 0) {
           return Promise.resolve({
             ...response,

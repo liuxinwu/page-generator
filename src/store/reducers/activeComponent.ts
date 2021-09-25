@@ -1,5 +1,5 @@
-import { state as defaultState } from "../state"
-import { ActiveComponentType } from "../type"
+import { state as defaultState } from '../state'
+import { ActiveComponentType } from '../type'
 
 export default function activeComponent(
   state = defaultState.activeComponent,
@@ -9,7 +9,7 @@ export default function activeComponent(
   }
 ) {
   switch (action.type) {
-    case "REPLACE_ACTIVE_COMPONENTS": {
+    case 'REPLACE_ACTIVE_COMPONENTS': {
       return action.value
     }
     default:

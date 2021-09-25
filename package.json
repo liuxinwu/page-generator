@@ -7,7 +7,9 @@
     "build": "vite build && qshell qupload .qshell.json",
     "serve": "vite preview",
     "fix": "eslint --fix ./src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "write": "npx prettier --write .",
+    "check": "npx prettier --check ."
   },
   "dependencies": {
     "animate.css": "^4.1.1",

@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react"
-import { Select } from "antd"
-import { InputSlider } from "../input-slider"
-import Style from "./index.module.scss"
-import { SketchPicker } from "react-color"
+import { useEffect, useState } from 'react'
+import { Select } from 'antd'
+import { InputSlider } from '../input-slider'
+import Style from './index.module.scss'
+import { SketchPicker } from 'react-color'
 
 const TYPE_OPTIONS = [
   {
-    text: "Outset",
-    value: "",
+    text: 'Outset',
+    value: '',
   },
   {
-    text: "Inset",
-    value: "inset",
+    text: 'Inset',
+    value: 'inset',
   },
 ]
 
@@ -44,13 +44,13 @@ export function BoxShadow({
     vShadow = 0,
     blur = 0,
     spread = 0,
-    color = "",
-    type = "",
+    color = '',
+    type = '',
   } = options
 
   useEffect(() => {
-    let _type = ""
-    if (type === "inset") _type = "inset"
+    let _type = ''
+    if (type === 'inset') _type = 'inset'
     console.log(
       `box-shadow: ${_type} ${color} ${hShadow}px ${vShadow}px ${blur}px ${spread}px;`
     )
@@ -86,7 +86,7 @@ export function BoxShadow({
             atter=""
             defaultValue={hShadow}
             onConfigChange={(name, atter, value) =>
-              handleChange("hShadow", value)
+              handleChange('hShadow', value)
             }
           />
         </div>
@@ -100,7 +100,7 @@ export function BoxShadow({
             atter=""
             defaultValue={vShadow}
             onConfigChange={(name, atter, value) =>
-              handleChange("vShadow", value)
+              handleChange('vShadow', value)
             }
           />
         </div>
@@ -113,7 +113,7 @@ export function BoxShadow({
             comName=""
             atter=""
             defaultValue={blur}
-            onConfigChange={(name, atter, value) => handleChange("blur", value)}
+            onConfigChange={(name, atter, value) => handleChange('blur', value)}
           />
         </div>
       </li>
@@ -126,7 +126,7 @@ export function BoxShadow({
             atter=""
             defaultValue={spread}
             onConfigChange={(name, atter, value) =>
-              handleChange("spread", value)
+              handleChange('spread', value)
             }
           />
         </div>
@@ -136,7 +136,7 @@ export function BoxShadow({
         <div className={Style.border_item_value}>
           <SketchPicker
             color={color}
-            onChangeComplete={(value) => handleChange("color", value.hex)}
+            onChangeComplete={(value) => handleChange('color', value.hex)}
           />
         </div>
       </li>
@@ -148,7 +148,7 @@ export function BoxShadow({
             style={{
               width: 80,
             }}
-            onChange={(value) => handleChange("type", value as any)}
+            onChange={(value) => handleChange('type', value as any)}
           >
             {TYPE_OPTIONS.map((type) => (
               <Select.Option key={type.text} value={type.value}>

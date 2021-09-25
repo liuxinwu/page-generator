@@ -28,7 +28,8 @@
       "hooks/*": ["./src/hooks/*"],
       "serve/*": ["./src/serve/*"],
       "cache/*": ["./src/cache/*"],
-      "images/*": ["./src/images/*"]
+      "images/*": ["./src/images/*"],
+      "types/*": ["./src/types/*"]
     }
   },
   "include": ["./src"]

@@ -1,9 +1,9 @@
-import api from "serve/requestInstance"
-import { ApiType, ApiMethods, ApiMethod } from "./api.type"
-import { AxiosResponse } from "axios"
-import Cache from "cache/index"
+import api from 'serve/requestInstance'
+import { ApiType, ApiMethods, ApiMethod } from './api.type'
+import { AxiosResponse } from 'axios'
+import Cache from 'cache/index'
 const cache = new Cache()
-const GET = "get"
+const GET = 'get'
 
 export function genApi(targetModule: ApiType): ApiMethods {
   const module: ApiMethods = Object.create(null)
@@ -18,7 +18,7 @@ export function genApi(targetModule: ApiType): ApiMethods {
           const result = await cache.get(url)
           return Promise.resolve(result) as Promise<AxiosResponse<T>>
         } catch (error) {
-          console.error(error, "error")
+          console.error(error, 'error')
           return api[method](url, config, customConfig)
         }
       }

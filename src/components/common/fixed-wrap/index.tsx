@@ -1,12 +1,12 @@
-import ReactDOM from "react-dom"
+import ReactDOM from 'react-dom'
 
 export default function FixedWrap(
   e: React.MouseEvent,
   Component: any,
   props: object
 ) {
-  const div = document.createElement("div")
-  div.style.position = "absolute"
+  const div = document.createElement('div')
+  div.style.position = 'absolute'
   document.body.appendChild(div)
 
   function Fixed() {
@@ -18,13 +18,13 @@ export default function FixedWrap(
     return ReactDOM.render(
       <div
         style={{
-          position: "fixed",
+          position: 'fixed',
           left: l,
           top: t,
           zIndex: 9999,
-          minWidth: "150px",
-          backgroundColor: "white",
-          boxShadow: "-2px 9px 20px 8px rgb(0 0 0 / 12%)",
+          minWidth: '150px',
+          backgroundColor: 'white',
+          boxShadow: '-2px 9px 20px 8px rgb(0 0 0 / 12%)',
         }}
       >
         {<Component hide={Fixed.hide} {...props} />}
@@ -34,11 +34,11 @@ export default function FixedWrap(
   }
 
   Fixed.hide = function () {
-    div.style.display = "none"
+    div.style.display = 'none'
   }
 
   Fixed.show = function () {
-    div.style.display = "block"
+    div.style.display = 'block'
   }
 
   Fixed.destory = function () {

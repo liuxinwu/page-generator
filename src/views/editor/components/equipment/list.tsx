@@ -1,5 +1,5 @@
-import Style from "./index.module.css"
-import { equipmentList } from "config/equipment"
+import Style from './index.module.css'
+import { equipmentList } from 'config/equipment'
 
 // 不明白的点
 // 这里 connect 取不到 redux 的值
@@ -18,9 +18,9 @@ export default function EquipmentList({
   }
 
   return (
-    <ul className={Style["equipment-list"]} onClick={handleSelect}>
+    <ul className={Style['equipment-list']} onClick={handleSelect}>
       {equipmentList.map((item, index) => (
-        <li key={index} data-index={index} className={Style["equipment-item"]}>
+        <li key={index} data-index={index} className={Style['equipment-item']}>
           {item.name}
         </li>
       ))}

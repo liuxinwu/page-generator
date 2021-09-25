@@ -1,15 +1,15 @@
-import Chart from "components/common/chart"
-import { chartOptions } from "config/chartOptions"
-import Style from "./index.module.scss"
+import Chart from 'components/common/chart'
+import { chartOptions } from 'config/chartOptions'
+import Style from './index.module.scss'
 
 const chartConfig = [
   {
-    type: "line",
-    text: "折线图",
+    type: 'line',
+    text: '折线图',
   },
   {
-    type: "pie",
-    text: "饼图",
+    type: 'pie',
+    text: '饼图',
   },
 ]
 

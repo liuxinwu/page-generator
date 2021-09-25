@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef } from "react"
-import * as echarts from "echarts/core"
+import { useCallback, useEffect, useRef } from 'react'
+import * as echarts from 'echarts/core'
 import {
   GridComponent,
   TooltipComponent,
   LegendComponent,
   TitleComponent,
-} from "echarts/components"
-import { CanvasRenderer } from "echarts/renderers"
-import { connect } from "react-redux"
-import { StateType, EquipmentType } from "store/type"
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+import { connect } from 'react-redux'
+import { StateType, EquipmentType } from 'store/type'
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -35,13 +35,13 @@ export const DynamicChart = connect(mapStateToProps)(function ({
       try {
         // import 动态参数的问题
         // https://www.zhihu.com/question/263977423
-        import("echarts/charts").then((_) => {
+        import('echarts/charts').then((_) => {
           const first = type.charAt(0).toLocaleUpperCase()
           const key = `${first}${type.slice(1)}Chart`
           resolve(_[key])
         })
       } catch (error) {
-        console.error("没有找到对应的 echarts 组件")
+        console.error('没有找到对应的 echarts 组件')
       }
     })
   }, [type])
@@ -77,7 +77,7 @@ export const DynamicChart = connect(mapStateToProps)(function ({
     const { h } = equipment.size
     chart.current &&
       chart.current.resize({
-        width: "auto",
+        width: 'auto',
         height: h / 3,
       })
   }, [equipment])
