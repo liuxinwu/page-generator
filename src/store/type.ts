@@ -5,11 +5,11 @@ export interface StateType {
 }
 
 export interface EquipmentType {
-  name: string;
+  name: string
   size: {
-    w: number;
-    h: number;
-  };
+    w: number
+    h: number
+  }
 }
 
 export interface UseComponentsType {

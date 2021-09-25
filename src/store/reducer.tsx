@@ -5,7 +5,7 @@
 //   value: object
 // }) {
 //   const value = action.value
-  
+
 //   switch(action.type) {
 //     case 'SET_EQUIPMENT_LIST':
 //       return {
@@ -15,7 +15,7 @@
 //     case 'ADD_USE_COMPONENTS':
 //       const { useComponents } = state
 //       useComponents.add(value as any)
-      
+
 //       return {
 //         ...state,
 //         useComponents

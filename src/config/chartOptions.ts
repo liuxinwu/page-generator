@@ -1,7 +1,7 @@
 export const asideConfig = {
   minWidth: "80px",
   maxWidth: "360px",
-};
+}
 
 export const chartOptions = {
   line: {
@@ -44,7 +44,7 @@ export const chartOptions = {
         name: "访问来源",
         type: "pie",
         radius: "50%",
-        roseType: 'angle',
+        roseType: "angle",
         right: -100,
         data: [
           { value: 1048, name: "搜索引擎" },
@@ -63,4 +63,4 @@ export const chartOptions = {
       },
     ],
   },
-};
+}

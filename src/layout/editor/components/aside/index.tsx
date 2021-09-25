@@ -1,22 +1,22 @@
-import { useCallback, useState, Suspense } from "react";
-import Nav, { NavType } from 'components/business/nav';
-import ChildNav from 'components/business/childNav/index';
-import Style from "./index.module.css";
+import { useCallback, useState, Suspense } from "react"
+import Nav, { NavType } from "components/business/nav"
+import ChildNav from "components/business/childNav/index"
+import Style from "./index.module.css"
 
 export default function Aside() {
   const [currentNav, setCurrentNav] = useState<{
-    nav?: NavType;
-    index?: number;
-  }>({});
-  const [isClose, setIsClose] = useState(false);
+    nav?: NavType
+    index?: number
+  }>({})
+  const [isClose, setIsClose] = useState(false)
   const onCurrentNav = useCallback((nav?: NavType, index?: number) => {
-    if (!nav && !index) setIsClose(true);
-    else setIsClose(false);
+    if (!nav && !index) setIsClose(true)
+    else setIsClose(false)
     setCurrentNav({
       nav,
       index,
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <>
@@ -36,7 +36,6 @@ export default function Aside() {
           }
         />
       </Suspense>
-      
     </>
-  );
+  )
 }

@@ -2,40 +2,39 @@ import Axios, {
   AxiosInstance,
   AxiosResponse,
   AxiosRequestConfig,
-  Canceler
-} from "axios";
-import { RequestType } from "./index.type";
+  Canceler,
+} from "axios"
+import { RequestType } from "./index.type"
 
 class Request implements RequestType {
-  public instance: AxiosInstance;
-  private CancelToken = Axios.CancelToken;
+  public instance: AxiosInstance
+  private CancelToken = Axios.CancelToken
   private theQueue: {
-    info: string;
-    c: Canceler;
-  }[] = [];
+    info: string
+    c: Canceler
+  }[] = []
 
   constructor(config: AxiosRequestConfig) {
-    this.instance = this.genInstance(config);
-    this.interceptorsRequest();
-    this.interceptorsResponse();
+    this.instance = this.genInstance(config)
+    this.interceptorsRequest()
+    this.interceptorsResponse()
   }
 
   async request(config: AxiosRequestConfig) {
-    return await this.instance.request(config);
+    return await this.instance.request(config)
   }
 
   private genInstance(config: AxiosRequestConfig) {
     return Axios.create({
       timeout: 1000 * 10,
-      ...config
-    });
+      ...config,
+    })
   }
 
   // 添加请求拦截器
   private interceptorsRequest() {
     this.instance.interceptors.request.use(
-      config => {
-
+      (config) => {
         // 类似这种取消请求
         // 其实服务端是有收到的
         // 只是浏览器层面做了一层处理
@@ -48,61 +47,61 @@ class Request implements RequestType {
 
         this.findInQueue({
           info: `${config.url}_${config.method}`,
-          c: () => {}
+          c: () => {},
         })
-        return config;
+        return config
       },
-      function(error) {
-        console.log(error, 'jjj')
+      function (error) {
+        console.log(error, "jjj")
         // 对请求错误做些什么
-        return Promise.reject(error);
+        return Promise.reject(error)
       }
-    );
+    )
   }
 
   // 添加响应拦截器
   private interceptorsResponse() {
     this.instance.interceptors.response.use(
       (response: AxiosResponse<any>) => {
-        const config = response.config;
+        const config = response.config
         this.removeQueue({
-          info: `${config.url}_${config.method}`
-        });
+          info: `${config.url}_${config.method}`,
+        })
         // 对响应数据做点什么
-        const { code = -1, data = {}, msg = "" } = response.data;
+        const { code = -1, data = {}, msg = "" } = response.data
         if (code === 0) {
           return Promise.resolve({
             ...response,
             code,
             data,
             msg,
-            status: response.status
-          });
+            status: response.status,
+          })
         }
 
         return Promise.reject({
           ...response,
           code,
           msg,
-          status: response.status
-        });
+          status: response.status,
+        })
       },
-      error => {
+      (error) => {
         // 遗留问题、超时时拿不到响应对象，就无法删除 theQueue 队列
 
-        const config = (error.response && error.response.config) || {};
+        const config = (error.response && error.response.config) || {}
         this.removeQueue({
-          info: `${config.url}_${config.method}`
-        });
-        const { status = 500, data = {} } = error.response || {};
+          info: `${config.url}_${config.method}`,
+        })
+        const { status = 500, data = {} } = error.response || {}
         // 对响应错误做点什么
         return Promise.reject({
           code: -1,
           message: data.msg || error.message,
-          status
-        });
+          status,
+        })
       }
-    );
+    )
   }
 
   private findInQueue(requestInfo: any) {
@@ -110,13 +109,11 @@ class Request implements RequestType {
     // const index = this.theQueue.findIndex(
     //   request => request.info === requestInfo.info
     // );
-
     // if (index >= 0) {
     //   this.theQueue[index].c("取消请求");
     //   this.theQueue.splice(index, 1);
     // }
     // this.theQueue.push(requestInfo);
-
     // 自定义队列取消重复请求，在发送请求之前做出拦截
     // if (this.theQueue.find(queue => queue.info === requestInfo.info)) throw new Error('取消请求')
     // this.theQueue.push(requestInfo)
@@ -125,11 +122,11 @@ class Request implements RequestType {
   private removeQueue(requestInfo: any) {
     // CancleToken 方式
     const index = this.theQueue.findIndex(
-      request => request.info === requestInfo.info
-    );
-    if (index < 0) return;
-    this.theQueue.splice(index, 1);
+      (request) => request.info === requestInfo.info
+    )
+    if (index < 0) return
+    this.theQueue.splice(index, 1)
   }
 }
 
-export default Request;
+export default Request

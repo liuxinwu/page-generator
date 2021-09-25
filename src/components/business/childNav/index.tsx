@@ -1,33 +1,33 @@
-import { NavType } from 'components/business/nav';
-import classnames from "classnames";
-import Style from "./index.module.scss";
+import { NavType } from "components/business/nav"
+import classnames from "classnames"
+import Style from "./index.module.scss"
 
 // 子菜单组件
 const components = {
   text: React.lazy(() => import("./textNav")),
-  chart: React.lazy(() => import('./chartNav')),
-  pic: React.lazy(() => import('./picNav')),
-  video: React.lazy(() => import('./videoNav'))
-};
+  chart: React.lazy(() => import("./chartNav")),
+  pic: React.lazy(() => import("./picNav")),
+  video: React.lazy(() => import("./videoNav")),
+}
 
 interface ChildNavType {
   currentNav: {
-    nav?: NavType;
-    index?: number;
-  };
-  animationName?: string;
+    nav?: NavType
+    index?: number
+  }
+  animationName?: string
 }
 
 export default function ChildNav({
   currentNav,
   animationName = "",
 }: React.PropsWithChildren<ChildNavType>) {
-  const { nav } = currentNav;
+  const { nav } = currentNav
 
-  if (!nav) return null;
+  if (!nav) return null
 
   // 显示子菜单
-  const Child = components[nav.type];
+  const Child = components[nav.type]
   return (
     <div
       className={classnames(
@@ -39,5 +39,5 @@ export default function ChildNav({
     >
       <Child status="menu" />
     </div>
-  );
+  )
 }

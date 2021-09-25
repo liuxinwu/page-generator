@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import { Select } from "antd"
-import { InputSlider } from "../input-slider";
-import Style from "./index.module.scss";
-import { SketchPicker } from "react-color";
+import { InputSlider } from "../input-slider"
+import Style from "./index.module.scss"
+import { SketchPicker } from "react-color"
 
 const TYPE_OPTIONS = [
   {
-    text: 'Outset',
-    value: ''
+    text: "Outset",
+    value: "",
   },
   {
-    text: 'Inset',
-    value: 'inset'
-  }
+    text: "Inset",
+    value: "inset",
+  },
 ]
 
 export function BoxShadow({
@@ -21,41 +21,59 @@ export function BoxShadow({
   onConfigChange,
   defaultValue,
 }: {
-  comName: string;
-  atter: string;
-  onConfigChange: Function;
+  comName: string
+  atter: string
+  onConfigChange: Function
   defaultValue: {
-    hShadow: number;
-    vShadow: number;
-    blur: number;
-    spread: number;
-    color: string;
-    type: string;
-  };
+    hShadow: number
+    vShadow: number
+    blur: number
+    spread: number
+    color: string
+    type: string
+  }
 }) {
-  const [options, setOptions] = useState(defaultValue);
+  const [options, setOptions] = useState(defaultValue)
 
   function handleChange(key: string, value: string | number) {
-    setOptions({ ...options, [key]: value });
-    
+    setOptions({ ...options, [key]: value })
   }
 
-  const { hShadow = 0, vShadow = 0, blur = 0, spread = 0, color = '', type = '' } = options;
+  const {
+    hShadow = 0,
+    vShadow = 0,
+    blur = 0,
+    spread = 0,
+    color = "",
+    type = "",
+  } = options
 
   useEffect(() => {
-    let _type = ''
-    if (type === 'inset') _type = 'inset'
-    console.log(`box-shadow: ${_type} ${color} ${hShadow}px ${vShadow}px ${blur}px ${spread}px;`)
+    let _type = ""
+    if (type === "inset") _type = "inset"
+    console.log(
+      `box-shadow: ${_type} ${color} ${hShadow}px ${vShadow}px ${blur}px ${spread}px;`
+    )
     onConfigChange(
       comName,
       atter,
       `box-shadow: ${_type} ${color} ${hShadow}px ${vShadow}px ${blur}px ${spread}px;`
-    );
-  }, [comName, atter, onConfigChange, hShadow, vShadow, blur, spread, color, type]);
+    )
+  }, [
+    comName,
+    atter,
+    onConfigChange,
+    hShadow,
+    vShadow,
+    blur,
+    spread,
+    color,
+    type,
+  ])
 
   useEffect(() => {
-    setOptions(defaultValue);
-  }, [defaultValue]);
+    setOptions(defaultValue)
+  }, [defaultValue])
 
   return (
     <ul className={Style.border_wrap}>
@@ -95,9 +113,7 @@ export function BoxShadow({
             comName=""
             atter=""
             defaultValue={blur}
-            onConfigChange={(name, atter, value) =>
-              handleChange("blur", value)
-            }
+            onConfigChange={(name, atter, value) => handleChange("blur", value)}
           />
         </div>
       </li>
@@ -127,17 +143,21 @@ export function BoxShadow({
       <li className={Style.border_item}>
         <span className={Style.border_item_title}>阴影的模式</span>
         <div className={Style.border_item_value}>
-          <Select value={options.type} style={{
-            width: 80
-          }} onChange={value => handleChange("type", value as any)}>
-            {
-              TYPE_OPTIONS.map(type => (
-                <Select.Option key={type.text} value={type.value}>{type.text}</Select.Option>
-              ))
-            }
+          <Select
+            value={options.type}
+            style={{
+              width: 80,
+            }}
+            onChange={(value) => handleChange("type", value as any)}
+          >
+            {TYPE_OPTIONS.map((type) => (
+              <Select.Option key={type.text} value={type.value}>
+                {type.text}
+              </Select.Option>
+            ))}
           </Select>
         </div>
       </li>
     </ul>
-  );
+  )
 }

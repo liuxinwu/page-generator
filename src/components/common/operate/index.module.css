@@ -7,7 +7,7 @@
   height: 10px;
   padding: 5px;
   transform: translate(50%, 50%);
-  border: 1px solid rgba(255, 69, 85, .8);
+  border: 1px solid rgba(255, 69, 85, 0.8);
   border-radius: 50%;
   cursor: row-resize;
   background-color: #fff;
@@ -25,7 +25,7 @@
   right: 0;
   left: 0;
   height: 1px;
-  background-color: rgba(255, 69, 85, .8);
+  background-color: rgba(255, 69, 85, 0.8);
 }
 
 .right_line {
@@ -33,7 +33,7 @@
   right: 0;
   bottom: 0;
   width: 1px;
-  background-color: rgba(255, 69, 85, .8);
+  background-color: rgba(255, 69, 85, 0.8);
 }
 
 .bottom_line {
@@ -41,7 +41,7 @@
   right: 0;
   bottom: 0;
   height: 1px;
-  background-color: rgba(255, 69, 85, .8);
+  background-color: rgba(255, 69, 85, 0.8);
 }
 
 .left_line {
@@ -49,5 +49,5 @@
   left: 0;
   bottom: 0;
   width: 1px;
-  background-color: rgba(255, 69, 85, .8);
+  background-color: rgba(255, 69, 85, 0.8);
 }

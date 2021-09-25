@@ -4,7 +4,7 @@
  * 双击事件
  * @param cb 回调函数
  * @param expire 过期事件
- * @returns 
+ * @returns
  */
 export const doubleClick = (cb: Function, expire: number): any => {
   let count = 0
@@ -16,7 +16,7 @@ export const doubleClick = (cb: Function, expire: number): any => {
   }
 
   return (e: any) => {
-    let now = new Date().getTime()
+    const now = new Date().getTime()
 
     ++count
 
@@ -69,5 +69,5 @@ export const removeClass = (el: HTMLElement, className: string): void => {
   if (!className) return
   if (!hasClass(el, className)) return
 
-  el.className = el.className.replace(className, '').trim()
+  el.className = el.className.replace(className, "").trim()
 }

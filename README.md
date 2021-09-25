@@ -5,9 +5,9 @@
 ## 开发思路
 
 - 路由层面的封装（封装成熟悉的 Vue Router 配置的形式）
-- 基于 hmtl5 的 Drag api实现拖拽效果
+- 基于 hmtl5 的 Drag api 实现拖拽效果
 - 由于 Drag 传递的内容是文本的，所以采用 innerHTML 的形式，实现对内容的渲染，
-后来由于 innerHTML 的导致方式事件失效，后采用 React.render（缺点，会附加一个父元素） 的方式渲染对应的组件、通过关系对应表找到组件
+  后来由于 innerHTML 的导致方式事件失效，后采用 React.render（缺点，会附加一个父元素） 的方式渲染对应的组件、通过关系对应表找到组件
 - Drag 组件的封装，高阶组件实现，给 children 添加 drag 属性及事件函数
 - Drog 组件的封装，
 - 功能组件的封装，
@@ -25,12 +25,12 @@
 ## 问题点
 
 - 通过 `style.cssText` 设置样式时在 `safari` 里面背景图会闪烁
-- animate.css 设定了一些时间动画、更具体的动画时间需要自己设置（隐藏原理都是通过 `transfrom`  来做一个 `2000px` 的偏移）
+- animate.css 设定了一些时间动画、更具体的动画时间需要自己设置（隐藏原理都是通过 `transfrom` 来做一个 `2000px` 的偏移）
   eg:
-    animate__delay-4s
+  animate\_\_delay-4s
 - `React.createElement` 的子组件为 jsx 的时候必须指定一个 key 值、文本则不需要
   eg:
-    src/components/common/text/index.tsx  line: 11
+  src/components/common/text/index.tsx line: 11
 
 ## webpack 转换至 vite 以提升构建速度
 

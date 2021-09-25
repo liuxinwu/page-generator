@@ -3,7 +3,16 @@
  */
 
 // 所有类型
-const ALL_TYPE = ['String', 'Number', 'Boolean', 'Undefined', 'Null', 'Object', 'Array', 'Function']
+const ALL_TYPE = [
+  "String",
+  "Number",
+  "Boolean",
+  "Undefined",
+  "Null",
+  "Object",
+  "Array",
+  "Function",
+]
 
 /**
  * 判断数据类型函数
@@ -18,7 +27,7 @@ export const typeOf: {
 } = Object.create(null)
 
 // 生成一系列的类型判断函数
-ALL_TYPE.forEach(type => {
+ALL_TYPE.forEach((type) => {
   typeOf[`is${type}`] = (source: any) => {
     return typeOfFn(source) === type
   }

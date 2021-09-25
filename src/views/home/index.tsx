@@ -1,12 +1,12 @@
-import { useHistory } from 'react-router'
-import Api from 'api'
-import BNANER_IMG from 'images/banner.jpg'
+import { useHistory } from "react-router"
+import Api from "api"
+import BNANER_IMG from "images/banner.jpg"
 console.log(Api)
 export default function Home() {
   const { push } = useHistory()
   // 测试 api 服务
   async function handleTestApi() {
-    const res = await Api.loginModule.loginIn({}, {isNeedCache: true})
+    const res = await Api.loginModule.loginIn({}, { isNeedCache: true })
     console.log(res)
 
     // 验证 请求发送出去之后再 xhr.abort() 服务端还是能收到该请求的
@@ -16,7 +16,7 @@ export default function Home() {
     // xhr.send()
     // const startTime = Date.now()
     // while(Date.now() - startTime < 2) {
-      
+
     // }
     // xhr.abort()
     // Promise.resolve().then(() => xhr.abort())
@@ -30,9 +30,14 @@ export default function Home() {
 
   return (
     <div>
-      <img width="100%" src={BNANER_IMG} alt="" onClick={() => {
-        push('/editor')
-      }}/>
+      <img
+        width="100%"
+        src={BNANER_IMG}
+        alt=""
+        onClick={() => {
+          push("/editor")
+        }}
+      />
       <button onClick={handleTestApi}>测试 api 服务</button>
     </div>
   )

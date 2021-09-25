@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Select } from "antd";
-import { InputSlider } from "../input-slider";
-import Style from "./index.module.scss";
-import { SketchPicker } from 'react-color'
+import { useEffect, useState } from "react"
+import { Select } from "antd"
+import { InputSlider } from "../input-slider"
+import Style from "./index.module.scss"
+import { SketchPicker } from "react-color"
 
 const BORDER_STYLE = [
   {
@@ -25,13 +25,13 @@ const BORDER_STYLE = [
     type: "双线",
     value: "double",
   },
-];
+]
 
 export function Border({
   comName,
   atter,
   onConfigChange,
-  defaultValue
+  defaultValue,
 }: {
   comName: string
   atter: string
@@ -43,17 +43,21 @@ export function Border({
     color: string
   }
 }) {
-  const [options, setOptions] = useState(defaultValue);
+  const [options, setOptions] = useState(defaultValue)
 
   function handleChange(key: string, value: string | number) {
     setOptions({ ...options, [key]: value })
   }
 
-  const { style, width, radius, color } = options;
+  const { style, width, radius, color } = options
 
   useEffect(() => {
-    const { style, width, radius, color } = options;
-    onConfigChange(comName, atter, `border: ${width}px ${style} ${color};border-radius: ${radius}%;`)
+    const { style, width, radius, color } = options
+    onConfigChange(
+      comName,
+      atter,
+      `border: ${width}px ${style} ${color};border-radius: ${radius}%;`
+    )
   }, [comName, atter, options, onConfigChange])
 
   useEffect(() => {
@@ -68,7 +72,7 @@ export function Border({
           <Select
             value={style}
             style={{ minWidth: 100 }}
-            onChange={(value) => handleChange('style', value)}
+            onChange={(value) => handleChange("style", value)}
           >
             {BORDER_STYLE.map((border) => (
               <Select.Option value={border.value}>{border.type}</Select.Option>
@@ -79,21 +83,40 @@ export function Border({
       <li className={Style.border_item}>
         <span className={Style.border_item_title}>大小</span>
         <div className={Style.border_item_value}>
-          <InputSlider max={20} comName='' atter='' defaultValue={width} onConfigChange={(name, atter, value) => handleChange('width', value)} />
+          <InputSlider
+            max={20}
+            comName=""
+            atter=""
+            defaultValue={width}
+            onConfigChange={(name, atter, value) =>
+              handleChange("width", value)
+            }
+          />
         </div>
       </li>
       <li className={Style.border_item}>
         <span className={Style.border_item_title}>圆角（%）</span>
         <div className={Style.border_item_value}>
-          <InputSlider max={50} comName='' atter='' defaultValue={radius} onConfigChange={(name, atter, value) => handleChange('radius', value)} />
+          <InputSlider
+            max={50}
+            comName=""
+            atter=""
+            defaultValue={radius}
+            onConfigChange={(name, atter, value) =>
+              handleChange("radius", value)
+            }
+          />
         </div>
       </li>
       <li className={Style.border_item}>
         <span className={Style.border_item_title}>颜色</span>
         <div className={Style.border_item_value}>
-          <SketchPicker color={color} onChangeComplete={(value) => handleChange('color', value.hex)}/>
-          </div>
+          <SketchPicker
+            color={color}
+            onChangeComplete={(value) => handleChange("color", value.hex)}
+          />
+        </div>
       </li>
     </ul>
-  );
+  )
 }

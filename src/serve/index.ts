@@ -1,25 +1,21 @@
-import {
-  RequestProxyType,
-  CustomConfigType,
-  RequestType
-} from "./index.type";
-import Request from "./request";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
-import Cache from 'cache'
+import { RequestProxyType, CustomConfigType, RequestType } from "./index.type"
+import Request from "./request"
+import { AxiosRequestConfig, AxiosResponse } from "axios"
+import Cache from "cache"
 const cache = new Cache()
 // import store from "@/store";
 // import { Loading } from 'element-ui'
 
 class RequestProxy implements RequestProxyType {
-  private axios: RequestType;
+  private axios: RequestType
   private defaultCustomConfig: CustomConfigType = {
     isNeedLoading: true,
     isNeedToken: false,
     isNeedShowError: true,
-    isNeedCache: false
-	};
-	// 记录并行的请求次数
-  private requestCount: number = 0;
+    isNeedCache: false,
+  }
+  // 记录并行的请求次数
+  private requestCount = 0
   // Loading 控制
   // loadingConfig: {
   //   timeId?: number
@@ -27,8 +23,8 @@ class RequestProxy implements RequestProxyType {
   // } = {}
 
   constructor(config: AxiosRequestConfig) {
-    config.baseURL = this.transformUrl(config.baseURL, true);
-    this.axios = new Request(config);
+    config.baseURL = this.transformUrl(config.baseURL, true)
+    this.axios = new Request(config)
   }
 
   /**
@@ -40,17 +36,17 @@ class RequestProxy implements RequestProxyType {
     config: AxiosRequestConfig,
     customConfig: CustomConfigType = {}
   ): Promise<AxiosResponse> {
-    customConfig = { ...this.defaultCustomConfig, ...customConfig };
+    customConfig = { ...this.defaultCustomConfig, ...customConfig }
 
-    this.transformUrl(config.url);
-    this.handleLoading(customConfig, true);
-    this.addToken(config, customConfig);
-		customConfig.isNeedLoading && this.requestCount++
+    this.transformUrl(config.url)
+    this.handleLoading(customConfig, true)
+    this.addToken(config, customConfig)
+    customConfig.isNeedLoading && this.requestCount++
 
     try {
-      const result = await this.axios.request(config);
+      const result = await this.axios.request(config)
       customConfig.isNeedCache && cache.set(config.url!, result.data)
-      return result;
+      return result
     } catch (error) {
       const { code, config } = error
 
@@ -58,26 +54,25 @@ class RequestProxy implements RequestProxyType {
         // 解决 token 失效的
 
         // 方案一 跳转至登录页
-        
 
         // 方式二 自动刷新 token 并重新发起失败的请求
         // const res = await this.transfromRquest({
         //   method: 'post',
         //   url: '/refresh-token'
         // })
-        
+
         // store.commit('userStore/setToken', res.data.token)
         return this.transfromRquest(config)
 
         // 方式三 在请求拦截里面先校验 token 是否过期 再发起请求
       }
 
-      this.handleError(customConfig, error);
-      return Promise.reject(error);
+      this.handleError(customConfig, error)
+      return Promise.reject(error)
     } finally {
-			customConfig.isNeedLoading && this.requestCount--
-      this.handleLoading(customConfig, false);
-		}
+      customConfig.isNeedLoading && this.requestCount--
+      this.handleLoading(customConfig, false)
+    }
   }
 
   /**
@@ -86,13 +81,11 @@ class RequestProxy implements RequestProxyType {
    * @param isOpen 是否开启
    */
   private handleLoading(customConfig: CustomConfigType, isOpen: boolean) {
-		if (!customConfig.isNeedLoading) return;
-		// 不重复开启 Loading
-		if (this.requestCount !== 0) return;
+    if (!customConfig.isNeedLoading) return
+    // 不重复开启 Loading
+    if (this.requestCount !== 0) return
 
-		if (isOpen) {
-      
-      
+    if (isOpen) {
       // this.loadingConfig.timeId = setTimeout(() => {
       //   this.loadingConfig.service = Loading.service({
       //     text: '拼命加载中...',
@@ -100,10 +93,9 @@ class RequestProxy implements RequestProxyType {
       //     background: 'rgba(0, 0, 0, 0.8)'
       //   })
       // }, 300)
-			return
-		}
-    
-    
+      return
+    }
+
     // clearInterval(this.loadingConfig.timeId)
     // this.loadingConfig.service && this.loadingConfig.service.close()
   }
@@ -117,9 +109,9 @@ class RequestProxy implements RequestProxyType {
     if (customConfig.isNeedToken) {
       config.headers = {
         // token: store.getters['userStore/getToken'] || ''
-      };
+      }
     } else {
-      config.headers = {};
+      config.headers = {}
     }
   }
 
@@ -131,7 +123,7 @@ class RequestProxy implements RequestProxyType {
   private handleError(customConfig: CustomConfigType, error: any) {
     if (error.message === "取消请求") return
 
-    customConfig.isNeedShowError && console.error('请求出错了。。。')
+    customConfig.isNeedShowError && console.error("请求出错了。。。")
   }
 
   /**
@@ -140,21 +132,21 @@ class RequestProxy implements RequestProxyType {
    * @param isBaseURL 是否是根路径
    */
   private transformUrl(url = "", isBaseURL = false) {
-    if (!url) return url;
+    if (!url) return url
 
     if (isBaseURL) {
       if (!/\/$/.test(url)) {
-        return `${url}/`;
+        return `${url}/`
       }
 
-      return url;
+      return url
     }
 
     if (/^\//.test(url)) {
-      return `${url.substr(1)}`;
+      return `${url.substr(1)}`
     }
 
-    return url;
+    return url
   }
 
   public async get(
@@ -166,10 +158,10 @@ class RequestProxy implements RequestProxyType {
       {
         url,
         method: "GET",
-        ...config
+        ...config,
       },
       customConfig
-    );
+    )
   }
 
   public async post(
@@ -181,10 +173,10 @@ class RequestProxy implements RequestProxyType {
       {
         url,
         method: "POST",
-        ...config
+        ...config,
       },
       customConfig
-    );
+    )
   }
 
   public async put(
@@ -196,10 +188,10 @@ class RequestProxy implements RequestProxyType {
       {
         url,
         method: "PUT",
-        ...config
+        ...config,
       },
       customConfig
-    );
+    )
   }
 
   public async delete(
@@ -211,11 +203,11 @@ class RequestProxy implements RequestProxyType {
       {
         url,
         method: "DELETE",
-        ...config
+        ...config,
       },
       customConfig
-    );
+    )
   }
 }
 
-export default RequestProxy;
+export default RequestProxy

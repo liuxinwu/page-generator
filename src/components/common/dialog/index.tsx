@@ -1,8 +1,8 @@
-import { useEffect, memo, ReactChild, ReactNode } from 'react'
-import ReactDOM from 'react-dom'
-import Style from './index.module.css'
+import { useEffect, memo, ReactChild, ReactNode } from "react"
+import ReactDOM from "react-dom"
+import Style from "./index.module.css"
 
-type Type = 'info' | 'success' | 'error' | 'confirm' | 'warning'
+type Type = "info" | "success" | "error" | "confirm" | "warning"
 interface DialogType {
   visible: boolean
   closeDialog: Function
@@ -14,36 +14,45 @@ interface DialogType {
   content?: ReactNode
 }
 
-function Dialog({ visible, closeDialog, children, title, cancleText, okText, type = 'info', content }: DialogType) {
-  useEffect(() => {
-    
-  })
+function Dialog({
+  visible,
+  closeDialog,
+  children,
+  title,
+  cancleText,
+  okText,
+  type = "info",
+  content,
+}: DialogType) {
+  useEffect(() => {})
 
   function handleCloseDialog() {
     closeDialog()
   }
 
-  return visible
-  ? <div className={[Style['dialog-wrap'], Style['dialog-wrap-show']].join(' ')} onClick={handleCloseDialog}>
-    <div className={Style['dialog-content']} onClick={e => e.stopPropagation()}>
-      <div className={Style['dialog-header']}>
-        { type ? <strong>{type}  </strong> : null }
-        { title ? title : '提示信息'}
-      </div>
-      <div className={Style['dialog-main']}>
-        { children } { content }
-      </div>
-      <div className={Style['dialog-footer']}>
-        {
-          cancleText ? <button>cancleText</button> : ''
-        }
-        {
-          okText ? <button>okText</button> : ''
-        }
+  return visible ? (
+    <div
+      className={[Style["dialog-wrap"], Style["dialog-wrap-show"]].join(" ")}
+      onClick={handleCloseDialog}
+    >
+      <div
+        className={Style["dialog-content"]}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={Style["dialog-header"]}>
+          {type ? <strong>{type} </strong> : null}
+          {title ? title : "提示信息"}
+        </div>
+        <div className={Style["dialog-main"]}>
+          {children} {content}
+        </div>
+        <div className={Style["dialog-footer"]}>
+          {cancleText ? <button>cancleText</button> : ""}
+          {okText ? <button>okText</button> : ""}
+        </div>
       </div>
     </div>
-  </div>
-  : null
+  ) : null
 }
 
 function areEqual(prevProps: DialogType, nextProps: DialogType) {
@@ -52,12 +61,14 @@ function areEqual(prevProps: DialogType, nextProps: DialogType) {
   将 prevProps 传入 render 方法的返回结果一致则返回 true，
   否则返回 false
   */
-  return prevProps.visible === nextProps.visible && prevProps.content === nextProps.content
+  return (
+    prevProps.visible === nextProps.visible &&
+    prevProps.content === nextProps.content
+  )
 }
 
 function confing(config: any) {
-  
-  const div = document.createElement('div')
+  const div = document.createElement("div")
   document.body.appendChild(div)
 
   function render(config: any) {
@@ -80,7 +91,7 @@ function confing(config: any) {
 
 export function info() {
   confing({
-    okText: '关闭'
+    okText: "关闭",
   })
 }
 
@@ -89,7 +100,4 @@ export function success(config: any) {
 }
 
 // memo 包裹 减少不必要的渲染
-export default memo(
-  Dialog,
-  areEqual
-)
+export default memo(Dialog, areEqual)

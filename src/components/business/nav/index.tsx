@@ -1,7 +1,7 @@
-import classnames from "classnames";
-import { NAV_OPTIONS } from "config/nav";
-import { useCallback, useEffect } from "react";
-import Style from "./index.module.scss";
+import classnames from "classnames"
+import { NAV_OPTIONS } from "config/nav"
+import { useCallback, useEffect } from "react"
+import Style from "./index.module.scss"
 
 export interface NavType {
   type: string
@@ -12,21 +12,24 @@ interface NavPropsType {
   onCurrentNav: (nav?: NavType, index?: number) => void
 }
 
-export default function Nav(
-  { onCurrentNav }: React.PropsWithChildren<NavPropsType>
-) {
-  const handleClick = useCallback((nav, index) => {
-    onCurrentNav(nav, index)
-  }, [onCurrentNav]);
+export default function Nav({
+  onCurrentNav,
+}: React.PropsWithChildren<NavPropsType>) {
+  const handleClick = useCallback(
+    (nav, index) => {
+      onCurrentNav(nav, index)
+    },
+    [onCurrentNav]
+  )
 
   useEffect(() => {
     function handleBodyClick() {
       onCurrentNav()
     }
-    document.addEventListener('click', handleBodyClick)
+    document.addEventListener("click", handleBodyClick)
 
     return () => {
-      document.removeEventListener('click', handleBodyClick)
+      document.removeEventListener("click", handleBodyClick)
     }
   }, [onCurrentNav])
 
@@ -45,5 +48,5 @@ export default function Nav(
         </li>
       ))}
     </ul>
-  );
+  )
 }
