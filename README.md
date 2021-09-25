@@ -41,3 +41,9 @@
 - `import(xx)` 动态引入、require.context
   - 需要用 `import.meta.glob`、`import.meta.globEager` 代替、不然找不到资源
   - `import.meta.glob`、`import.meta.globEager` 的参数必须是一个路径的形式 `/ ./ ../`
+
+## 流程化配置
+
+- prettier + eslint + git(Pre-commit Hook) 代码美化、校验
+  - [pretteier](https://prettier.io/docs/en/install.html)
+  - [eslint](https://eslint.cn)
