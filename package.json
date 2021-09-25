@@ -7,7 +7,6 @@
     "build": "vite build && qshell qupload .qshell.json",
     "serve": "vite preview",
     "fix": "eslint --fix ./src",
-    "lint": "eslint src --ext .tsx --ext .ts --cache --fix",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -56,9 +55,6 @@
     "vite": "^2.5.2",
     "vite-plugin-mock": "^2.9.6"
   },
-  "pre-commit": [
-    "lint1"
-  ],
   "lint-staged": {
     "*.{tsx,ts}": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
