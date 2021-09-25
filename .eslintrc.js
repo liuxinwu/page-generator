@@ -69,7 +69,6 @@ module.exports = {
     'space-unary-ops': 'error',
     // 强制在 switch 的冒号左右有空格
     'switch-colon-spacing': 'error',
-    '@typescript-eslint/no-explicit-any': 1,
   },
   overrides: [
     {
