@@ -5,26 +5,36 @@ import FixedWrap from 'components/common/fixed-wrap'
 import EquipmentList from './list'
 import { equipmentList } from 'config/equipment'
 import { connect } from 'react-redux'
+import { ActionType, EquipmentType } from 'store/type'
 
-export default connect()(function Equipment({
+const mapDispatch = (dispatch: (argu: ActionType<EquipmentType>) => void) => {
+  return {
+    setEquipmentList(value: EquipmentType) {
+      dispatch({
+        type: 'SET_EQUIPMENT_LIST',
+        value
+      })
+    }
+  }
+}
+
+export default connect(null, mapDispatch)(function Equipment({
   setEquipment: parentSetEquipment,
-  ...props
+  setEquipmentList,
 }: {
   setEquipment: Function
+  setEquipmentList: (value: EquipmentType) => void
 }) {
   const [equipment, setEquipment] = useState(Object.create(equipmentList[1]))
   const fixed = useRef<any>(null)
 
   const handleSetEquipment = useCallback(
-    (equipment: object) => {
+    (equipment: EquipmentType) => {
       setEquipment(equipment)
       parentSetEquipment(equipment)
-      props['dispatch']({
-        type: 'SET_EQUIPMENT_LIST',
-        value: { equipment },
-      })
+      setEquipmentList(equipment)
     },
-    [parentSetEquipment, props]
+    [parentSetEquipment, setEquipmentList]
   )
 
   const handleSelect = useCallback(
