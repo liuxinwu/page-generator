@@ -2,47 +2,30 @@ import classnames from 'classnames'
 import Style from './index.module.scss'
 import {
   StateType,
-  ActiveComponentType,
-  UseComponentsType,
-  ActionType,
+  ActiveComponentType
 } from 'store/type'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Tabs, Collapse } from 'antd'
 import { baseConfig } from 'config/queryConfig'
 
 const CONFIG_COM = {
   text: React.lazy(() => import('components/business/text-config/index')),
-}
+} as { [index: string]: any }
 
 const { Panel } = Collapse
 const { TabPane } = Tabs
-const mapState = (state: StateType) => ({
-  activeComponent: state.activeComponent,
-})
-const mapDispatch = (dispatch: any) => ({
-  changeUseComponents: (val: ActionType<UseComponentsType>) => dispatch(val),
-  replaceActiveComponent: (value: ActiveComponentType) => {
+
+// useSelector、useDispatch 代理 connect
+// 降低编码的繁琐
+export default function QueryConfig() {
+  const activeComponent = useSelector<StateType, ActiveComponentType>(state => state.activeComponent)
+  const dispatch = useDispatch()
+
+  function handleHidden() {
     dispatch({
       type: 'REPLACE_ACTIVE_COMPONENTS',
-      value,
+      value: { name: '', dom: undefined },
     })
-  },
-})
-
-export default connect(
-  mapState,
-  mapDispatch
-)(function QueryConfig({
-  activeComponent,
-  replaceActiveComponent,
-  changeUseComponents,
-}: {
-  activeComponent: ActiveComponentType
-  replaceActiveComponent: (val: ActiveComponentType) => void
-  changeUseComponents: (val: ActionType<UseComponentsType>) => void
-}) {
-  function handleHidden() {
-    replaceActiveComponent({ name: '', dom: undefined })
   }
 
   function callback(key: string) {
@@ -64,13 +47,13 @@ export default connect(
       }
       case 'border':
         return {
-          style: style['border-style'],
-          width: parseInt(style['border-width']),
-          radius: parseInt(style['border-radius']),
-          color: style['border-color'],
+          style: style.borderStyle,
+          width: parseInt(style.borderWidth),
+          radius: parseInt(style.borderRadius),
+          color: style.borderColor,
         }
       case 'box-shadow':
-        const boxShadow = style[atter]
+        const boxShadow = style.boxShadow
         if (!boxShadow) return {}
         const [, rgb = '', other = ''] = boxShadow.match(
           /(rgb\([\d, ]+\))?(.+)/
@@ -120,7 +103,7 @@ export default connect(
         break
     }
     const newCssText = (activeComponent.dom!.style.cssText += cssText)
-    changeUseComponents({
+    dispatch({
       type: 'EDIT_USE_COMPONENTS',
       value: {
         name,
@@ -132,7 +115,15 @@ export default connect(
   function getCurrentConfigCom() {
     const type = activeComponent.name.split('_')[0]
     const Com = CONFIG_COM[type]
-    return (Com && <Com />) || null
+
+    switch(type) {
+      case 'text': {
+        return <Panel header="文本配置" key={type}>
+          {Com && <Com /> || null}
+        </Panel>
+      }
+      default: return null
+    }
   }
 
   return (
@@ -140,7 +131,7 @@ export default connect(
       className={classnames(
         'animate__animated',
         Style.query_config_wrap,
-        (activeComponent.name && 'animate__fadeInRightBig') ||
+        (activeComponent?.name && 'animate__fadeInRightBig') ||
           'animate__fadeOutRightBig'
       )}
       onClick={(e) => e.stopPropagation()}
@@ -153,13 +144,12 @@ export default connect(
             bordered={false}
             accordion
           >
-            <Panel header="文本配置" key="1">
-              {getCurrentConfigCom()}
-            </Panel>
-            {baseConfig.map((config, index) => {
+            {getCurrentConfigCom()}
+            
+            {baseConfig.map((config) => {
               const Com = config.com
               return (
-                <Panel header={config.title} key={index + 2}>
+                <Panel header={config.title} key={config.title}>
                   {Com && (
                     <Com
                       {...config.options}
@@ -187,4 +177,4 @@ export default connect(
       </span>
     </div>
   )
-})
+}

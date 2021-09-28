@@ -153,7 +153,6 @@ const Editor = function ({
 
       const useComponents =
         (await STORAGE.getItem<[string, UseComponentsType][]>('useComponents')) || []
-      console.log(useComponents, 'useComponents')
       initUseComponents(useComponents)
       let index = 0
       const len = useComponents.length
