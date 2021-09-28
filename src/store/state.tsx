@@ -1,13 +1,5 @@
 import { equipmentList } from 'config/equipment'
 import { StateType } from './type'
-// import Storage from 'utils/store'
-
-// let useComponents: Set<UseComponentsType>
-
-// (async function getUseComponents() {
-//   const storage = new Storage()
-//   useComponents = new Set((await storage.getItem('useComponents') || []))
-// })()
 
 export const state: StateType = {
   equipment: equipmentList[1],

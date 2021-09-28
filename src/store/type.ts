@@ -18,6 +18,7 @@ export interface UseComponentsType {
   css?: string
   text?: string
   query?: object
+  dom?: HTMLDivElement
 }
 
 export interface ActionType<T> {
