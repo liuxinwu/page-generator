@@ -9,9 +9,7 @@ export default function Main() {
 
   return (
     <main>
-      {/* <Switch> */}
       <GenRoute routes={_routes} />
-      {/* </Switch> */}
     </main>
   )
 }

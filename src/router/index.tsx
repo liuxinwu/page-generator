@@ -31,11 +31,7 @@ export default function Router(
       <>
         {_props.children}
 
-        <Suspense fallback="加载中...">
-          <Switch>
-            <GenRoute routes={routes} />
-          </Switch>
-        </Suspense>
+        <GenRoute routes={routes} />
 
         <SetTilel />
       </>

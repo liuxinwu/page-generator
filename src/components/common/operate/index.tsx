@@ -114,6 +114,7 @@ const Operate = connect(
       useEffect(() => {
         const currentEl = el.current
         if (currentEl === undefined) return
+        if (currentEl.isRoot) return
 
         let left = parseInt(currentEl.style.left) || 0
         let top = parseInt(currentEl.style.top) || 0

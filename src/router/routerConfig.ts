@@ -12,6 +12,7 @@ interface RouteType extends RouteProps {
 //   return routeModule(_).default
 // })
 
+// 路由配置表
 const routes: RouteType[] = [
   {
     path: '/',
@@ -22,10 +23,16 @@ const routes: RouteType[] = [
     path: '/home',
     component: lazy(() => import('layout/default')),
     routes: [
+      // {
+      //   path: '/home/a',
+      //   component: xx,
+      // },
+      // /home 路由下的子路由当没找到路由之后都会到这里
+      // 其它子路由必须在这前面、如上
       {
         path: '',
         component: lazy(() => import('views/home')),
-      },
+      }
     ],
     meta: {
       title: '首页',
@@ -45,6 +52,7 @@ const routes: RouteType[] = [
     },
   },
   // ...route,
+  // 这里只能匹配到前面一级路由匹配不到的路由
   {
     path: '*',
     component: lazy(() => import('views/404')),
@@ -54,6 +62,7 @@ const routes: RouteType[] = [
   },
 ]
 
+// 生成路由缓存、方便渲染子级路由
 function genRouteCache() {
   const routeCache: {
     [index: string]: RouteType
