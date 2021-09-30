@@ -7,6 +7,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import { Tabs, Collapse } from 'antd'
 import { baseConfig } from 'config/queryConfig'
+import { Suspense } from 'react'
 
 const CONFIG_COM = {
   text: React.lazy(() => import('components/business/text-config/index')),
@@ -119,7 +120,9 @@ export default function QueryConfig() {
     switch(type) {
       case 'text': {
         return <Panel header="文本配置" key={type}>
-          {Com && <Com /> || null}
+          <Suspense fallback="加载中...">
+            {Com && <Com /> || null}
+          </Suspense>
         </Panel>
       }
       default: return null
