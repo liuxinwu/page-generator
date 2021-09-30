@@ -58,7 +58,7 @@ export default function QueryConfig() {
         if (!boxShadow) return {}
         const [, rgb = '', other = ''] = boxShadow.match(
           /(rgb\([\d, ]+\))?(.+)/
-        )
+        ) || []
         const [hShadow = 0, vShadow = 0, blur = 0, spread = 0, type = ''] =
           other.trim().split(' ')
         return {

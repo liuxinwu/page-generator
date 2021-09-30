@@ -40,6 +40,7 @@ const Operate = React.memo(
         const currentEl = el.current
         setVisible(true)
         e.stopPropagation()
+        e.preventDefault()
 
         name !== 'root' && dispatch({
           type: 'REPLACE_ACTIVE_COMPONENTS',
@@ -54,6 +55,14 @@ const Operate = React.memo(
     // 元素失焦事件
     function handleBlur() {
       setVisible(false)
+    }
+
+    // 隐藏配置侧边栏
+    function handleHiddenConfigAside() {
+      dispatch({
+        type: 'REPLACE_ACTIVE_COMPONENTS',
+        value: { name: '', dom: undefined },
+      })
     }
 
     // 获取元素、并标识元素类型
@@ -73,18 +82,22 @@ const Operate = React.memo(
       }
 
       const currentEl = el.current
+      const removeEvent = () => {
+        handleBlur()
+        handleHiddenConfigAside()
+      }
       activityDomMap.set(name, handleBlur)
 
       currentEl.addEventListener('click', handleFocus)
       !currentEl.isRoot &&
         currentEl.addEventListener('mousedown', handleMouseDown)
-      window.addEventListener('click', handleBlur)
+      window.addEventListener('click', removeEvent)
 
       return () => {
         currentEl.removeEventListener('click', handleFocus)
         !currentEl.isRoot &&
           currentEl.removeEventListener('mousedown', handleMouseDown)
-        window.removeEventListener('click', handleBlur)
+        window.removeEventListener('click', removeEvent)
       }
     }, [parent, name, handleMouseDown, handleFocus])
 
