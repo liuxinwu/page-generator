@@ -17,6 +17,11 @@ header {
   box-shadow: 0 1px 4px hsl(0deg 0% 88% / 50%);
 }
 
+.button-group {
+  display: flex;
+  align-content: center;
+}
+
 .button-group button {
   margin-left: 8px;
 }

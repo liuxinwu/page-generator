@@ -98,7 +98,8 @@ const Operate = React.memo(
       // 替换对 left、top 的修改、避免不必要的回流与重绘
       const style = currentEl.style
       const { x, y } = moveOffset
-      const [ , , tLeft = 0, tTop = 0] = style.transform?.match(/((-{0,1}\d+px), (-{0,1}\d+px))/) ?? []
+      // 排除以百分比为单位的 transform
+      const [ , , tLeft = 0, tTop = 0] = style.transform?.match(/((-{0,1}[\d\.]+px), (-{0,1}[\d\.]+px))/) ?? []
       style.transform = `translate(${parseInt(`${tLeft}`) + x}px, ${parseInt(`${tTop}`) + y}px)`
       const cssText = currentEl.style.cssText
       
@@ -151,6 +152,7 @@ function DragSizeIcon({
 }) {
   const { moveOffset, handleMouseDown } = useMouseEvent()
   const dispatch = useDispatch()
+  let { current: dragEl } = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (currentEl === undefined) return
@@ -180,14 +182,24 @@ function DragSizeIcon({
     })
   }, [currentEl, moveOffset])
 
+  useEffect(() => {
+    dragEl?.addEventListener('mousedown', handleMouseDown)
+
+    return () => {
+      dragEl?.removeEventListener('mousedown', handleMouseDown)
+    }
+  }, [handleMouseDown])
+
   return (
     <i
+      ref={el => dragEl = el}
       className={Style['drag-size-icon']}
-      onMouseDown={(e) => {
-        e.nativeEvent.stopImmediatePropagation()
-        e.nativeEvent.preventDefault()
-        handleMouseDown(e.nativeEvent)
-      }}
+      // onMouseDown={(e) => {
+      //   e.stopPropagation()
+      //   e.nativeEvent.stopImmediatePropagation()
+      //   e.nativeEvent.preventDefault()
+      //   handleMouseDown(e.nativeEvent)
+      // }}
     />
   )
 }

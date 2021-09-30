@@ -10,6 +10,8 @@ import Operate from 'components/common/operate'
 import { uid } from 'uid'
 import Equipment from '../equipment'
 import { equipmentList } from 'config/equipment'
+import useMouseEvent from 'hooks/useMouseEvent'
+import { centerPosition } from 'utils/dom'
 
 // 本地存储
 const STORAGE = new Storage()
@@ -53,9 +55,11 @@ const Editor = function ({
   initUseComponents: (value: [string, UseComponentsType][]) => void
   replaceActiveComponent: (value: UseComponentsType) => void
 }) {
-  const editorMain = useRef<HTMLDivElement | null>()
+  let { current: editorWrap } = useRef<HTMLDivElement | null>(null)
+  const editorMain = useRef<HTMLDivElement | null>(null)
   const [equipment, setEquipment] = useState(equipmentList[1])
   const { w, h } = equipment.size
+  const { moveOffset, handleMouseDown } = useMouseEvent()
 
   // 渲染组件
   const render = useCallback(
@@ -124,7 +128,6 @@ const Editor = function ({
         event.dataTransfer.getData('custom/drag')
       )
       const name = `${type}_${uid(5)}`
-      const target = document.querySelector('#editorWrap') as HTMLDivElement
 
       const css = `
       position: absolute;
@@ -140,7 +143,7 @@ const Editor = function ({
         text: '',
         query,
       })
-      await render(type, target, query, name, css, '', true)
+      await render(type, editorMainEl, query, name, css, '', true)
     },
     [addUseComponents, render]
   )
@@ -191,18 +194,45 @@ const Editor = function ({
     }px;`
   }, [w, h])
 
+  // editorMain 元素默认居中
+  // 利用 js 控制居中、方便以后的拖动位置计算
+  useEffect(() => {
+    if (!editorMain.current && !editorWrap) return
+
+    centerPosition(editorWrap!, editorMain.current!)
+  }, [])
+
+  // 给 editorWrap 元素添加鼠标移动事件、控制 editorMain 元素的位置
+  useEffect(() => {
+    editorWrap?.addEventListener('mousedown', handleMouseDown)
+
+    return () => {
+      editorWrap?.removeEventListener('mousedown', handleMouseDown)
+    }
+  }, [handleMouseDown])
+
+  useEffect(() => {
+    if (!editorMain.current) return
+
+    const { x, y } = moveOffset
+    const style = editorMain.current.style
+    // 排除以百分比为单位的 transform
+    const [ , , tLeft = 0, tTop = 0] = style.transform?.match(/((-{0,1}[\d\.]+px), (-{0,1}[\d\.]+px))/) ?? []
+    style.transform = `translate(${parseInt(`${tLeft}`) + x}px, ${parseInt(`${tTop}`) + y}px)`
+  }, [moveOffset])
+
   return (
-    <div className={classnames(Style['editor-wrap'])}>
+    <div id="editorWrap" ref={(el) => (editorWrap = el)} className={classnames(Style['editor-wrap'])}>
       <div
-        id="editorWrap"
+        id="editorMain"
         ref={(el) => (editorMain.current = el)}
-        className={classnames(Style['editor-main'])}
+        className={classnames(Style['editor-main'], 'animate__animated animate__fadeIn')}
         onDrop={handleDrop}
         onDragOver={(event) => {
           event.preventDefault()
         }}
       >
-        <Operate currentEl="editorWrap" name="root" />
+        <Operate currentEl="editorMain" name="root" />
 
         <Equipment setEquipment={setEquipment} />
       </div>
@@ -215,9 +245,7 @@ const EditorConnect = connect(
   mapDispatch
 )(Editor)
 
-export default memo(EditorConnect, (props, preProps) => {
-  return true
-})
+export default memo(EditorConnect)
 
 /**
  * 记录使用的所有组件思路

@@ -57,6 +57,7 @@ export default function useMouseEvent(props?: PropsType) {
         offsetY,
       })
       mouseDownCallback && mouseDownCallback()
+      e.stopPropagation()
     },
     [mouseDownCallback]
   )

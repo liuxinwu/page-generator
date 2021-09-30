@@ -8,6 +8,18 @@
 - 基于 hmtl5 的 Drag api 实现拖拽效果
 - 由于 Drag 传递的内容是文本的，所以采用 innerHTML 的形式，实现对内容的渲染，
   后来由于 innerHTML 的导致方式事件失效，后采用 React.render（缺点，会附加一个父元素） 的方式渲染对应的组件、通过关系对应表找到组件
+
+  > 记录使用的所有组件思路
+  - 全局 store 记录一个 useComponents Map
+  - key 为 name + id 通过 ReactDom.render 渲染时传入
+  - value 为 当前组件的配置项
+  ```
+    {
+    type: 'Block',
+    css: {},
+    text: ''
+    }
+  ```
 - Drag 组件的封装，高阶组件实现，给 children 添加 drag 属性及事件函数
 - Drog 组件的封装，
 - 功能组件的封装，
@@ -31,7 +43,7 @@
 - `React.createElement` 的子组件为 jsx 的时候必须指定一个 key 值、文本则不需要
   eg:
   src/components/common/text/index.tsx line: 11
-- 问题点子元素上 onClick={handleSelect} 不会触发，只会触发父级通过 addEventListener 添加的事件（需要了解 React 的事件原理）
+- 如果祖先元素通过 `addEventListener` 绑定了事件，子元素上通过 `onClick={handleSelect}` 绑定事件是不会出触发 `handleSelect` 的，只会触发祖先元素绑定的事件（需要了解 React 的合成事件原理）
 
 ## webpack 转换至 vite 以提升构建速度
 
