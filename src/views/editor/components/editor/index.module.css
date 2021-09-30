@@ -1,11 +1,9 @@
 .editor-wrap {
   position: relative;
   height: 100%;
-  margin-top: 58px;
 
   background: #f1f3f7;
 }
-
 
 .editor-main {
   position: absolute;

@@ -116,12 +116,14 @@ const Operate = connect(
         if (currentEl === undefined) return
         if (currentEl.isRoot) return
 
-        let left = parseInt(currentEl.style.left) || 0
-        let top = parseInt(currentEl.style.top) || 0
-        left += moveOffset.x
-        top += moveOffset.y
-        const cssText =
-          (currentEl.style.cssText += `left: ${left}px;top: ${top}px;`)
+        // 通过修改 translate 来改变位置
+        // 替换对 left、top 的修改、避免不必要的回流与重绘
+        const style = currentEl.style
+        const { x, y } = moveOffset
+        const [ , , tLeft = 0, tTop = 0] = style.transform?.match(/((-{0,1}\d+px), (-{0,1}\d+px))/) ?? []
+        style.transform = `translate(${parseInt(`${tLeft}`) + x}px, ${parseInt(`${tTop}`) + y}px)`
+        const cssText = currentEl.style.cssText
+        
         changeUseComponents({
           type: 'EDIT_USE_COMPONENTS',
           value: {

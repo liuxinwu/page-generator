@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import Style from './index.module.css'
@@ -8,6 +8,8 @@ import { StateType, UseComponentsType, ActionType, EquipmentType } from 'store/t
 import Storage from 'utils/store'
 import Operate from 'components/common/operate'
 import { uid } from 'uid'
+import Equipment from '../equipment'
+import { equipmentList } from 'config/equipment'
 
 // 本地存储
 const STORAGE = new Storage()
@@ -43,7 +45,6 @@ const mapDispatch = (dispatch: (argu: ActionType<UseComponentsType | [string, Us
 }
 
 const Editor = function ({
-  equipment,
   addUseComponents,
   initUseComponents,
   replaceActiveComponent
@@ -51,9 +52,9 @@ const Editor = function ({
   addUseComponents: (value: UseComponentsType) => void
   initUseComponents: (value: [string, UseComponentsType][]) => void
   replaceActiveComponent: (value: UseComponentsType) => void
-  equipment: EquipmentType
 }) {
   const editorMain = useRef<HTMLDivElement | null>()
+  const [equipment, setEquipment] = useState(equipmentList[1])
   const { w, h } = equipment.size
 
   // 渲染组件
@@ -202,6 +203,8 @@ const Editor = function ({
         }}
       >
         <Operate currentEl="editorWrap" name="root" />
+
+        <Equipment setEquipment={setEquipment} />
       </div>
     </div>
   )
@@ -213,7 +216,7 @@ const EditorConnect = connect(
 )(Editor)
 
 export default memo(EditorConnect, (props, preProps) => {
-  return props.equipment.name === preProps.equipment.name
+  return true
 })
 
 /**

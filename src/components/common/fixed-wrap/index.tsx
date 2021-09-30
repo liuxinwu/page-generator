@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom'
 
 export default function FixedWrap(
-  e: React.MouseEvent,
+  e: MouseEvent,
   Component: any,
   props: object
 ) {
@@ -11,9 +11,11 @@ export default function FixedWrap(
 
   function Fixed() {
     const target = e.target as HTMLElement
-    const l = e.nativeEvent.clientX - e.nativeEvent.offsetX
-    const t =
-      e.nativeEvent.clientY - e.nativeEvent.offsetY + target.clientHeight + 10
+    // const l = e.nativeEvent.clientX - e.nativeEvent.offsetX
+    // const t =
+    //   e.nativeEvent.clientY - e.nativeEvent.offsetY + target.clientHeight + 10
+    const l = e.clientX - e.offsetX
+    const t = e.clientY - e.offsetY + target.clientHeight + 10
 
     return ReactDOM.render(
       <div

@@ -1,44 +1,37 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
-import Style from './index.module.css'
+import Style from './index.module.scss'
 import FixedWrap from 'components/common/fixed-wrap'
 import EquipmentList from './list'
 import { equipmentList } from 'config/equipment'
-import { connect } from 'react-redux'
-import { ActionType, EquipmentType } from 'store/type'
+import { useDispatch } from 'react-redux'
+import { EquipmentType } from 'store/type'
 
-const mapDispatch = (dispatch: (argu: ActionType<EquipmentType>) => void) => {
-  return {
-    setEquipmentList(value: EquipmentType) {
-      dispatch({
-        type: 'SET_EQUIPMENT_LIST',
-        value
-      })
-    }
-  }
-}
-
-export default connect(null, mapDispatch)(function Equipment({
-  setEquipment: parentSetEquipment,
-  setEquipmentList,
+export default function Equipment({
+  setEquipment: parentSetEquipment
 }: {
   setEquipment: Function
-  setEquipmentList: (value: EquipmentType) => void
 }) {
   const [equipment, setEquipment] = useState(Object.create(equipmentList[1]))
   const fixed = useRef<any>(null)
+  let { current: equipmentWrap } = useRef<HTMLElement>(null)
+  const dispatch = useDispatch()
 
   const handleSetEquipment = useCallback(
     (equipment: EquipmentType) => {
       setEquipment(equipment)
       parentSetEquipment(equipment)
-      setEquipmentList(equipment)
+      dispatch({
+        type: 'SET_EQUIPMENT_LIST',
+        value: equipment
+      })
     },
-    [parentSetEquipment, setEquipmentList]
+    [parentSetEquipment, dispatch]
   )
 
   const handleSelect = useCallback(
-    (e) => {
+    (e: MouseEvent) => {
+      e.stopPropagation()
       if (fixed.current) return fixed.current.show()
 
       fixed.current = FixedWrap(e, EquipmentList, {
@@ -54,21 +47,19 @@ export default connect(null, mapDispatch)(function Equipment({
     }
   }, [])
 
+  useEffect(() => {
+    equipmentWrap?.addEventListener('click', handleSelect, false)
+    
+    return () => {
+      equipmentWrap?.removeEventListener('click', handleSelect, false)
+    }
+  }, [handleSelect])
+
   return (
-    <div className={classnames(Style['equipment-wrap'])}>
-      <span
-        className={classnames(Style['equipment-select'])}
-        onClick={handleSelect}
-      >
-        {equipment.name} <i>^</i>
-      </span>
-      <span className={classnames(Style['equipment-size'])}>
-        {equipment.size.w}
-      </span>
-      <span>*</span>
-      <span className={classnames(Style['equipment-size'])}>
-        {equipment.size.h}
-      </span>
+    // 问题点子元素上 onClick={handleSelect} 不会触发，只会触发父级通过 addEventListener 添加的事件
+    // 需要了解 React 的事件原理
+    <div ref={el => equipmentWrap = el} className={classnames(Style['equipment-wrap'])}>
+      <i className={classnames('iconfont', 'icon-shezhi', Style['equipment-icon'])}></i>
     </div>
   )
-})
+}

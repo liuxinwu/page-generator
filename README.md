@@ -31,6 +31,7 @@
 - `React.createElement` 的子组件为 jsx 的时候必须指定一个 key 值、文本则不需要
   eg:
   src/components/common/text/index.tsx line: 11
+- 问题点子元素上 onClick={handleSelect} 不会触发，只会触发父级通过 addEventListener 添加的事件（需要了解 React 的事件原理）
 
 ## webpack 转换至 vite 以提升构建速度
 

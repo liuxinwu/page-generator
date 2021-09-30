@@ -1,4 +1,4 @@
-import Style from './index.module.css'
+import Style from './index.module.scss'
 import { equipmentList } from 'config/equipment'
 
 // 不明白的点
