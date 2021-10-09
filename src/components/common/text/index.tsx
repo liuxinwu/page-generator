@@ -1,10 +1,8 @@
 import { useState, createElement, useCallback, useEffect } from 'react'
 import { ChildrenProps } from 'types/childrenProps'
-import { Drag } from 'components/common/drag'
 import classnames from 'classnames'
 import Style from './index.module.scss'
-import { connect } from 'react-redux'
-import { StateType } from 'store/type'
+import { useDispatch } from 'react-redux'
 import { doubleClick } from 'utils/dom'
 
 enum Type {
@@ -62,19 +60,6 @@ export const textConfig = {
   },
 }
 
-const mapState = ({ useComponents }: StateType) => ({
-  useComponents,
-})
-
-const mapDispatch = (dispatch: any) => ({
-  editUseComponents: (value: object) => {
-    dispatch({
-      type: 'EDIT_USE_COMPONENTS',
-      value,
-    })
-  },
-})
-
 /**
  *
  * @param name 组件标识
@@ -83,22 +68,20 @@ const mapDispatch = (dispatch: any) => ({
  * @param children 子组件
  * @returns
  */
-export default connect(
-  mapState,
-  mapDispatch
-)(function Text({
+export default function Text({
   name,
   label,
   status = 'menu',
   type = 1,
   children,
-  ...props
+  ...options
 }: ChildrenProps<{
   label?: string
   type?: number
 }>) {
   const [isEdit, setIsEdit] = useState(false)
   const isEditorStatus = status === 'editor'
+  const dispatch = useDispatch()
 
   const renderLabel = useCallback(() => {
     if (label) return label
@@ -119,15 +102,18 @@ export default connect(
     const className = textConfig[Type[type]].className || ''
 
     return (
-      (status === 'menu' && classnames(Style.text, className)) ||
+      (status === 'menu' && classnames(Style.text, className, options['className'])) ||
       classnames(className, 'text_anign_center')
     )
-  }, [type, status])
+  }, [type, status, options])
 
   const handleInput = (e: any) => {
-    props['editUseComponents']({
-      name,
-      text: e.target.innerText,
+    dispatch({
+      type: 'EDIT_USE_COMPONENTS',
+      value: {
+        name,
+        text: e.target.innerText,
+      },
     })
   }
 
@@ -150,25 +136,18 @@ export default connect(
   }, [])
 
   return (
-    <Drag
-      status={status}
-      componentName="text"
-      options={{
-        type,
-        suppressContentEditableWarning: true,
+    createElement(
+      renderLabel(),
+      {
+        name,
+        onInput: isEditorStatus ? handleInput : () => {},
+        onClick: handleDoubleClick,
+        ...options,
+        className: getClassName(),
         contentEditable: isEditorStatus && isEdit,
-      }}
-    >
-      {createElement(
-        renderLabel(),
-        {
-          name,
-          className: getClassName(),
-          onInput: isEditorStatus ? handleInput : () => {},
-          onClick: handleDoubleClick,
-        },
-        renderChildren()
-      )}
-    </Drag>
+        suppressContentEditableWarning: true,
+      },
+      renderChildren()
+    )
   )
-})
+}

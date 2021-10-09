@@ -2,7 +2,7 @@ import classnames from 'classnames'
 
 export const Drag = ({
   componentName,
-  status,
+  status = 'menu',
   options = {},
   children,
 }: React.PropsWithChildren<{
@@ -10,7 +10,7 @@ export const Drag = ({
     [index: string]: any
   }
   componentName?: string
-  status: string
+  status?: string
 }>) => {
   function handleDragStart(e: React.DragEvent) {
     const dt = e.dataTransfer

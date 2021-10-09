@@ -45,6 +45,7 @@
   src/components/common/text/index.tsx line: 11
 - 如果祖先元素通过 `addEventListener` 绑定了事件，子元素上通过 `onClick={handleSelect}` 绑定事件是不会出触发 `handleSelect` 的，只会触发祖先元素绑定的事件（需要了解 React 的合成事件原理）
 - `React.lazy` 加载的组件需要配合 `Suspense` 一起使用，不然会导致页面的闪动
+- 火狐里面 video 的点击事件不支持冒泡
 
 ## webpack 转换至 vite 以提升构建速度
 

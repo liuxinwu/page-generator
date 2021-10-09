@@ -83,6 +83,12 @@ const Editor = function ({
             if (path.endsWith(`${type}/index.tsx`)) {
               modules[path]().then(function (_) {
                 const Com = _.default
+                const options = {
+                  ...query,
+                  name,
+                  draggable: false,
+                  status: 'editor'
+                }
                 const div = document.createElement('div')
                 div.className += ' cursor_move el_block'
                 div.style.cssText = css
@@ -92,9 +98,12 @@ const Editor = function ({
                   // 为了能够在 ReactDOM.render 动态添加的组件中使用 redux
                   <Provider store={store}>
                     <Operate currentEl={div} name={name}>
-                      <Com {...query} name={name} status="editor">
-                        {text}
-                      </Com>
+                      {/* 禁止默认的拖拽行为 */}
+                      {
+                        type === 'text' ?
+                        <Com {...options} >{text}</Com> :
+                        <Com {...options} />
+                      }
                     </Operate>
                   </Provider>,
                   div
