@@ -1,9 +1,6 @@
 import classnames from 'classnames'
 import Style from './index.module.scss'
-import {
-  StateType,
-  ActiveComponentType
-} from 'store/type'
+import { StateType, ActiveComponentType, UseComponentsType } from 'store/type'
 import { useSelector, useDispatch } from 'react-redux'
 import { Tabs, Collapse } from 'antd'
 import { baseConfig } from 'config/queryConfig'
@@ -19,7 +16,12 @@ const { TabPane } = Tabs
 // useSelector、useDispatch 代理 connect
 // 降低编码的繁琐
 export default function QueryConfig() {
-  const activeComponent = useSelector<StateType, ActiveComponentType>(state => state.activeComponent)
+  const activeComponent = useSelector<StateType, ActiveComponentType>(
+    (state) => state.activeComponent
+  )
+  const useComponents = useSelector<StateType, Map<string, UseComponentsType>>(
+    (state) => state.useComponents
+  )
   const dispatch = useDispatch()
 
   function handleHidden() {
@@ -56,9 +58,8 @@ export default function QueryConfig() {
       case 'box-shadow':
         const boxShadow = style.boxShadow
         if (!boxShadow) return {}
-        const [, rgb = '', other = ''] = boxShadow.match(
-          /(rgb\([\d, ]+\))?(.+)/
-        ) || []
+        const [, rgb = '', other = ''] =
+          boxShadow.match(/(rgb\([\d, ]+\))?(.+)/) || []
         const [hShadow = 0, vShadow = 0, blur = 0, spread = 0, type = ''] =
           other.trim().split(' ')
         return {
@@ -116,16 +117,26 @@ export default function QueryConfig() {
   function getCurrentConfigCom() {
     const type = activeComponent.name.split('_')[0]
     const Com = CONFIG_COM[type]
+    const text = useComponents.get(activeComponent.name)?.text || '默认值'
 
-    switch(type) {
+    switch (type) {
       case 'text': {
-        return <Panel header="文本配置" key={type}>
-          <Suspense fallback="加载中...">
-            {Com && <Com /> || null}
-          </Suspense>
-        </Panel>
+        return (
+          <Panel header="文本配置" key={type}>
+            <Suspense fallback="加载中...">
+              {(Com && (
+                <Com
+                  defaultValue={{ text, name: activeComponent.name }}
+                  dom={activeComponent.dom}
+                />
+              )) ||
+                null}
+            </Suspense>
+          </Panel>
+        )
       }
-      default: return null
+      default:
+        return null
     }
   }
 
@@ -148,7 +159,7 @@ export default function QueryConfig() {
             accordion
           >
             {getCurrentConfigCom()}
-            
+
             {baseConfig.map((config) => {
               const Com = config.com
               return (

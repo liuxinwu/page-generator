@@ -75,7 +75,9 @@ export function Border({
             onChange={(value) => handleChange('style', value)}
           >
             {BORDER_STYLE.map((border) => (
-              <Select.Option value={border.value}>{border.type}</Select.Option>
+              <Select.Option value={border.value} key={border.type}>
+                {border.type}
+              </Select.Option>
             ))}
           </Select>
         </div>

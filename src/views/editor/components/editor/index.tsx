@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import Style from './index.module.css'
 import { Provider, connect } from 'react-redux'
 import { store } from 'store/index'
-import { StateType, UseComponentsType, ActionType, EquipmentType } from 'store/type'
+import { StateType, UseComponentsType, ActionType } from 'store/type'
 import Storage from 'utils/store'
 import Operate from 'components/common/operate'
 import { uid } from 'uid'
@@ -23,7 +23,11 @@ const mapState = (state: StateType) => {
   }
 }
 
-const mapDispatch = (dispatch: (argu: ActionType<UseComponentsType | [string, UseComponentsType][]>) => void) => {
+const mapDispatch = (
+  dispatch: (
+    argu: ActionType<UseComponentsType | [string, UseComponentsType][]>
+  ) => void
+) => {
   return {
     addUseComponents: (value: UseComponentsType) => {
       dispatch({
@@ -49,7 +53,7 @@ const mapDispatch = (dispatch: (argu: ActionType<UseComponentsType | [string, Us
 const Editor = function ({
   addUseComponents,
   initUseComponents,
-  replaceActiveComponent
+  replaceActiveComponent,
 }: {
   addUseComponents: (value: UseComponentsType) => void
   initUseComponents: (value: [string, UseComponentsType][]) => void
@@ -87,7 +91,7 @@ const Editor = function ({
                   ...query,
                   name,
                   draggable: false,
-                  status: 'editor'
+                  status: 'editor',
                 }
                 const div = document.createElement('div')
                 div.className += ' cursor_move el_block'
@@ -99,11 +103,11 @@ const Editor = function ({
                   <Provider store={store}>
                     <Operate currentEl={div} name={name}>
                       {/* 禁止默认的拖拽行为 */}
-                      {
-                        type === 'text' ?
-                        <Com {...options} >{text}</Com> :
+                      {type === 'text' ? (
+                        <Com {...options}>{text}</Com>
+                      ) : (
                         <Com {...options} />
-                      }
+                      )}
                     </Operate>
                   </Provider>,
                   div
@@ -165,7 +169,9 @@ const Editor = function ({
       if (!target) return
 
       const useComponents =
-        (await STORAGE.getItem<[string, UseComponentsType][]>('useComponents')) || []
+        (await STORAGE.getItem<[string, UseComponentsType][]>(
+          'useComponents'
+        )) || []
       initUseComponents(useComponents)
       let index = 0
       const len = useComponents.length
@@ -226,16 +232,26 @@ const Editor = function ({
     const { x, y } = moveOffset
     const style = editorMain.current.style
     // 排除以百分比为单位的 transform
-    const [ , , tLeft = 0, tTop = 0] = style.transform?.match(/((-{0,1}[\d\.]+px), (-{0,1}[\d\.]+px))/) ?? []
-    style.transform = `translate(${parseInt(`${tLeft}`) + x}px, ${parseInt(`${tTop}`) + y}px)`
+    const [, , tLeft = 0, tTop = 0] =
+      style.transform?.match(/((-{0,1}[\d\.]+px), (-{0,1}[\d\.]+px))/) ?? []
+    style.transform = `translate(${parseInt(`${tLeft}`) + x}px, ${
+      parseInt(`${tTop}`) + y
+    }px)`
   }, [moveOffset])
 
   return (
-    <div id="editorWrap" ref={(el) => (editorWrap = el)} className={classnames(Style['editor-wrap'])}>
+    <div
+      id="editorWrap"
+      ref={(el) => (editorWrap = el)}
+      className={classnames(Style['editor-wrap'])}
+    >
       <div
         id="editorMain"
         ref={(el) => (editorMain.current = el)}
-        className={classnames(Style['editor-main'], 'animate__animated animate__fadeIn')}
+        className={classnames(
+          Style['editor-main'],
+          'animate__animated animate__fadeIn'
+        )}
         onDrop={handleDrop}
         onDragOver={(event) => {
           event.preventDefault()
@@ -249,10 +265,7 @@ const Editor = function ({
   )
 }
 
-const EditorConnect = connect(
-  mapState,
-  mapDispatch
-)(Editor)
+const EditorConnect = connect(mapState, mapDispatch)(Editor)
 
 export default memo(EditorConnect)
 

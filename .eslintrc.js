@@ -54,7 +54,7 @@ module.exports = {
     // 强制回调函数最大可嵌套深度
     'max-nested-callbacks': ['error', 3],
     // 强制三元操作数之间有换行。
-    'multiline-ternary': ['error', 'always'],
+    // 'multiline-ternary': ['error', 'always'],
     // 要求调用 new 操作符时有首字母大小的函数
     'new-cap': 1,
     // 单引号

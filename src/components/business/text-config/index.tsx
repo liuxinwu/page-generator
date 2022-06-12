@@ -2,19 +2,38 @@ import { useState } from 'react'
 import Style from './index.module.scss'
 import { Input } from 'antd'
 import { upload } from 'qiniu-js'
+import { useDispatch } from 'react-redux'
 
 const { TextArea } = Input
 
-export default function TextConfig(defaultValue: { text: string }) {
+export default function TextConfig({
+  defaultValue,
+  dom,
+}: {
+  defaultValue: { text: string; name: string }
+  dom: HTMLDivElement
+}) {
   const [data, setData] = useState(defaultValue)
+  const dispatch = useDispatch()
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string
   ) {
+    const value = e.target.value
     setData({
       ...data,
-      [key]: e.target.value,
+      [key]: value,
+    })
+    // 操作 dom 设置文本
+    const el = dom.querySelector(`[name=${data.name}]`)
+    el && (el.innerHTML = value)
+    dispatch({
+      type: 'EDIT_USE_COMPONENTS',
+      value: {
+        name: data.name,
+        text: value,
+      },
     })
   }
 
@@ -45,7 +64,11 @@ export default function TextConfig(defaultValue: { text: string }) {
     <ul className={Style.list}>
       <li className={Style.item}>
         <span>内容：</span>
-        <TextArea rows={4} onChange={(e) => handleChange(e, 'text')}></TextArea>
+        <TextArea
+          defaultValue={data.text}
+          rows={4}
+          onChange={(e) => handleChange(e, 'text')}
+        ></TextArea>
       </li>
       <li className={Style.item}>
         <span>背景图：</span>

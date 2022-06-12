@@ -6,7 +6,10 @@
  * @param expire 过期事件
  * @returns
  */
-export const doubleClick = (cb: Function, expire: number): any => {
+export const doubleClick = (
+  cb: () => void,
+  expire: number
+): ((e: any) => void) => {
   let count = 0
   let oldTime = 0
 
@@ -79,14 +82,22 @@ export const removeClass = (el: HTMLElement, className: string): void => {
  * @param scale 比例
  * @param startTop 起始 top 值
  * @param startLeft 起始 left 值
- * @returns 
+ * @returns
  */
-export const centerPosition = (parentEl: HTMLElement, el: HTMLElement, scale = 1, startTop = 50, startLeft = 0) => {
+export const centerPosition = (
+  parentEl: HTMLElement,
+  el: HTMLElement,
+  scale = 1,
+  startTop = 50,
+  startLeft = 0
+): void => {
   if (!parentEl && !el) return
 
-    const { clientWidth, clientHeight } = el
-    const { clientWidth: width, clientHeight: height } = parentEl
-    const left = clientWidth >= width * scale ? startLeft : width / 2 - clientWidth/2
-    const top = clientHeight >= height * scale ? startTop : height / 2 - clientHeight/2
-    el.style.transform = `translate(${left}px, ${top}px)`
+  const { clientWidth, clientHeight } = el
+  const { clientWidth: width, clientHeight: height } = parentEl
+  const left =
+    clientWidth >= width * scale ? startLeft : width / 2 - clientWidth / 2
+  const top =
+    clientHeight >= height * scale ? startTop : height / 2 - clientHeight / 2
+  el.style.transform = `translate(${left}px, ${top}px)`
 }
