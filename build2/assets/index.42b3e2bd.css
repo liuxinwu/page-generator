@@ -1,0 +1,42 @@
+._dialog-wrap_cpsp6_1 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0000;
+  animation: _dialog-wrap-animation_cpsp6_1 0.3s forwards;
+}
+@keyframes _dialog-wrap-animation_cpsp6_1 {
+  0% {
+    background-color: #0000;
+  }
+  to {
+    background-color: #00000073;
+  }
+}
+._dialog-content_cpsp6_26 {
+  min-width: 300px;
+  min-height: 150px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+._dialog-header_cpsp6_35 {
+  height: 50px;
+  line-height: 50px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eee;
+}
+._dialog-main_cpsp6_43 {
+  min-height: 100px;
+}
+._dialog-footer_cpsp6_47 {
+  padding: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+}

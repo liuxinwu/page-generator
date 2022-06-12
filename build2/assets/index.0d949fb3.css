@@ -1,0 +1,9 @@
+._header_wrap_1ntcj_1 {
+  position: fixed;
+  height: 80px;
+  box-shadow: 0 10px 15px #0000001a;
+  -webkit-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  z-index: 10;
+  color: #fff;
+}
